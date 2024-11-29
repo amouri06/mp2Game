@@ -17,7 +17,8 @@ public class ICoop extends AreaGame {
 
     private final String[] areas = {"Spawn", "OrbWay"};
     private int areaIndex;
-    private ICoopPlayer player;
+    private ICoopPlayer firePlayer;
+    private ICoopPlayer waterPlayer;
 
     /**
      * Add all the Tuto2 areas
@@ -68,9 +69,13 @@ public class ICoop extends AreaGame {
      */
     private void initArea(String areaKey) {
         ICoopArea area = (ICoopArea) setCurrentArea(areaKey, true);
-        DiscreteCoordinates coords = area.getRedPlayerSpawnPosition();
-        player = new ICoopPlayer(area, Orientation.DOWN, coords, ElementalEntity.Element.FEU, "icoop/player", KeyBindings.RED_PLAYER_KEY_BINDINGS);
-        player.enterArea(area, coords);
+        DiscreteCoordinates coordsRed = area.getRedPlayerSpawnPosition();
+        firePlayer = new ICoopPlayer(area, Orientation.DOWN, coordsRed, ElementalEntity.Element.FEU, "icoop/player", KeyBindings.RED_PLAYER_KEY_BINDINGS);
+        firePlayer.enterArea(area, coordsRed);
+
+        DiscreteCoordinates coordsBlue = area.getBluePlayerSpawnPosition();
+        waterPlayer = new ICoopPlayer(area, Orientation.DOWN, coordsBlue, ElementalEntity.Element.EAU, "icoop/player2", KeyBindings.BLUE_PLAYER_KEY_BINDINGS);
+        waterPlayer.enterArea(area, coordsBlue);
     }
 
     /**
