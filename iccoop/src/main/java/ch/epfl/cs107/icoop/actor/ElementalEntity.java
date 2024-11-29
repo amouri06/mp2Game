@@ -11,22 +11,9 @@ import ch.epfl.cs107.play.math.Orientation;
 public interface ElementalEntity {
 
     public enum Element {
-        FEU("icoop/player"),
-        EAU("icoop/player2"),;
+        FEU,
+        EAU;
 
-        final String name;
-
-        Element(String name) {
-            this.name = name;
-        }
-
-        /**
-         *
-         * @return Element's corresponding name
-         */
-        public String getName() {
-            return name;
-        }
     }
 
     /**

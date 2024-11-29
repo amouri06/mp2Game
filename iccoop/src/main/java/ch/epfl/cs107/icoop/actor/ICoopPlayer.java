@@ -26,6 +26,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity {
     private final static int ANIMATION_DURATION = 4;
     private final Sprite sprite;
     private final Element element;
+    private final String name;
     private final KeyBindings.PlayerKeyBindings keys;
 
     /**
@@ -42,6 +43,13 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity {
         this.element = element;
         sprite = new Sprite(spriteName, 1.f, 1.f, this);
         this.keys = keys;
+        if (element == Element.FEU) {
+            name = "icoop/player";
+        } else if (element == Element.EAU) {
+            name = "icoop/player";
+        } else {
+            name = "";
+        }
         resetMotion();
     }
 
@@ -73,7 +81,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity {
 
         final Vector anchor = new Vector(0, 0);
         final Orientation[] orders = {DOWN, RIGHT, UP, LEFT};
-        new OrientedAnimation(element.getName(), ANIMATION_DURATION, this, anchor, orders, 4, 1, 2, 16, 32, true);
+        new OrientedAnimation(name, ANIMATION_DURATION, this, anchor, orders, 4, 1, 2, 16, 32, true);
         sprite.draw(canvas);
     }
 
