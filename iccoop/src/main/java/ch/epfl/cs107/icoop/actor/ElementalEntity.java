@@ -13,7 +13,6 @@ public interface ElementalEntity {
     public enum Element {
         FEU,
         EAU;
-
     }
 
     /**

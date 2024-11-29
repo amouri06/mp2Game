@@ -10,6 +10,7 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Button;
+import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 
 import java.util.Collections;
@@ -24,9 +25,8 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity {
 
     private final static int MOVE_DURATION = 8;
     private final static int ANIMATION_DURATION = 4;
-    private final Sprite sprite;
     private final Element element;
-    private final String name;
+    private final String prefix;
     private final KeyBindings.PlayerKeyBindings keys;
 
     /**
@@ -36,14 +36,13 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity {
      * @param orientation (Orientation) the initial orientation of the player
      * @param coordinates (DiscreteCoordinates) the initial position in the grid
      * @param element    (String): Element of the entity. Not null
-     * @param spriteName (String) name of the sprite used as graphical representation
+     * @param prefix   (String) name of the player
      */
-    public ICoopPlayer(Area owner, Orientation orientation, DiscreteCoordinates coordinates, Element element, String spriteName, String name, KeyBindings.PlayerKeyBindings keys) {
+    public ICoopPlayer(Area owner, Orientation orientation, DiscreteCoordinates coordinates, Element element, String prefix, KeyBindings.PlayerKeyBindings keys) {
         super(owner, orientation, coordinates);
         this.element = element;
-        this.name = name;
+        this.prefix = prefix;
         this.keys = keys;
-        sprite = new Sprite(spriteName, 1.f, 1.f, this);
         resetMotion();
     }
 
@@ -60,10 +59,10 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity {
     @Override
     public void update(float deltaTime) {
         Keyboard keyboard = getOwnerArea().getKeyboard();
-        moveIfPressed(LEFT, keyboard.get(Keyboard.LEFT));
+        moveIfPressed(LEFT, keyboard.get(keys.left()));
         moveIfPressed(UP, keyboard.get(keys.up()));
-        moveIfPressed(RIGHT, keyboard.get(Keyboard.RIGHT));
-        moveIfPressed(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
+        moveIfPressed(RIGHT, keyboard.get(keys.right()));
+        moveIfPressed(Orientation.DOWN, keyboard.get(keys.down()));
         super.update(deltaTime);
     }
 
@@ -71,12 +70,12 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity {
      * @param canvas target, not null
      */
     @Override
-    public void draw(ch.epfl.cs107.play.window.Canvas canvas) {
+    public void draw(Canvas canvas) {
 
         final Vector anchor = new Vector(0, 0);
         final Orientation[] orders = {DOWN, RIGHT, UP, LEFT};
-        new OrientedAnimation(name, ANIMATION_DURATION, this, anchor, orders, 4, 1, 2, 16, 32, true);
-        sprite.draw(canvas);
+        new OrientedAnimation(prefix, ANIMATION_DURATION, this, anchor, orders, 4, 1, 2, 16, 32, true);
+
     }
 
 

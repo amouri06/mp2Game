@@ -1,6 +1,8 @@
 package ch.epfl.cs107.icoop;
 
 
+import ch.epfl.cs107.icoop.actor.ElementalEntity;
+import ch.epfl.cs107.icoop.actor.ICoopPlayer;
 import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.icoop.area.OrbWay;
 import ch.epfl.cs107.icoop.area.Spawn;
@@ -15,6 +17,7 @@ public class ICoop extends AreaGame {
 
     private final String[] areas = {"Spawn", "OrbWay"};
     private int areaIndex;
+    private ICoopPlayer player;
 
     /**
      * Add all the Tuto2 areas
@@ -66,6 +69,8 @@ public class ICoop extends AreaGame {
     private void initArea(String areaKey) {
         ICoopArea area = (ICoopArea) setCurrentArea(areaKey, true);
         DiscreteCoordinates coords = area.getRedPlayerSpawnPosition();
+        player = new ICoopPlayer(area, Orientation.DOWN, coords, ElementalEntity.Element.FEU, "icoop/player", KeyBindings.RED_PLAYER_KEY_BINDINGS);
+        player.enterArea(area, coords);
     }
 
     /**
