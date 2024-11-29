@@ -1,5 +1,6 @@
 package ch.epfl.cs107.icoop.actor;
 
+import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
 import ch.epfl.cs107.play.areagame.actor.AreaEntity;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.actor.Interactor;
@@ -29,6 +30,20 @@ public class Explosive extends AreaEntity implements Interactable, Interactor {
         this.timer = timer;
         explosed = false;
         activated = false;
+    }
+
+    @Override
+    public void update(float deltaTime) {
+        if (timer == 0 & ! explosed) {
+            explode();
+        }
+        if (activated & !explosed) {
+            timer--;
+        }
+    }
+
+    public void explode() {
+
     }
 
 
@@ -85,6 +100,15 @@ public class Explosive extends AreaEntity implements Interactable, Interactor {
     @Override
     public void interactWith(Interactable other, boolean isCellInteraction) {
 
+    }
+
+    private class ExplosiveInteractionHandler implements ICoopInteractionVisitor {
+        @Override
+        public void interactWith(Rock rock) {
+            if (getFieldOfViewCells().contains(rock)) {
+                getOwnerArea().unregisterActor(rock);
+            }
+        }
     }
 
 
