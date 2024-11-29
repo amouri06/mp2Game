@@ -19,4 +19,10 @@ public class Rock extends Obstacle {
         sprite = new Sprite("rock.1", 1.f, 1.f, this);
     }
 
+    /**
+     *
+     */
+    public void destruct() {
+        sprite = null;
+    }
 }

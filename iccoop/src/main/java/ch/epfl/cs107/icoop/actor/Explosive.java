@@ -47,4 +47,6 @@ public class Explosive extends AreaEntity implements Interactable {
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
 
     }
+
+
 }
