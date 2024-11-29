@@ -8,6 +8,7 @@ import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -60,7 +61,15 @@ public class Explosive extends AreaEntity implements Interactable, Interactor {
     ///Implements Interactor
     @Override
     public List<DiscreteCoordinates> getFieldOfViewCells() {
-        return List.of();
+        List<DiscreteCoordinates> list = new ArrayList<DiscreteCoordinates>();
+        DiscreteCoordinates currentCell = getCurrentMainCellCoordinates();
+        for (int i = 1; i < 5; ++i) {
+            list.add(currentCell.jump(i,0));
+            list.add(currentCell.jump(-i,0));
+            list.add(currentCell.jump(0,i));
+            list.add(currentCell.jump(0,-i));
+        }
+        return list;
     }
 
     @Override
