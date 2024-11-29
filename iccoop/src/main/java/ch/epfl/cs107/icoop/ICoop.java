@@ -1,6 +1,7 @@
 package ch.epfl.cs107.icoop;
 
 
+import ch.epfl.cs107.icoop.actor.CenterOfMass;
 import ch.epfl.cs107.icoop.actor.ElementalEntity;
 import ch.epfl.cs107.icoop.actor.ICoopPlayer;
 import ch.epfl.cs107.icoop.area.ICoopArea;
@@ -38,7 +39,20 @@ public class ICoop extends AreaGame {
         if (super.begin(window, fileSystem)) {
             createAreas();
             areaIndex = 0;
-            initArea(areas[areaIndex]);
+
+            ICoopArea area = (ICoopArea) setCurrentArea(areas[areaIndex], true);
+
+            DiscreteCoordinates coordsRed = area.getRedPlayerSpawnPosition();
+            firePlayer = new ICoopPlayer(area, Orientation.DOWN, coordsRed, ElementalEntity.Element.FEU, "icoop/player", KeyBindings.RED_PLAYER_KEY_BINDINGS);
+            firePlayer.enterArea(area, coordsRed);
+
+            DiscreteCoordinates coordsBlue = area.getBluePlayerSpawnPosition();
+            waterPlayer = new ICoopPlayer(area, Orientation.DOWN, coordsBlue, ElementalEntity.Element.EAU, "icoop/player2", KeyBindings.BLUE_PLAYER_KEY_BINDINGS);
+            waterPlayer.enterArea(area, coordsBlue);
+
+            CenterOfMass cameraCenter = new CenterOfMass(firePlayer, waterPlayer);
+            area.setViewCandidate(cameraCenter);
+
             return true;
         }
         return false;
@@ -64,18 +78,12 @@ public class ICoop extends AreaGame {
     }
 
     /**
-     * sets the area named `areaKey` as current area in the game Tuto2
+     * sets the area named `areaKey` as current area in the game ICoop
      * @param areaKey (String) title of an area
      */
     private void initArea(String areaKey) {
-        ICoopArea area = (ICoopArea) setCurrentArea(areaKey, true);
-        DiscreteCoordinates coordsRed = area.getRedPlayerSpawnPosition();
-        firePlayer = new ICoopPlayer(area, Orientation.DOWN, coordsRed, ElementalEntity.Element.FEU, "icoop/player", KeyBindings.RED_PLAYER_KEY_BINDINGS);
-        firePlayer.enterArea(area, coordsRed);
 
-        DiscreteCoordinates coordsBlue = area.getBluePlayerSpawnPosition();
-        waterPlayer = new ICoopPlayer(area, Orientation.DOWN, coordsBlue, ElementalEntity.Element.EAU, "icoop/player2", KeyBindings.BLUE_PLAYER_KEY_BINDINGS);
-        waterPlayer.enterArea(area, coordsBlue);
+
     }
 
     /**

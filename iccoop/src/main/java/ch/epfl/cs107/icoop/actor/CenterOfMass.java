@@ -1,5 +1,6 @@
 package ch.epfl.cs107.icoop.actor;
 
+import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.engine.actor.Actor;
 import ch.epfl.cs107.play.math.Transform;
 import ch.epfl.cs107.play.math.Vector;
@@ -36,4 +37,5 @@ public class CenterOfMass implements Actor {
         }
         return velocity.mul(1f / actors.length);
     }
+
 }
