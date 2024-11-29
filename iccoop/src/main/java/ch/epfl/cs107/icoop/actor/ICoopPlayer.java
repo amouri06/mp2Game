@@ -38,18 +38,12 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity {
      * @param element    (String): Element of the entity. Not null
      * @param spriteName (String) name of the sprite used as graphical representation
      */
-    public ICoopPlayer(Area owner, Orientation orientation, DiscreteCoordinates coordinates, Element element, String spriteName, KeyBindings.PlayerKeyBindings keys) {
+    public ICoopPlayer(Area owner, Orientation orientation, DiscreteCoordinates coordinates, Element element, String spriteName, String name, KeyBindings.PlayerKeyBindings keys) {
         super(owner, orientation, coordinates);
         this.element = element;
         sprite = new Sprite(spriteName, 1.f, 1.f, this);
         this.keys = keys;
-        if (element == Element.FEU) {
-            name = "icoop/player";
-        } else if (element == Element.EAU) {
-            name = "icoop/player";
-        } else {
-            name = "";
-        }
+        this.name = name
         resetMotion();
     }
 
