@@ -28,6 +28,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity {
     private final Element element;
     private final String prefix;
     private final KeyBindings.PlayerKeyBindings keys;
+    private OrientedAnimation sprite;
 
     /**
      * Default ICoopPlayer constructor
@@ -43,6 +44,9 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity {
         this.element = element;
         this.prefix = prefix;
         this.keys = keys;
+        Vector anchor = new Vector(0, 0);
+        Orientation[] orders = {DOWN, RIGHT, UP, LEFT};
+        sprite = new OrientedAnimation(prefix, ANIMATION_DURATION, this, anchor, orders, 4, 1, 2, 16, 32, true);
         resetMotion();
     }
 
@@ -63,6 +67,13 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity {
         moveIfPressed(UP, keyboard.get(keys.up()));
         moveIfPressed(RIGHT, keyboard.get(keys.right()));
         moveIfPressed(Orientation.DOWN, keyboard.get(keys.down()));
+
+        if (isDisplacementOccurs()) {
+            sprite.update(deltaTime);
+        } else {
+            sprite.reset();
+        }
+
         super.update(deltaTime);
     }
 
@@ -71,13 +82,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity {
      */
     @Override
     public void draw(Canvas canvas) {
-
-        final Vector anchor = new Vector(0, 0);
-        final Orientation[] orders = {DOWN, RIGHT, UP, LEFT};
-        OrientedAnimation sprite = new OrientedAnimation(prefix, ANIMATION_DURATION, this, anchor, orders, 4, 1, 2, 16, 32, true);
-
         sprite.draw(canvas);
-
     }
 
 
