@@ -11,6 +11,7 @@ import ch.epfl.cs107.play.areagame.AreaGame;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
+import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
 
@@ -44,15 +45,11 @@ public class ICoop extends AreaGame {
 
             DiscreteCoordinates coordsRed = area.getRedPlayerSpawnPosition();
             firePlayer = new ICoopPlayer(area, Orientation.DOWN, coordsRed, ElementalEntity.Element.FEU, "icoop/player", KeyBindings.RED_PLAYER_KEY_BINDINGS);
-            firePlayer.enterArea(area, coordsRed);
 
             DiscreteCoordinates coordsBlue = area.getBluePlayerSpawnPosition();
             waterPlayer = new ICoopPlayer(area, Orientation.DOWN, coordsBlue, ElementalEntity.Element.EAU, "icoop/player2", KeyBindings.BLUE_PLAYER_KEY_BINDINGS);
-            waterPlayer.enterArea(area, coordsBlue);
 
-            CenterOfMass cameraCenter = new CenterOfMass(firePlayer, waterPlayer);
-            area.setViewCandidate(cameraCenter);
-
+            initArea(areas[areaIndex]);
             return true;
         }
         return false;
@@ -65,6 +62,13 @@ public class ICoop extends AreaGame {
      */
     @Override
     public void update(float deltaTime) {
+        Keyboard keyboard = getCurrentArea().getKeyboard();
+        if (keyboard.get(KeyBindings.RESET_GAME).isDown()) {
+            begin(getWindow(), getFileSystem());
+        }
+        if (keyboard.get(KeyBindings.RESET_AREA).isDown()) {
+            initArea(areas[areaIndex]);
+        }
         super.update(deltaTime);
     }
 
@@ -82,8 +86,16 @@ public class ICoop extends AreaGame {
      * @param areaKey (String) title of an area
      */
     private void initArea(String areaKey) {
+        ICoopArea area = (ICoopArea) setCurrentArea(areas[areaIndex], true);
 
+        DiscreteCoordinates coordsRed = area.getRedPlayerSpawnPosition();
+        firePlayer.enterArea(area, coordsRed);
 
+        DiscreteCoordinates coordsBlue = area.getBluePlayerSpawnPosition();
+        waterPlayer.enterArea(area, coordsBlue);
+
+        CenterOfMass cameraCenter = new CenterOfMass(firePlayer, waterPlayer);
+        area.setViewCandidate(cameraCenter);
     }
 
     /**
