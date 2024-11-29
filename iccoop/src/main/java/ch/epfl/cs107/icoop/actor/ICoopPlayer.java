@@ -120,7 +120,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
     @Override
     public List<DiscreteCoordinates> getFieldOfViewCells() {
-        return Collections.singletonList (getCurrentMainCellCoordinates().jump(getOrientation().toVector()));
+        return Collections.singletonList(getCurrentMainCellCoordinates().jump(getOrientation().toVector()));
     }
 
     @Override
