@@ -43,7 +43,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity {
         this.element = element;
         sprite = new Sprite(spriteName, 1.f, 1.f, this);
         this.keys = keys;
-        this.name = name
+        this.name = name;
         resetMotion();
     }
 
