@@ -1,6 +1,9 @@
 package ch.epfl.cs107.icoop.actor;
 
 import ch.epfl.cs107.icoop.KeyBindings;
+import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
+import ch.epfl.cs107.play.areagame.actor.Interactable;
+import ch.epfl.cs107.play.areagame.actor.Interactor;
 import ch.epfl.cs107.play.areagame.actor.MovableAreaEntity;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
@@ -21,7 +24,7 @@ import static ch.epfl.cs107.play.math.Orientation.*;
 /**
  * A ICoopPlayer is a player for the ICoop game.
  */
-public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity {
+public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, Interactor {
 
     private final static int MOVE_DURATION = 8;
     private final static int ANIMATION_DURATION = 4;
@@ -104,14 +107,42 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity {
     }
 
     @Override
+    public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
+        ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
+    }
+
+    /// Implements Interactor
+
+    @Override
     public List<DiscreteCoordinates> getCurrentCells() {
         return Collections.singletonList(getCurrentMainCellCoordinates());
     }
 
     @Override
-    public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
+    public List<DiscreteCoordinates> getFieldOfViewCells() {
+        return Collections.singletonList (getCurrentMainCellCoordinates().jump(getOrientation().toVector()));
+    }
+
+    @Override
+    public boolean wantsCellInteraction() {
+        return true;
+    }
+
+    @Override
+    public boolean wantsViewInteraction() {
+        Keyboard keyboard = getOwnerArea().getKeyboard();
+        if (keyboard.get(keys.useItem()).isDown()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public void interactWith(Interactable other, boolean isCellInteraction) {
 
     }
+
 
     /**
      * Orientate and Move this player in the given orientation if the given button is down
@@ -145,6 +176,10 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity {
         setOwnerArea(area);
         setCurrentPosition(position.toVector());
         resetMotion();
+    }
+
+    private class ICoopPlayerInteractionHandler implements ICoopInteractionVisitor {
+        ///TO DO:
     }
 
 
