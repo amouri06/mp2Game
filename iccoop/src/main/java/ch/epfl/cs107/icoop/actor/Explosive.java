@@ -13,7 +13,7 @@ import java.util.List;
 public class Explosive extends AreaEntity implements Interactable {
 
     /**
-     * Default AreaEntity constructor
+     * Default Explosive constructor
      *
      * @param area        (Area): Owner area. Not null
      * @param orientation (Orientation): Initial orientation of the entity in the Area. Not null
