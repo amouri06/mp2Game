@@ -74,7 +74,9 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity {
 
         final Vector anchor = new Vector(0, 0);
         final Orientation[] orders = {DOWN, RIGHT, UP, LEFT};
-        new OrientedAnimation(prefix, ANIMATION_DURATION, this, anchor, orders, 4, 1, 2, 16, 32, true);
+        OrientedAnimation sprite = new OrientedAnimation(prefix, ANIMATION_DURATION, this, anchor, orders, 4, 1, 2, 16, 32, true);
+
+        sprite.draw(canvas);
 
     }
 
