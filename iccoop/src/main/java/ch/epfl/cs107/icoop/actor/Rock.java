@@ -18,4 +18,5 @@ public class Rock extends Obstacle {
         super(area, orientation, position);
         sprite = new Sprite("rock.1", 1.f, 1.f, this);
     }
+
 }
