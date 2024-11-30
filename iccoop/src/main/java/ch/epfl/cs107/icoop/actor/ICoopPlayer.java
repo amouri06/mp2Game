@@ -33,7 +33,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private final String prefix;
     private final KeyBindings.PlayerKeyBindings keys;
     private OrientedAnimation sprite;
-    public Door isLeavingAreaDoor;
+    private Door isLeavingAreaDoor;
 
     /**
      * Default ICoopPlayer constructor
@@ -133,18 +133,17 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
     @Override
     public boolean wantsViewInteraction() {
-//        Keyboard keyboard = getOwnerArea().getKeyboard();
-//        if (keyboard.get(keys.useItem()).isDown()) {
-//            return true;
-//        } else {
-//            return false;
-//        }
-        return true;
+        Keyboard keyboard = getOwnerArea().getKeyboard();
+        if (keyboard.get(keys.useItem()).isDown()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public void interactWith(Interactable other, boolean isCellInteraction) {
-
+        other.acceptInteraction(new ICoopPlayerInteractionHandler(), isCellInteraction);
     }
 
 
@@ -184,6 +183,10 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
     public Door getIsLeavingAreaDoor() {
         return isLeavingAreaDoor;
+    }
+
+    public void nullifyIsLeavingAreaDoor() {
+        isLeavingAreaDoor = null;
     }
 
     private class ICoopPlayerInteractionHandler implements ICoopInteractionVisitor {
