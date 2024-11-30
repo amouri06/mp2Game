@@ -25,9 +25,9 @@ public class Explosive extends AreaEntity implements Interactable, Interactor {
      * @param orientation (Orientation): Initial orientation of the entity in the Area. Not null
      * @param position    (DiscreteCoordinate): Initial position of the entity in the Area. Not null
      */
-    public Explosive(Area area, Orientation orientation, DiscreteCoordinates position, int timer) {
+    public Explosive(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
-        this.timer = timer;
+        timer = 3 * 24;
         explosed = false;
         activated = false;
     }
