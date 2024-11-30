@@ -69,6 +69,12 @@ public class ICoop extends AreaGame {
         if (keyboard.get(KeyBindings.RESET_AREA).isDown()) {
             initArea(areas[areaIndex]);
         }
+        if (firePlayer.getIsLeavingAreaDoor() != null) {
+            firePlayer.leaveArea();
+            ICoopArea currentArea = (ICoopArea) setCurrentArea(firePlayer.isLeavingAreaDoor.getDestination(), false);
+            firePlayer.enterArea(currentArea, (firePlayer.isLeavingAreaDoor.getPlayer1ArrivalCoordinates()));
+            firePlayer.isLeavingAreaDoor = null;
+        }
         super.update(deltaTime);
     }
 

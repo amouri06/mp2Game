@@ -1,10 +1,8 @@
 package ch.epfl.cs107.icoop.handler;
 
 import ch.epfl.cs107.icoop.ICoopBehavior;
-import ch.epfl.cs107.icoop.actor.Explosive;
-import ch.epfl.cs107.icoop.actor.ICoopPlayer;
-import ch.epfl.cs107.icoop.actor.Obstacle;
-import ch.epfl.cs107.icoop.actor.Rock;
+import ch.epfl.cs107.icoop.actor.*;
+import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
 
 /**
@@ -22,4 +20,7 @@ public interface ICoopInteractionVisitor extends AreaInteractionVisitor {
     default void interactWith(Rock rock) {}
 
     default void interactWith(Explosive explosive) {}
+
+    default void interactWith(Door door) {}
+
 }

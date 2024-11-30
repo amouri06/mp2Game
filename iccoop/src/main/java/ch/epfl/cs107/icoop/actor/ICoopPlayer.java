@@ -12,6 +12,7 @@ import ch.epfl.cs107.play.engine.actor.Sprite;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.math.Vector;
+import ch.epfl.cs107.play.signal.logic.Logic;
 import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
@@ -32,6 +33,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private final String prefix;
     private final KeyBindings.PlayerKeyBindings keys;
     private OrientedAnimation sprite;
+    public Door isLeavingAreaDoor;
 
     /**
      * Default ICoopPlayer constructor
@@ -47,6 +49,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         this.element = element;
         this.prefix = prefix;
         this.keys = keys;
+        isLeavingAreaDoor = null;
         Vector anchor = new Vector(0, 0);
         Orientation[] orders = {DOWN, RIGHT, UP, LEFT};
         sprite = new OrientedAnimation(prefix, ANIMATION_DURATION, this, anchor, orders, 4, 1, 2, 16, 32, true);
@@ -130,12 +133,13 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
     @Override
     public boolean wantsViewInteraction() {
-        Keyboard keyboard = getOwnerArea().getKeyboard();
-        if (keyboard.get(keys.useItem()).isDown()) {
-            return true;
-        } else {
-            return false;
-        }
+//        Keyboard keyboard = getOwnerArea().getKeyboard();
+//        if (keyboard.get(keys.useItem()).isDown()) {
+//            return true;
+//        } else {
+//            return false;
+//        }
+        return true;
     }
 
     @Override
@@ -178,8 +182,17 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         resetMotion();
     }
 
+    public Door getIsLeavingAreaDoor() {
+        return isLeavingAreaDoor;
+    }
+
     private class ICoopPlayerInteractionHandler implements ICoopInteractionVisitor {
-        ///TO DO:
+        @Override
+        public void interactWith(Door door) {
+            if (door.getSignal().isOn()) {
+                isLeavingAreaDoor = door;
+            }
+        }
     }
 
 
