@@ -76,7 +76,7 @@ public class Explosive extends AreaEntity implements Interactor, Interactable {
 
     @Override
     public boolean isCellInteractable() {
-        return !activated;
+        return false;
     }
 
     @Override
