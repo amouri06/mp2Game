@@ -67,7 +67,7 @@ public class ICoop extends AreaGame {
         if (keyboard.get(KeyBindings.RESET_GAME).isDown()) {
             begin(getWindow(), getFileSystem());
         }
-        if (keyboard.get(KeyBindings.RESET_AREA).isDown()) {
+        if (keyboard.get(KeyBindings.RESET_AREA).isDown() || !firePlayer.isAlive() || !waterPlayer.isAlive()) {
             initArea(areas[areaIndex]);
         }
         if (firePlayer.getIsLeavingAreaDoor() != null) {
@@ -101,7 +101,8 @@ public class ICoop extends AreaGame {
 
         DiscreteCoordinates coordsBlue = area.getBluePlayerSpawnPosition();
         waterPlayer.enterArea(area, coordsBlue);
-        firePlayer.restoreHealth();
+        waterPlayer.restoreHealth();
+
 
         CenterOfMass cameraCenter = new CenterOfMass(firePlayer, waterPlayer);
 

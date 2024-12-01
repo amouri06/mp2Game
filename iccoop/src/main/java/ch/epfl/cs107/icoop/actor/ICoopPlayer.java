@@ -84,6 +84,10 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         return (immuneTimer > 0);
     }
 
+    public boolean isAlive() {
+        return health.isOn();
+    }
+
     /**
      * @param deltaTime elapsed time since last update, in seconds, non-negative
      */

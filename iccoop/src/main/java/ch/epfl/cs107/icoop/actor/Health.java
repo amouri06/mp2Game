@@ -104,7 +104,7 @@ public class Health implements Graphics, Logic {
                 new Vector(0.8f*  healthPoints / maxHealth + 0.1f, 0.15f),
                 new Vector(0.1f, 0.15f)
         )), parent.getTransform().transformed(transform), isFriendly ? Color.GREEN : Color.RED, null, 0, 0.5f, 0);
-        System.out.println(healthPoints);
+
     }
 
     /**
@@ -117,12 +117,9 @@ public class Health implements Graphics, Logic {
     /**
      * @param amount (int): decrease the health points with this amount. The health points are capped at 0.
      */
-    public void decrease(int amount) {
-        healthPoints = Math.max(0, healthPoints - amount);
-    }
+    public void decrease(int amount) { healthPoints = Math.max(0, healthPoints - amount); }
 
     public void resetHealth() {
         healthPoints = maxHealth;
     }
-
 }

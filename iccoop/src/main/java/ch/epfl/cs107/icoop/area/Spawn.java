@@ -56,6 +56,9 @@ public final class Spawn extends ICoopArea {
         registerActor(new Door("OrbWay", Logic.TRUE, door1ArrivalCoords, this, new DiscreteCoordinates( 19,15), door1OtherCoords));
 
         registerActor(new Explosive(this, Orientation.DOWN, new DiscreteCoordinates(11, 10)));
+        registerActor(new Explosive(this, Orientation.DOWN, new DiscreteCoordinates(12, 10)));
+        registerActor(new Explosive(this, Orientation.DOWN, new DiscreteCoordinates(12, 11)));
+
 
         registerActor(new Rock(this, Orientation.DOWN, new DiscreteCoordinates(10, 10)));
     }
