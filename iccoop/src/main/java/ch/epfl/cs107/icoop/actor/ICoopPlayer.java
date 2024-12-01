@@ -72,7 +72,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         moveIfPressed(LEFT, keyboard.get(keys.left()));
         moveIfPressed(UP, keyboard.get(keys.up()));
         moveIfPressed(RIGHT, keyboard.get(keys.right()));
-        moveIfPressed(Orientation.DOWN, keyboard.get(keys.down()));
+        moveIfPressed(DOWN, keyboard.get(keys.down()));
 
         if (isDisplacementOccurs()) {
             sprite.update(deltaTime);
@@ -106,7 +106,8 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
     @Override
     public boolean isViewInteractable() {
-        return true;
+        Keyboard keyboard = getOwnerArea().getKeyboard();
+        return keyboard.get(keys.useItem()).isDown();
     }
 
     @Override
@@ -143,6 +144,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
     @Override
     public void interactWith(Interactable other, boolean isCellInteraction) {
+        other.acceptInteraction(new ICoopPlayerInteractionHandler(), isCellInteraction);
     }
 
 
@@ -190,7 +192,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
     private class ICoopPlayerInteractionHandler implements ICoopInteractionVisitor {
         @Override
-        public void interactWith(Door door) {
+        public void interactWith(Door door, boolean isc) {
             if (door.getSignal().isOn()) {
                 isLeavingAreaDoor = door;
             }

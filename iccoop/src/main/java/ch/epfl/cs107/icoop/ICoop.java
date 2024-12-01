@@ -2,6 +2,7 @@ package ch.epfl.cs107.icoop;
 
 
 import ch.epfl.cs107.icoop.actor.CenterOfMass;
+import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.actor.ElementalEntity;
 import ch.epfl.cs107.icoop.actor.ICoopPlayer;
 import ch.epfl.cs107.icoop.area.ICoopArea;
@@ -70,10 +71,10 @@ public class ICoop extends AreaGame {
             initArea(areas[areaIndex]);
         }
         if (firePlayer.getIsLeavingAreaDoor() != null) {
-            firePlayer.leaveArea();
-            ICoopArea currentArea = (ICoopArea) setCurrentArea(firePlayer.getIsLeavingAreaDoor().getDestination(), false);
-            firePlayer.enterArea(currentArea, (firePlayer.getIsLeavingAreaDoor().getPlayer1ArrivalCoordinates()));
-            firePlayer.nullifyIsLeavingAreaDoor();
+            switchArea(firePlayer.getIsLeavingAreaDoor());
+        }
+        if (waterPlayer.getIsLeavingAreaDoor() != null) {
+            switchArea(waterPlayer.getIsLeavingAreaDoor());
         }
         super.update(deltaTime);
     }
@@ -101,18 +102,24 @@ public class ICoop extends AreaGame {
         waterPlayer.enterArea(area, coordsBlue);
 
         CenterOfMass cameraCenter = new CenterOfMass(firePlayer, waterPlayer);
-        area.setViewCandidate(cameraCenter);
+
     }
 
     /**
      * switches from one area to the other
      * the player is healed when moving to a new area
      */
-    private void switchArea() {
-        /*player.leaveArea();
-        areaIndex = (areaIndex == 0) ? 1 : 0;
-        Tuto2Area currentArea = (Tuto2Area) setCurrentArea(areas[areaIndex], false);
-        player.enterArea(currentArea, currentArea.getPlayerSpawnPosition());
-        player.strengthen();*/
+    private void switchArea(Door door) {
+        firePlayer.leaveArea(); waterPlayer.leaveArea();
+        ICoopArea currentArea = (ICoopArea) setCurrentArea(door.getDestination(), false);
+        firePlayer.enterArea(currentArea, (door.getPlayer1ArrivalCoordinates()));
+        waterPlayer.enterArea(currentArea, (door.getPlayer2ArrivalCoordinates()));
+        firePlayer.nullifyIsLeavingAreaDoor(); waterPlayer.nullifyIsLeavingAreaDoor();
+
+        for (int i = 0; i < areas.length; ++i) {
+            if (areas[i].equals(door.getDestination())) {
+                areaIndex = i;
+            }
+        }
     }
 }

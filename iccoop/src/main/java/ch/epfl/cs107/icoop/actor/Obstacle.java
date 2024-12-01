@@ -6,6 +6,7 @@ import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.engine.actor.Sprite;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
+import ch.epfl.cs107.play.window.Canvas;
 
 import java.util.Collections;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 public class Obstacle extends AreaEntity {
 
     protected Sprite sprite;
+
 
     /**
      * Default Obstacle constructor
@@ -24,6 +26,10 @@ public class Obstacle extends AreaEntity {
     public Obstacle(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
         sprite = new Sprite("rock.2", 1.f, 1.f, this);
+    }
+
+    public void draw(Canvas canvas) {
+        sprite.draw(canvas);
     }
 
     @Override

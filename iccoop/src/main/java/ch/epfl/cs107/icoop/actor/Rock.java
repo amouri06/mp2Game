@@ -4,6 +4,7 @@ import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.engine.actor.Sprite;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
+import ch.epfl.cs107.play.window.Canvas;
 
 public class Rock extends Obstacle {
 
@@ -17,6 +18,11 @@ public class Rock extends Obstacle {
     public Rock(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
         sprite = new Sprite("rock.1", 1.f, 1.f, this);
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        sprite.draw(canvas);
     }
 
 

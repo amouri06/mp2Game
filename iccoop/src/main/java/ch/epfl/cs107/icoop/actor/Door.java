@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Door extends AreaEntity implements Interactable {
-    private final String destination;
+    private String destination;
     private final List<DiscreteCoordinates> arrivalCoordinates;
     private Logic signal;
     private final List<DiscreteCoordinates> occupiedCells;
@@ -28,6 +28,10 @@ public class Door extends AreaEntity implements Interactable {
 
     public DiscreteCoordinates getPlayer1ArrivalCoordinates() {
         return arrivalCoordinates.getFirst();
+    }
+
+    public DiscreteCoordinates getPlayer2ArrivalCoordinates() {
+        return arrivalCoordinates.get(1);
     }
 
     @Override
@@ -51,6 +55,7 @@ public class Door extends AreaEntity implements Interactable {
     public boolean isViewInteractable(){
         return false;
     }
+
 
     @Override
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {

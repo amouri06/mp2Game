@@ -6,8 +6,11 @@ import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.actor.Interactor;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.engine.actor.Animation;
+import ch.epfl.cs107.play.engine.actor.Sprite;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
+import ch.epfl.cs107.play.window.Canvas;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,9 +18,10 @@ import java.util.List;
 
 public class Explosive extends AreaEntity implements Interactable, Interactor {
 
-    private boolean explosed;
+    private static final int ANIMATION_DURATION = 24;
     private boolean activated;
     private int timer;
+    private Animation animation;
     /**
      * Default Explosive constructor
      *
@@ -28,24 +32,21 @@ public class Explosive extends AreaEntity implements Interactable, Interactor {
     public Explosive(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
         timer = 3 * 24;
-        explosed = false;
         activated = false;
+        animation = new Animation ("icoop/explosive", 2, 1, 1, this , 16 , 16 , ANIMATION_DURATION /2 , true );
     }
 
     @Override
     public void update(float deltaTime) {
-        if (timer == 0 & ! explosed) {
-            explode();
-        }
-        if (activated & !explosed) {
+        if (activated) {
             timer--;
         }
     }
 
-    public void explode() {
-
+    @Override
+    public void draw(Canvas canvas) {
+        animation.draw(canvas);
     }
-
 
     ///Implements Interactable
     @Override
@@ -60,12 +61,12 @@ public class Explosive extends AreaEntity implements Interactable, Interactor {
 
     @Override
     public boolean isCellInteractable() {
-        return (!activated && !explosed);
+        return (!activated);
     }
 
     @Override
     public boolean isViewInteractable() {
-        return !explosed;
+        return true;
     }
 
     @Override
@@ -104,8 +105,8 @@ public class Explosive extends AreaEntity implements Interactable, Interactor {
 
     private class ExplosiveInteractionHandler implements ICoopInteractionVisitor {
         @Override
-        public void interactWith(Rock rock) {
-            if (getFieldOfViewCells().contains(rock)) {
+        public void interactWith(Rock rock, boolean isCellInteraction) {
+            if (getFieldOfViewCells().contains(rock.getCurrentMainCellCoordinates())) {
                 getOwnerArea().unregisterActor(rock);
             }
         }
