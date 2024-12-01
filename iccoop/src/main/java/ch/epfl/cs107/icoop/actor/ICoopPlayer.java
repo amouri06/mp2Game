@@ -11,6 +11,7 @@ import ch.epfl.cs107.play.engine.actor.OrientedAnimation;
 import ch.epfl.cs107.play.engine.actor.Sprite;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
+import ch.epfl.cs107.play.math.Transform;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.signal.logic.Logic;
 import ch.epfl.cs107.play.window.Button;
@@ -29,11 +30,13 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
     private final static int MOVE_DURATION = 8;
     private final static int ANIMATION_DURATION = 4;
+    private final static int MAX_LIFE = 5;
     private final Element element;
     private final String prefix;
     private final KeyBindings.PlayerKeyBindings keys;
     private OrientedAnimation sprite;
     private Door isLeavingAreaDoor;
+    public Health health;
 
     /**
      * Default ICoopPlayer constructor
@@ -53,7 +56,9 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         Vector anchor = new Vector(0, 0);
         Orientation[] orders = {DOWN, RIGHT, UP, LEFT};
         sprite = new OrientedAnimation(prefix, ANIMATION_DURATION, this, anchor, orders, 4, 1, 2, 16, 32, true);
+        health = new Health(this, Transform.I.translated(0, 1.75f), MAX_LIFE, true);
         resetMotion();
+
     }
 
     /**
@@ -89,6 +94,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     @Override
     public void draw(Canvas canvas) {
         sprite.draw(canvas);
+        health.draw(canvas);
     }
 
 
@@ -106,8 +112,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
     @Override
     public boolean isViewInteractable() {
-        Keyboard keyboard = getOwnerArea().getKeyboard();
-        return keyboard.get(keys.useItem()).isDown();
+        return true;
     }
 
     @Override

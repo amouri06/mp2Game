@@ -23,6 +23,7 @@ public class Explosive extends AreaEntity implements Interactor, Interactable {
     private boolean activated;
     private int timer;
     private Animation animation;
+
     /**
      * Default Explosive constructor
      *
@@ -97,12 +98,12 @@ public class Explosive extends AreaEntity implements Interactor, Interactable {
 
     @Override
     public boolean wantsCellInteraction() {
-        return (timer < 24);
+        return (timer == 23 );
     }
 
     @Override
     public boolean wantsViewInteraction() {
-        return (timer < 24);
+        return (timer == 23);
     }
 
     @Override
@@ -114,7 +115,11 @@ public class Explosive extends AreaEntity implements Interactor, Interactable {
         @Override
         public void interactWith(Rock rock, boolean isCellInteraction) {
             getOwnerArea().unregisterActor(rock);
+        }
 
+        @Override
+        public void interactWith(ICoopPlayer player, boolean isCellInteraction) {
+            player.health.decrease(2);
         }
     }
 
