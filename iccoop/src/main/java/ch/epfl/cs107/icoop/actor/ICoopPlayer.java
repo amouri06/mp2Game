@@ -192,10 +192,15 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
     private class ICoopPlayerInteractionHandler implements ICoopInteractionVisitor {
         @Override
-        public void interactWith(Door door, boolean isc) {
+        public void interactWith(Door door, boolean isCellInteraction) {
             if (door.getSignal().isOn()) {
                 isLeavingAreaDoor = door;
             }
+        }
+
+        @Override
+        public void interactWith(Explosive explosive, boolean isCellInteraction) {
+            explosive.activate();
         }
     }
 

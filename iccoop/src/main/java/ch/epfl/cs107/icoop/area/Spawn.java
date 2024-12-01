@@ -2,6 +2,7 @@ package ch.epfl.cs107.icoop.area;
 
 import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.actor.Explosive;
+import ch.epfl.cs107.icoop.actor.Rock;
 import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -55,6 +56,8 @@ public final class Spawn extends ICoopArea {
         registerActor(new Door("OrbWay", Logic.TRUE, door1ArrivalCoords, this, new DiscreteCoordinates( 19,15), door1OtherCoords));
 
         registerActor(new Explosive(this, Orientation.DOWN, new DiscreteCoordinates(11, 10)));
+
+        registerActor(new Rock(this, Orientation.DOWN, new DiscreteCoordinates(10, 10)));
     }
 
 }

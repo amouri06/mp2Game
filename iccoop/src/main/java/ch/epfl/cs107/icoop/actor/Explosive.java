@@ -38,14 +38,22 @@ public class Explosive extends AreaEntity implements Interactable, Interactor {
 
     @Override
     public void update(float deltaTime) {
-        if (activated) {
+        if (activated && timer != 0) {
             timer--;
+        }
+        if (timer == 0) {
+            animation = new Animation ("icoop/explosion", 7, 1, 1, this , 32 , 32 , ANIMATION_DURATION /7 , false );
         }
     }
 
     @Override
     public void draw(Canvas canvas) {
         animation.draw(canvas);
+    }
+
+    public void activate() {
+        System.out.println(timer);
+        activated = true;
     }
 
     ///Implements Interactable
@@ -71,7 +79,7 @@ public class Explosive extends AreaEntity implements Interactable, Interactor {
 
     @Override
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
-
+        ((ICoopInteractionVisitor)v).interactWith(this, isCellInteraction );
     }
 
     ///Implements Interactor
@@ -90,17 +98,17 @@ public class Explosive extends AreaEntity implements Interactable, Interactor {
 
     @Override
     public boolean wantsCellInteraction() {
-        return false;
+        return (timer == 0);
     }
 
     @Override
     public boolean wantsViewInteraction() {
-        return false;
+        return (timer == 0);
     }
 
     @Override
     public void interactWith(Interactable other, boolean isCellInteraction) {
-
+        other.acceptInteraction(new ExplosiveInteractionHandler(), isCellInteraction);
     }
 
     private class ExplosiveInteractionHandler implements ICoopInteractionVisitor {
