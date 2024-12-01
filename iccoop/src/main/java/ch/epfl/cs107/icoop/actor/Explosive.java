@@ -41,6 +41,7 @@ public class Explosive extends AreaEntity implements Interactor, Interactable {
     public void update(float deltaTime) {
         if (activated && timer != 0) {
             timer--;
+
         }
         if (timer == 0) {
             animation = new Animation ("icoop/explosion", 7, 1, 1, this , 32 , 32 , ANIMATION_DURATION /7 , false );
@@ -55,6 +56,7 @@ public class Explosive extends AreaEntity implements Interactor, Interactable {
 
     public void activate() {
         System.out.println(timer);
+
         activated = true;
     }
 
