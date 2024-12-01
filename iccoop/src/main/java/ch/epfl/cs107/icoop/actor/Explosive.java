@@ -86,13 +86,14 @@ public class Explosive extends AreaEntity implements Interactable, Interactor {
     @Override
     public List<DiscreteCoordinates> getFieldOfViewCells() {
         List<DiscreteCoordinates> list = new ArrayList<DiscreteCoordinates>();
-        DiscreteCoordinates currentCell = getCurrentMainCellCoordinates();
-        for (int i = 1; i < 5; ++i) {
-            list.add(currentCell.jump(i,0));
-            list.add(currentCell.jump(-i,0));
-            list.add(currentCell.jump(0,i));
-            list.add(currentCell.jump(0,-i));
-        }
+        list.add(new DiscreteCoordinates(10,10));
+//        DiscreteCoordinates currentCell = getCurrentMainCellCoordinates();
+//        for (int i = 1; i < 5; ++i) {
+//            list.add(currentCell.jump(i,0));
+//            list.add(currentCell.jump(-i,0));
+//            list.add(currentCell.jump(0,i));
+//            list.add(currentCell.jump(0,-i));
+//        }
         return list;
     }
 
@@ -114,9 +115,8 @@ public class Explosive extends AreaEntity implements Interactable, Interactor {
     private class ExplosiveInteractionHandler implements ICoopInteractionVisitor {
         @Override
         public void interactWith(Rock rock, boolean isCellInteraction) {
-            if (getFieldOfViewCells().contains(rock.getCurrentMainCellCoordinates())) {
-                getOwnerArea().unregisterActor(rock);
-            }
+            getOwnerArea().unregisterActor(rock);
+            System.out.println("maybe");
         }
     }
 
