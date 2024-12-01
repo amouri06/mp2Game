@@ -74,8 +74,14 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     }
 
     public void decreaseHealth(int amount) {
-        health.decrease(amount);
-        immuneTimer = 24;
+        if (!isImmune()) {
+            health.decrease(amount);
+            immuneTimer = 24;
+        }
+    }
+
+    private boolean isImmune() {
+        return (immuneTimer > 0);
     }
 
     /**
@@ -107,7 +113,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
      */
     @Override
     public void draw(Canvas canvas) {
-        if (immuneTimer % 2 == 0) {
+        if (immuneTimer % 8 == 0) {
             sprite.draw(canvas);
         }
         health.draw(canvas);
