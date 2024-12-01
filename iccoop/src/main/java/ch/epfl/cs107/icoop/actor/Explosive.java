@@ -32,7 +32,7 @@ public class Explosive extends AreaEntity implements Interactor, Interactable {
      */
     public Explosive(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
-        timer = 3 * 24;
+        timer = 4 * 24;
         activated = false;
         animation = new Animation ("icoop/explosive", 2, 1, 1, this , 16 , 16 , ANIMATION_DURATION /2 , true );
     }
@@ -41,10 +41,15 @@ public class Explosive extends AreaEntity implements Interactor, Interactable {
     public void update(float deltaTime) {
         if (activated && timer != 0) {
             timer--;
-
+            animation.update(deltaTime);
+        }
+        if (timer == 24) {
+            animation = new Animation ("icoop/explosion", 7, 1, 1, this , 32 , 32 , ANIMATION_DURATION /7 , false );
+        }
+        if (timer < 24) {
+            animation.update(deltaTime);
         }
         if (timer == 0) {
-            animation = new Animation ("icoop/explosion", 7, 1, 1, this , 32 , 32 , ANIMATION_DURATION /7 , false );
             getOwnerArea().unregisterActor(this);
         }
     }
@@ -55,8 +60,6 @@ public class Explosive extends AreaEntity implements Interactor, Interactable {
     }
 
     public void activate() {
-        System.out.println(timer);
-
         activated = true;
     }
 
@@ -94,12 +97,12 @@ public class Explosive extends AreaEntity implements Interactor, Interactable {
 
     @Override
     public boolean wantsCellInteraction() {
-        return (timer == 0);
+        return (timer < 24);
     }
 
     @Override
     public boolean wantsViewInteraction() {
-        return (timer == 0);
+        return (timer < 24);
     }
 
     @Override
