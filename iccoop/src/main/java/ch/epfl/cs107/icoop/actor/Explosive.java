@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Explosive extends AreaEntity implements Interactable, Interactor {
+public class Explosive extends AreaEntity implements Interactor, Interactable {
 
     private static final int ANIMATION_DURATION = 24;
     private boolean activated;
@@ -69,7 +69,7 @@ public class Explosive extends AreaEntity implements Interactable, Interactor {
 
     @Override
     public boolean isCellInteractable() {
-        return (!activated);
+        return !activated;
     }
 
     @Override
@@ -85,16 +85,7 @@ public class Explosive extends AreaEntity implements Interactable, Interactor {
     ///Implements Interactor
     @Override
     public List<DiscreteCoordinates> getFieldOfViewCells() {
-        List<DiscreteCoordinates> list = new ArrayList<DiscreteCoordinates>();
-        list.add(new DiscreteCoordinates(10,10));
-//        DiscreteCoordinates currentCell = getCurrentMainCellCoordinates();
-//        for (int i = 1; i < 5; ++i) {
-//            list.add(currentCell.jump(i,0));
-//            list.add(currentCell.jump(-i,0));
-//            list.add(currentCell.jump(0,i));
-//            list.add(currentCell.jump(0,-i));
-//        }
-        return list;
+        return getCurrentMainCellCoordinates().getNeighbours();
     }
 
     @Override
