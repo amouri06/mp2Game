@@ -6,6 +6,7 @@ import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.actor.Interactor;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.engine.actor.Actor;
 import ch.epfl.cs107.play.engine.actor.Animation;
 import ch.epfl.cs107.play.engine.actor.Sprite;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -43,6 +44,7 @@ public class Explosive extends AreaEntity implements Interactor, Interactable {
         }
         if (timer == 0) {
             animation = new Animation ("icoop/explosion", 7, 1, 1, this , 32 , 32 , ANIMATION_DURATION /7 , false );
+            getOwnerArea().unregisterActor(this);
         }
     }
 
@@ -107,7 +109,7 @@ public class Explosive extends AreaEntity implements Interactor, Interactable {
         @Override
         public void interactWith(Rock rock, boolean isCellInteraction) {
             getOwnerArea().unregisterActor(rock);
-            System.out.println("maybe");
+
         }
     }
 
