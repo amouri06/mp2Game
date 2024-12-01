@@ -97,9 +97,11 @@ public class ICoop extends AreaGame {
 
         DiscreteCoordinates coordsRed = area.getRedPlayerSpawnPosition();
         firePlayer.enterArea(area, coordsRed);
+        firePlayer.restoreHealth();
 
         DiscreteCoordinates coordsBlue = area.getBluePlayerSpawnPosition();
         waterPlayer.enterArea(area, coordsBlue);
+        firePlayer.restoreHealth();
 
         CenterOfMass cameraCenter = new CenterOfMass(firePlayer, waterPlayer);
 

@@ -36,7 +36,8 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private final KeyBindings.PlayerKeyBindings keys;
     private OrientedAnimation sprite;
     private Door isLeavingAreaDoor;
-    public Health health;
+    private Health health;
+    private int immuneTimer;
 
     /**
      * Default ICoopPlayer constructor
@@ -68,6 +69,15 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         return element;
     }
 
+    public void restoreHealth() {
+        health.increase(MAX_LIFE);
+    }
+
+    public void decreaseHealth(int amount) {
+        health.decrease(amount);
+        immuneTimer = 24;
+    }
+
     /**
      * @param deltaTime elapsed time since last update, in seconds, non-negative
      */
@@ -85,6 +95,10 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
             sprite.reset();
         }
 
+        if (immuneTimer > 0) {
+            immuneTimer--;
+        }
+
         super.update(deltaTime);
     }
 
@@ -93,7 +107,9 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
      */
     @Override
     public void draw(Canvas canvas) {
-        sprite.draw(canvas);
+        if (immuneTimer % 2 == 0) {
+            sprite.draw(canvas);
+        }
         health.draw(canvas);
     }
 

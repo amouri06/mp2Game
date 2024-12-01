@@ -119,7 +119,7 @@ public class Explosive extends AreaEntity implements Interactor, Interactable {
 
         @Override
         public void interactWith(ICoopPlayer player, boolean isCellInteraction) {
-            player.health.decrease(2);
+            player.decreaseHealth(2);
         }
     }
 
