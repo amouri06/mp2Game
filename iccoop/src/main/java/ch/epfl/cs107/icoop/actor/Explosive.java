@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Explosive extends AreaEntity implements Interactor, Interactable {
+public class Explosive extends ICoopCellCollectable implements Interactor, Interactable {
 
     private static final int ANIMATION_DURATION = 24;
     private boolean activated;
