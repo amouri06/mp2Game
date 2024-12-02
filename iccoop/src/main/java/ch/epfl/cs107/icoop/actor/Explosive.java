@@ -44,10 +44,10 @@ public class Explosive extends AreaEntity implements Interactor, Interactable {
             timer--;
             animation.update(deltaTime);
         }
-        if (timer == 24) {
+        if (timer == 15) {
             animation = new Animation ("icoop/explosion", 7, 1, 1, this , 32 , 32 , ANIMATION_DURATION /7 , false );
         }
-        if (timer < 24) {
+        if (timer < 15) {
             animation.update(deltaTime);
         }
         if (timer == 0) {
@@ -98,12 +98,12 @@ public class Explosive extends AreaEntity implements Interactor, Interactable {
 
     @Override
     public boolean wantsCellInteraction() {
-        return (timer == 23 );
+        return (timer == 14 );
     }
 
     @Override
     public boolean wantsViewInteraction() {
-        return (timer == 23);
+        return (timer == 14);
     }
 
     @Override
