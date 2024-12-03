@@ -18,6 +18,7 @@ import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private Door isLeavingAreaDoor;
     private Health health;
     private int immuneTimer;
+    private ArrayList<ICoopCellCollectable> collected;
 
     /**
      * Default ICoopPlayer constructor
@@ -232,10 +234,19 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         @Override
         public void interactWith(Explosive explosive, boolean isCellInteraction) {
             if (isCellInteraction) {
+                collected.add(explosive);
                 explosive.collect();
             }
             else {
                 explosive.activate();
+            }
+        }
+
+        @Override
+        public void interactWith(ElementalItem elementalItem, boolean isCellInteraction) {
+            if (isCellInteraction && element == elementalItem.element()) {
+                collected.add(elementalItem);
+                elementalItem.collect();
             }
         }
     }
