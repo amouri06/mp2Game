@@ -44,10 +44,10 @@ public class Explosive extends ICoopCellCollectable implements Interactor, Inter
             timer--;
             animation.update(deltaTime);
         }
-        if (timer == 15) {
+        if (timer == 24) {
             animation = new Animation ("icoop/explosion", 7, 1, 1, this , 32 , 32 , ANIMATION_DURATION /7 , false );
         }
-        if (timer < 15) {
+        if (timer < 24) {
             animation.update(deltaTime);
         }
         if (timer == 0) {
@@ -77,7 +77,7 @@ public class Explosive extends ICoopCellCollectable implements Interactor, Inter
 
     @Override
     public boolean isCellInteractable() {
-        return false;
+        return !activated;
     }
 
     @Override
@@ -98,12 +98,12 @@ public class Explosive extends ICoopCellCollectable implements Interactor, Inter
 
     @Override
     public boolean wantsCellInteraction() {
-        return (timer == 14 );
+        return (timer == 23 );
     }
 
     @Override
     public boolean wantsViewInteraction() {
-        return (timer == 14);
+        return (timer == 13);
     }
 
     @Override

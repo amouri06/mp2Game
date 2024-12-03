@@ -6,6 +6,7 @@ import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.actor.ElementalEntity;
 import ch.epfl.cs107.icoop.actor.ICoopPlayer;
 import ch.epfl.cs107.icoop.area.ICoopArea;
+import ch.epfl.cs107.icoop.area.Maze;
 import ch.epfl.cs107.icoop.area.OrbWay;
 import ch.epfl.cs107.icoop.area.Spawn;
 import ch.epfl.cs107.play.areagame.AreaGame;
@@ -18,7 +19,7 @@ import ch.epfl.cs107.play.window.Window;
 
 public class ICoop extends AreaGame {
 
-    private final String[] areas = {"Spawn", "OrbWay"};
+    private final String[] areas = {"Spawn", "OrbWay", "Maze"};
     private int areaIndex;
     private ICoopPlayer firePlayer;
     private ICoopPlayer waterPlayer;
@@ -29,6 +30,7 @@ public class ICoop extends AreaGame {
     private void createAreas() {
         addArea(new Spawn());
         addArea(new OrbWay());
+        addArea(new Maze());
     }
 
     /**
@@ -71,6 +73,7 @@ public class ICoop extends AreaGame {
             initArea(areas[areaIndex]);
         }
         if (firePlayer.getIsLeavingAreaDoor() != null) {
+            System.out.println("maybe");
             switchArea(firePlayer.getIsLeavingAreaDoor());
         }
         if (waterPlayer.getIsLeavingAreaDoor() != null) {
