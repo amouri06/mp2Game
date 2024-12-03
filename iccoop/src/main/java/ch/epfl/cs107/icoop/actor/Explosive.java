@@ -103,7 +103,7 @@ public class Explosive extends ICoopCellCollectable implements Interactor, Inter
 
     @Override
     public boolean wantsViewInteraction() {
-        return (timer == 13);
+        return (timer == 23);
     }
 
     @Override
