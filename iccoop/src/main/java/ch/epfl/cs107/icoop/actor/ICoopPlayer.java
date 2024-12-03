@@ -39,6 +39,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private Door isLeavingAreaDoor;
     private Health health;
     private int immuneTimer;
+    private boolean isElementImmune;
     private ArrayList<ICoopCellCollectable> collected;
 
     /**
@@ -249,6 +250,18 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                 collected.add(elementalItem);
                 elementalItem.collect();
             }
+        }
+
+        @Override
+        public void interactWith(Orb orb, boolean isCellInteraction) {
+            interactWith(orb, isCellInteraction);
+        }
+
+        @Override
+        public void interactWith(Heart heart, boolean isCellInteraction) {
+            System.out.println(1);
+            heart.collect();
+            health.increase(1);
         }
     }
 

@@ -2,10 +2,12 @@ package ch.epfl.cs107.icoop.area;
 
 import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.actor.ElementalEntity;
+import ch.epfl.cs107.icoop.actor.Heart;
 import ch.epfl.cs107.icoop.actor.ICoopPlayer;
 import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.signal.logic.Logic;
 
@@ -65,7 +67,7 @@ public final class OrbWay extends ICoopArea {
 
         registerActor(new Door("Spawn", Logic.TRUE, door1ArrivalCoords, this, new DiscreteCoordinates( 0,8), door2OtherCoords));
 
-
+        registerActor(new Heart(this, Orientation.DOWN, new DiscreteCoordinates(8,4)));
     }
 
 }
