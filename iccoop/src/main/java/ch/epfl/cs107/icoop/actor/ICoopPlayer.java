@@ -56,6 +56,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         this.prefix = prefix;
         this.keys = keys;
         isLeavingAreaDoor = null;
+        collected = new ArrayList<ICoopCellCollectable>();
         Vector anchor = new Vector(0, 0);
         Orientation[] orders = {DOWN, RIGHT, UP, LEFT};
         sprite = new OrientedAnimation(prefix, ANIMATION_DURATION, this, anchor, orders, 4, 1, 2, 16, 32, true);
