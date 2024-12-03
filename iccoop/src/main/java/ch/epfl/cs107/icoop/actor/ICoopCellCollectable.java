@@ -42,8 +42,11 @@ public abstract class ICoopCellCollectable extends CollectableAreaEntity {
         ((ICoopInteractionVisitor)v).interactWith(this, isCellInteraction);
     }
 
+    @Override
     public void collect() {
         super.collect();
         getOwnerArea().unregisterActor(this);
     }
+
+
 }
