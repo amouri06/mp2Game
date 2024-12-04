@@ -50,7 +50,7 @@ public class Orb extends ElementalItem implements Interactable {
                 this.orbType = orbType;
             }
         }
-        final Sprite[] sprites = new Sprite[ANIMATION_FRAMES];
+        Sprite[] sprites = new Sprite[ANIMATION_FRAMES];
         for (int i = 0; i < ANIMATION_FRAMES; i++) {
             sprites[i] = new RPGSprite("icoop/orb", 1, 1, this, new RegionOfInterest(i * 32, orbType.spriteYDelta, 32, 32));
         }

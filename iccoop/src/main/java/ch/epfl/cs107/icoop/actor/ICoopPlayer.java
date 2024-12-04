@@ -249,8 +249,8 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         @Override
         public void interactWith(ElementalItem elementalItem, boolean isCellInteraction) {
             if (isCellInteraction && element == elementalItem.element()) {
-                collected.add(elementalItem);
                 elementalItem.collect();
+                collected.add(elementalItem);
             }
         }
 
@@ -265,6 +265,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
         @Override
         public void interactWith(Heart heart, boolean isCellInteraction) {
+
             heart.collect();
             health.increase(1);
         }
