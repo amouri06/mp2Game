@@ -105,6 +105,7 @@ public class ICoop extends AreaGame implements DialogHandler {
             }
             else {
                 getCurrentArea().requestResume();
+                dialog = null;
             }
         }
     }

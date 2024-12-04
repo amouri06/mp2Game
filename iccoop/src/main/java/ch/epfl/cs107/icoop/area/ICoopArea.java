@@ -23,7 +23,7 @@ public abstract class ICoopArea extends Area {
     }
 
     public void publish(String path) {
-        dialogHandler.publish(new Dialog("welcome"));
+        dialogHandler.publish(new Dialog(path));
     }
 
     /**

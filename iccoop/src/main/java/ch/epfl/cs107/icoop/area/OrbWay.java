@@ -17,6 +17,7 @@ public final class OrbWay extends ICoopArea {
         super(dialogHandler);
     }
 
+
     /**
      *
      * @return red player's spawn coordinates in this area

@@ -36,7 +36,6 @@ public class Orb extends ElementalItem implements Interactable {
             this.spriteYDelta = spriteYDelta;
             this.element = element;
         }
-
     }
 
     public String getMessage() {
