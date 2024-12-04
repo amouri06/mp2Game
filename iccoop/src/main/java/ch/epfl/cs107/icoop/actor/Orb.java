@@ -10,7 +10,7 @@ import ch.epfl.cs107.play.window.Canvas;
 
 public class Orb extends ElementalItem {
 
-    private Sprite[] sprites;
+    private final Sprite[] sprites;
     private OrbType orbType;
     private final static int ANIMATION_FRAMES = 6;
     private final static int ANIMATION_DURATION = 24;
@@ -18,15 +18,17 @@ public class Orb extends ElementalItem {
 
     private enum OrbType {
 
-        FEU("orb_fire_msg", 32),
-        EAU("orb_water_msg", 32),;
+        FEU("orb_fire_msg", 64, Element.FEU),
+        EAU("orb_water_msg", 0, Element.EAU),;
 
+        private Element element;
         private String dialog;
         private int spriteYDelta;
 
-        private OrbType(String dialog, int spriteYDelta) {
+        private OrbType(String dialog, int spriteYDelta, Element element) {
             this.dialog = dialog;
             this.spriteYDelta = spriteYDelta;
+            this.element = element;
         }
 
     }
@@ -34,10 +36,17 @@ public class Orb extends ElementalItem {
 
     public Orb(Area area, DiscreteCoordinates position, Element element) {
         super(area, Orientation.UP, position, element);
+        for (OrbType orbType : OrbType.values()) {
+            if (orbType.element == element) {
+                this.orbType = orbType;
+            }
+        }
         final Sprite[] sprites = new Sprite[ANIMATION_FRAMES];
         for (int i = 0; i < ANIMATION_FRAMES; i++) {
-            sprites[i] = new RPGSprite("icoop/orb", 1, 1, this, new RegionOfInterest(i * 32, 32, 32, 32));
+            sprites[i] = new RPGSprite("icoop/orb", 1, 1, this, new RegionOfInterest(i * 32, orbType.spriteYDelta, 32, 32));
         }
+        this.sprites = sprites;
+        System.out.println(sprites.length);
         drawnSprite = 0;
     }
 
@@ -48,6 +57,7 @@ public class Orb extends ElementalItem {
 
     @Override
     public void update(float deltaTime) {
-        drawnSprite = (drawnSprite + 1) % ANIMATION_DURATION;
+        drawnSprite = (drawnSprite + 1) % ANIMATION_FRAMES;
     }
+
 }
