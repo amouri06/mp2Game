@@ -94,6 +94,8 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         return health.isOn();
     }
 
+    public boolean isElementImmune() { return isElementImmune; }
+
     /**
      * @param deltaTime elapsed time since last update, in seconds, non-negative
      */
@@ -265,7 +267,6 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
         @Override
         public void interactWith(Heart heart, boolean isCellInteraction) {
-
             heart.collect();
             health.increase(1);
         }

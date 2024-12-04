@@ -75,8 +75,16 @@ public final class OrbWay extends ICoopArea {
         registerActor(new Heart(this, Orientation.DOWN, new DiscreteCoordinates(10,11)));
 
         registerActor(new Orb(this, new DiscreteCoordinates(17,12), ElementalEntity.Element.FEU));
-
         registerActor(new Orb(this, new DiscreteCoordinates(17,6), ElementalEntity.Element.EAU));
+
+        for (int i = 0; i < 5; ++i) {
+            registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(12, 10 + i), ElementalEntity.Element.FEU, Logic.TRUE, "fire_wall" ));
+        }
+
+        for (int i = 0; i < 5; ++i) {
+            registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(12, 4 + i), ElementalEntity.Element.EAU, Logic.TRUE, "water_wall" ));
+        }
+
     }
 
 }

@@ -1,13 +1,18 @@
 package ch.epfl.cs107.icoop.actor;
 
+import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
 import ch.epfl.cs107.play.areagame.actor.AreaEntity;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.actor.Interactor;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.engine.actor.RPGSprite;
+import ch.epfl.cs107.play.engine.actor.Sprite;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
+import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.signal.logic.Logic;
+import ch.epfl.cs107.play.window.Canvas;
 
 import java.util.List;
 
@@ -16,35 +21,40 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
 
     private final Element element;
     private Logic logic;
-    private final String spriteName;
+    private final Sprite[] wallSprites;
 
     public ElementalWall(Area owner, Orientation orientation, DiscreteCoordinates mainCellPosition, Element element, Logic logic, String spriteName) {
         super(owner, orientation, mainCellPosition);
         this.element = element;
         this.logic = logic;
-        this.spriteName = spriteName;
+        wallSprites = RPGSprite.extractSprites(spriteName, 4, 1, 1, this , Vector.ZERO , 256 , 256);
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        wallSprites[getOrientation().ordinal()].draw(canvas);
     }
 
     ///Implements ElementalEntity
     @Override
     public Element element() {
-        return null;
+        return element;
     }
 
     ///Implements Interactor
     @Override
     public List<DiscreteCoordinates> getCurrentCells() {
-        return List.of();
+        return List.of(getCurrentMainCellCoordinates());
     }
 
     @Override
     public List<DiscreteCoordinates> getFieldOfViewCells() {
-        return List.of();
+        return List.of(getCurrentMainCellCoordinates());
     }
 
     @Override
     public boolean wantsCellInteraction() {
-        return false;
+        return true;
     }
 
     @Override
@@ -54,9 +64,10 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
 
     @Override
     public void interactWith(Interactable other, boolean isCellInteraction) {
-
+        other.acceptInteraction(new ElementalWallInteractionHandler(), isCellInteraction);
     }
 
+    ///Implements Interactable
     @Override
     public boolean takeCellSpace() {
         return false;
@@ -64,7 +75,7 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
 
     @Override
     public boolean isCellInteractable() {
-        return false;
+        return true;
     }
 
     @Override
@@ -74,7 +85,7 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
 
     @Override
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
-
+        ((ICoopInteractionVisitor)v).interactWith(this, isCellInteraction );
     }
 
     @Override
@@ -85,5 +96,15 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
     @Override
     public void onEntering(List<DiscreteCoordinates> coordinates) {
 
+    }
+
+    private class ElementalWallInteractionHandler implements ICoopInteractionVisitor {
+
+        @Override
+        public void interactWith(ICoopPlayer player, boolean isCellInteraction) {
+            if (!player.isElementImmune()) {
+                player.decreaseHealth(1);
+            }
+        }
     }
 }
