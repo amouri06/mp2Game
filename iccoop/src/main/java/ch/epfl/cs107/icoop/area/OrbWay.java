@@ -65,6 +65,9 @@ public final class OrbWay extends ICoopArea {
         registerActor(new Door("Spawn", Logic.TRUE, door1ArrivalCoords, this, new DiscreteCoordinates( 0,8), door2OtherCoords));
 
         registerActor(new Heart(this, Orientation.DOWN, new DiscreteCoordinates(8,4)));
+        registerActor(new Heart(this, Orientation.DOWN, new DiscreteCoordinates(10,6)));
+        registerActor(new Heart(this, Orientation.DOWN, new DiscreteCoordinates(5,13)));
+        registerActor(new Heart(this, Orientation.DOWN, new DiscreteCoordinates(10,11)));
 
         registerActor(new Orb(this, new DiscreteCoordinates(17,12), ElementalEntity.Element.FEU));
 

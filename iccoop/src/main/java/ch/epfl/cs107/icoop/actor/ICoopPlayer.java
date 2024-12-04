@@ -42,6 +42,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private boolean isElementImmune;
     private ArrayList<ICoopCellCollectable> collected;
 
+
     /**
      * Default ICoopPlayer constructor
      *
@@ -254,12 +255,14 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
         @Override
         public void interactWith(Orb orb, boolean isCellInteraction) {
-            interactWith(orb, isCellInteraction);
+            if (isCellInteraction) {
+                interactWith((ElementalItem) orb, true);
+                isElementImmune = true;
+            }
         }
 
         @Override
         public void interactWith(Heart heart, boolean isCellInteraction) {
-            System.out.println(1);
             heart.collect();
             health.increase(1);
         }
