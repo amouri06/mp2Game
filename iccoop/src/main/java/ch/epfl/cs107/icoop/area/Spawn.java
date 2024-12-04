@@ -12,6 +12,8 @@ import ch.epfl.cs107.play.signal.logic.Logic;
 import java.util.ArrayList;
 
 public final class Spawn extends ICoopArea {
+
+
     /**
      *
      * @return red player's spawn coordinates in this area

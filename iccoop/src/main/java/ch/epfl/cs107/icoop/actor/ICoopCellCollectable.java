@@ -13,6 +13,7 @@ import java.util.List;
 
 public abstract class ICoopCellCollectable extends CollectableAreaEntity {
 
+
     public ICoopCellCollectable(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
     }
