@@ -87,7 +87,6 @@ public class ICoop extends AreaGame implements DialogHandler {
                 initArea(areas[areaIndex]);
             }
             if (firePlayer.getIsLeavingAreaDoor() != null) {
-                System.out.println("maybe");
                 switchArea(firePlayer.getIsLeavingAreaDoor());
             }
             if (waterPlayer.getIsLeavingAreaDoor() != null) {

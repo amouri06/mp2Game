@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public final class Spawn extends ICoopArea {
 
     private DialogHandler dialogHandler;
+    private boolean firstCall = true;
 
     public Spawn(DialogHandler dialogHandler) {
         this.dialogHandler = dialogHandler;
@@ -23,6 +24,15 @@ public final class Spawn extends ICoopArea {
 
     public void dialogCompleted() {
         dialogHandler.publish(null);
+    }
+
+    @Override
+    public void update(float deltaTime) {
+        if (firstCall) {
+            dialogHandler.publish(new Dialog("welcome"));
+            firstCall = false;
+        }
+        super.update(deltaTime);
     }
 
     /**
@@ -59,7 +69,6 @@ public final class Spawn extends ICoopArea {
     protected void createArea() {
         registerActor(new Background(this));
         registerActor(new Foreground(this));
-        dialogHandler.publish(new Dialog("welcome"));
 
         ArrayList<DiscreteCoordinates> door1ArrivalCoords = new ArrayList<DiscreteCoordinates>();
         door1ArrivalCoords.add(new DiscreteCoordinates(1,12));
