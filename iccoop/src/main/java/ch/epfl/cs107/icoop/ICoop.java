@@ -27,13 +27,14 @@ public class ICoop extends AreaGame implements DialogHandler {
     private ICoopPlayer waterPlayer;
     private Dialog dialog = null;
 
+
     /**
      * Add all the Tuto2 areas
      */
     private void createAreas() {
         addArea(new Spawn(this));
-        addArea(new OrbWay());
-        addArea(new Maze());
+        addArea(new OrbWay(this));
+        addArea(new Maze(this));
     }
 
     @Override
@@ -103,7 +104,6 @@ public class ICoop extends AreaGame implements DialogHandler {
                 }
             }
             else {
-                ((ICoopArea) getCurrentArea()).dialogCompleted();
                 getCurrentArea().requestResume();
             }
         }

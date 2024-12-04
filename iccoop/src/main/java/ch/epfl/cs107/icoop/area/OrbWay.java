@@ -1,6 +1,7 @@
 package ch.epfl.cs107.icoop.area;
 
 import ch.epfl.cs107.icoop.actor.*;
+import ch.epfl.cs107.icoop.handler.DialogHandler;
 import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -12,6 +13,9 @@ import java.util.ArrayList;
 
 public final class OrbWay extends ICoopArea {
 
+    public OrbWay(DialogHandler dialogHandler) {
+        super(dialogHandler);
+    }
 
     /**
      *

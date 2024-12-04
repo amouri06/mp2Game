@@ -15,21 +15,17 @@ import java.util.ArrayList;
 
 public final class Spawn extends ICoopArea {
 
-    private DialogHandler dialogHandler;
+
     private boolean firstCall = true;
 
     public Spawn(DialogHandler dialogHandler) {
-        this.dialogHandler = dialogHandler;
-    }
-
-    public void dialogCompleted() {
-        dialogHandler.publish(null);
+        super(dialogHandler);
     }
 
     @Override
     public void update(float deltaTime) {
         if (firstCall) {
-            dialogHandler.publish(new Dialog("welcome"));
+            publish("welcome");
             firstCall = false;
         }
         super.update(deltaTime);

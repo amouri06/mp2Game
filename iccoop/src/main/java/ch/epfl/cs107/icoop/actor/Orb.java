@@ -39,6 +39,10 @@ public class Orb extends ElementalItem implements Interactable {
 
     }
 
+    public String getMessage() {
+        return orbType.dialog;
+    }
+
 
     public Orb(Area area, DiscreteCoordinates position, Element element) {
         super(area, Orientation.UP, position, element);

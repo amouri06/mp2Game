@@ -1,6 +1,7 @@
 package ch.epfl.cs107.icoop.actor;
 
 import ch.epfl.cs107.icoop.KeyBindings;
+import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.actor.Interactor;
@@ -258,6 +259,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
             if (isCellInteraction) {
                 interactWith((ElementalItem) orb, true);
                 isElementImmune = true;
+                ((ICoopArea) getOwnerArea()).publish(orb.getMessage());
             }
         }
 
