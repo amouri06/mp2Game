@@ -9,7 +9,9 @@ import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.icoop.area.Maze;
 import ch.epfl.cs107.icoop.area.OrbWay;
 import ch.epfl.cs107.icoop.area.Spawn;
+import ch.epfl.cs107.icoop.handler.DialogHandler;
 import ch.epfl.cs107.play.areagame.AreaGame;
+import ch.epfl.cs107.play.engine.actor.Dialog;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
@@ -17,20 +19,30 @@ import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
 
-public class ICoop extends AreaGame {
+public class ICoop extends AreaGame implements DialogHandler {
 
     private final String[] areas = {"Spawn", "OrbWay", "Maze"};
     private int areaIndex;
     private ICoopPlayer firePlayer;
     private ICoopPlayer waterPlayer;
+    private Dialog dialog = null;
 
     /**
      * Add all the Tuto2 areas
      */
     private void createAreas() {
-        addArea(new Spawn());
+        addArea(new Spawn(this));
         addArea(new OrbWay());
         addArea(new Maze());
+    }
+
+    @Override
+    public void publish(Dialog dialog) {
+        this.dialog = dialog;
+    }
+
+    public void setActiveDialog(String path) {
+        this.dialog = new Dialog(path);
     }
 
     /**
@@ -66,20 +78,34 @@ public class ICoop extends AreaGame {
     @Override
     public void update(float deltaTime) {
         Keyboard keyboard = getCurrentArea().getKeyboard();
-        if (keyboard.get(KeyBindings.RESET_GAME).isDown()) {
-            begin(getWindow(), getFileSystem());
+        if (!getCurrentArea().isPaused()) {
+            if (keyboard.get(KeyBindings.RESET_GAME).isDown()) {
+                begin(getWindow(), getFileSystem());
+            }
+            if (keyboard.get(KeyBindings.RESET_AREA).isDown() || !firePlayer.isAlive() || !waterPlayer.isAlive()) {
+                initArea(areas[areaIndex]);
+            }
+            if (firePlayer.getIsLeavingAreaDoor() != null) {
+                System.out.println("maybe");
+                switchArea(firePlayer.getIsLeavingAreaDoor());
+            }
+            if (waterPlayer.getIsLeavingAreaDoor() != null) {
+                switchArea(waterPlayer.getIsLeavingAreaDoor());
+            }
+            super.update(deltaTime);
         }
-        if (keyboard.get(KeyBindings.RESET_AREA).isDown() || !firePlayer.isAlive() || !waterPlayer.isAlive()) {
-            initArea(areas[areaIndex]);
+        if (dialog != null) {
+            if (!dialog.isCompleted()) {
+                dialog.draw(getWindow());
+                getCurrentArea().requestPause();
+                if (keyboard.get(KeyBindings.NEXT_DIALOG).isPressed()) {
+                    dialog.update(deltaTime);
+                }
+            }
+            else {
+                getCurrentArea().requestResume();
+            }
         }
-        if (firePlayer.getIsLeavingAreaDoor() != null) {
-            System.out.println("maybe");
-            switchArea(firePlayer.getIsLeavingAreaDoor());
-        }
-        if (waterPlayer.getIsLeavingAreaDoor() != null) {
-            switchArea(waterPlayer.getIsLeavingAreaDoor());
-        }
-        super.update(deltaTime);
     }
 
     @Override

@@ -3,7 +3,9 @@ package ch.epfl.cs107.icoop.area;
 import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.actor.Explosive;
 import ch.epfl.cs107.icoop.actor.Rock;
+import ch.epfl.cs107.icoop.handler.DialogHandler;
 import ch.epfl.cs107.play.engine.actor.Background;
+import ch.epfl.cs107.play.engine.actor.Dialog;
 import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
@@ -13,6 +15,11 @@ import java.util.ArrayList;
 
 public final class Spawn extends ICoopArea {
 
+    private DialogHandler dialogHandler;
+
+    public Spawn(DialogHandler dialogHandler) {
+        this.dialogHandler = dialogHandler;
+    }
 
     /**
      *
@@ -48,6 +55,7 @@ public final class Spawn extends ICoopArea {
     protected void createArea() {
         registerActor(new Background(this));
         registerActor(new Foreground(this));
+        dialogHandler.publish(new Dialog("welcome"));
 
         ArrayList<DiscreteCoordinates> door1ArrivalCoords = new ArrayList<DiscreteCoordinates>();
         door1ArrivalCoords.add(new DiscreteCoordinates(1,12));

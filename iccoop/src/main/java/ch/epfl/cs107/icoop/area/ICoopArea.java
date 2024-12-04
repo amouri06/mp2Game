@@ -9,7 +9,6 @@ import ch.epfl.cs107.play.window.Window;
 
 public abstract class ICoopArea extends Area {
 
-    DialogHandler dialogHandler;
     public final static float DEFAULT_SCALE_FACTOR = 13.f;
     private float cameraScaleFactor = DEFAULT_SCALE_FACTOR;
 
