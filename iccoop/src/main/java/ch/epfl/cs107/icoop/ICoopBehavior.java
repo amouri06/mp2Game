@@ -100,7 +100,7 @@ public final class ICoopBehavior extends AreaBehavior {
                 if (cellEntity.takeCellSpace()) {
                     return false;
                 }
-                if (cellEntity instanceof ElementalEntity && entity instanceof ElementalEntity && ((ElementalEntity) entity).element() != ((ElementalEntity) cellEntity).element()) {
+                if (cellEntity instanceof ElementalEntity && entity instanceof ElementalEntity && ((ElementalEntity) entity).element() != ((ElementalEntity) cellEntity).element()  && (((ElementalEntity) cellEntity).element() != null)) {
                     return false;
                 }
             }

@@ -32,13 +32,23 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
 
     @Override
     public void draw(Canvas canvas) {
-        wallSprites[getOrientation().ordinal()].draw(canvas);
+        if (logic.isOn()) {
+            wallSprites[getOrientation().ordinal()].draw(canvas);
+        }
+    }
+
+    public void turnOff(){
+        this.logic = Logic.FALSE;
     }
 
     ///Implements ElementalEntity
     @Override
     public Element element() {
-        return element;
+        if (logic.isOff()) {
+            return null;
+        } else {
+            return element;
+        }
     }
 
     ///Implements Interactor
@@ -80,7 +90,7 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
 
     @Override
     public boolean isViewInteractable() {
-        return false;
+        return true;
     }
 
     @Override
@@ -88,21 +98,11 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
         ((ICoopInteractionVisitor)v).interactWith(this, isCellInteraction );
     }
 
-    @Override
-    public void onLeaving(List<DiscreteCoordinates> coordinates) {
-
-    }
-
-    @Override
-    public void onEntering(List<DiscreteCoordinates> coordinates) {
-
-    }
-
     private class ElementalWallInteractionHandler implements ICoopInteractionVisitor {
 
         @Override
         public void interactWith(ICoopPlayer player, boolean isCellInteraction) {
-            if (!player.isElementImmune()) {
+            if (!player.isElementImmune() && logic.isOn()) {
                 player.decreaseHealth(1);
             }
         }

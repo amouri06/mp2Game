@@ -33,4 +33,6 @@ public interface ICoopInteractionVisitor extends AreaInteractionVisitor {
 
     default void interactWith(ElementalWall elementalWall, boolean isCellInteraction) {}
 
+    default void interactWith(PressurePlate pressurePlate, boolean isCellInteraction) {}
+
 }

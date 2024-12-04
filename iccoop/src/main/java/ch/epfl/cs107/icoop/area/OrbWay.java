@@ -10,6 +10,7 @@ import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.signal.logic.Logic;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public final class OrbWay extends ICoopArea {
 
@@ -77,13 +78,19 @@ public final class OrbWay extends ICoopArea {
         registerActor(new Orb(this, new DiscreteCoordinates(17,12), ElementalEntity.Element.FEU));
         registerActor(new Orb(this, new DiscreteCoordinates(17,6), ElementalEntity.Element.EAU));
 
+        List<DiscreteCoordinates> wallPositions = new ArrayList<DiscreteCoordinates>();
         for (int i = 0; i < 5; ++i) {
             registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(12, 10 + i), ElementalEntity.Element.FEU, Logic.TRUE, "fire_wall" ));
+            wallPositions.add(new DiscreteCoordinates(12, 10 + i));
         }
 
         for (int i = 0; i < 5; ++i) {
             registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(12, 4 + i), ElementalEntity.Element.EAU, Logic.TRUE, "water_wall" ));
         }
+
+        registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(7, 6), ElementalEntity.Element.FEU, Logic.TRUE, "fire_wall" ));
+        registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(7, 12), ElementalEntity.Element.EAU, Logic.TRUE, "water_wall" ));
+        registerActor(new PressurePlate(this, new DiscreteCoordinates(5, 7), wallPositions));
 
     }
 

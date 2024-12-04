@@ -30,7 +30,7 @@ import static ch.epfl.cs107.play.math.Orientation.*;
  */
 public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, Interactor {
 
-    private final static int MOVE_DURATION = 8;
+    private final static int MOVE_DURATION = 2;
     private final static int ANIMATION_DURATION = 4;
     private final static int MAX_LIFE = 5;
     private final Element element;
@@ -269,6 +269,11 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         public void interactWith(Heart heart, boolean isCellInteraction) {
             heart.collect();
             health.increase(1);
+        }
+
+        @Override
+        public void interactWith(PressurePlate pressurePlate, boolean isCellInteraction){
+            pressurePlate.onPressurePlate();
         }
     }
 

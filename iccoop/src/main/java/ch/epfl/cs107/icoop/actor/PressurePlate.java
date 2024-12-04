@@ -1,0 +1,107 @@
+package ch.epfl.cs107.icoop.actor;
+
+import ch.epfl.cs107.icoop.area.ICoopArea;
+import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
+import ch.epfl.cs107.play.areagame.actor.AreaEntity;
+import ch.epfl.cs107.play.areagame.actor.Interactable;
+import ch.epfl.cs107.play.areagame.actor.Interactor;
+import ch.epfl.cs107.play.areagame.area.Area;
+import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.engine.actor.RPGSprite;
+import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.math.Orientation;
+import ch.epfl.cs107.play.signal.logic.Logic;
+import ch.epfl.cs107.play.window.Canvas;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class PressurePlate extends AreaEntity implements Interactable, Logic, Interactor {
+
+    private final List<DiscreteCoordinates> fieldOfView;
+    private RPGSprite rpgSprite;
+    private boolean playerIsOn;
+
+    public PressurePlate(Area owner, DiscreteCoordinates mainCellPosition, List<DiscreteCoordinates> fieldOfView){
+        super(owner, Orientation.DOWN, mainCellPosition);
+        this.fieldOfView = fieldOfView;
+        rpgSprite = new RPGSprite("GroundPlateOff", 1.f, 1.f, this);
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        rpgSprite.draw(canvas);
+    }
+
+
+    public void onPressurePlate() {
+        playerIsOn = true;
+    }
+
+    ///Implements Interactable
+    @Override
+    public List<DiscreteCoordinates> getCurrentCells() {
+        return List.of(getCurrentMainCellCoordinates());
+    }
+
+    @Override
+    public boolean takeCellSpace() {
+        return false;
+    }
+
+    @Override
+    public boolean isCellInteractable() {
+        return true;
+    }
+
+    @Override
+    public boolean isViewInteractable() {
+        return false;
+    }
+
+    @Override
+    public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
+        ((ICoopInteractionVisitor)v).interactWith(this, isCellInteraction );
+    }
+
+    ///Implements Logic
+    @Override
+    public boolean isOn() {
+        return playerIsOn;
+    }
+
+    @Override
+    public boolean isOff() {
+        return !playerIsOn;
+    }
+
+    ///Implements Interactor
+    @Override
+    public List<DiscreteCoordinates> getFieldOfViewCells() {
+        return fieldOfView;
+    }
+
+    @Override
+    public boolean wantsCellInteraction() {
+        return false;
+    }
+
+    @Override
+    public boolean wantsViewInteraction() {
+        return isOn();
+    }
+
+    @Override
+    public void interactWith(Interactable other, boolean isCellInteraction) {
+        other.acceptInteraction(new PressurePlateInteractionHandler(), isCellInteraction);
+    }
+
+    private class PressurePlateInteractionHandler implements ICoopInteractionVisitor {
+
+        @Override
+        public void interactWith(ElementalWall elementalWall, boolean isCellInteraction) {
+            elementalWall.turnOff();
+        }
+
+    }
+}
