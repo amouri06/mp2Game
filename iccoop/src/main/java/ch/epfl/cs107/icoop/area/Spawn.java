@@ -21,6 +21,10 @@ public final class Spawn extends ICoopArea {
         this.dialogHandler = dialogHandler;
     }
 
+    public void dialogCompleted() {
+        dialogHandler.publish(null);
+    }
+
     /**
      *
      * @return red player's spawn coordinates in this area

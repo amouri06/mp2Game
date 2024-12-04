@@ -11,6 +11,8 @@ public abstract class ICoopArea extends Area {
     public final static float DEFAULT_SCALE_FACTOR = 13.f;
     private float cameraScaleFactor = DEFAULT_SCALE_FACTOR;
 
+    public void dialogCompleted() {}
+
     /**
      * @return the red player's spawn position in the area
      */

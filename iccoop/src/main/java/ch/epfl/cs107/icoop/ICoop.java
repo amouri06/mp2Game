@@ -65,6 +65,7 @@ public class ICoop extends AreaGame implements DialogHandler {
             waterPlayer = new ICoopPlayer(area, Orientation.DOWN, coordsBlue, ElementalEntity.Element.EAU, "icoop/player2", KeyBindings.BLUE_PLAYER_KEY_BINDINGS);
 
             initArea(areas[areaIndex]);
+
             return true;
         }
         return false;
@@ -103,6 +104,7 @@ public class ICoop extends AreaGame implements DialogHandler {
                 }
             }
             else {
+                ((ICoopArea) getCurrentArea()).dialogCompleted();
                 getCurrentArea().requestResume();
             }
         }
