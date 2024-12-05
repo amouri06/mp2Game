@@ -15,8 +15,12 @@ import ch.epfl.cs107.play.engine.actor.Dialog;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
+import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
+
+import static ch.epfl.cs107.icoop.area.ICoopArea.DEFAULT_SCALE_FACTOR;
+import static java.lang.Math.max;
 
 
 public class ICoop extends AreaGame implements DialogHandler {
@@ -26,6 +30,7 @@ public class ICoop extends AreaGame implements DialogHandler {
     private ICoopPlayer firePlayer;
     private ICoopPlayer waterPlayer;
     private Dialog dialog = null;
+    CenterOfMass cameraCenter;
 
 
     /**
@@ -67,6 +72,8 @@ public class ICoop extends AreaGame implements DialogHandler {
 
             initArea(areas[areaIndex]);
 
+            cameraCenter = new CenterOfMass(firePlayer, waterPlayer);
+
             return true;
         }
         return false;
@@ -79,6 +86,10 @@ public class ICoop extends AreaGame implements DialogHandler {
      */
     @Override
     public void update(float deltaTime) {
+
+        ((ICoopArea) getCurrentArea()).setCameraScaleFactor((float) max(DEFAULT_SCALE_FACTOR, DEFAULT_SCALE_FACTOR * 0.75 + (new Vector(firePlayer.getCurrentMainCellCoordinates().x, firePlayer.getCurrentMainCellCoordinates().y).sub(new Vector(waterPlayer.getCurrentMainCellCoordinates().x, waterPlayer.getCurrentMainCellCoordinates().y))).getLength()));
+        getCurrentArea().setViewCandidate(cameraCenter);
+
         Keyboard keyboard = getCurrentArea().getKeyboard();
         if (!getCurrentArea().isPaused()) {
             if (keyboard.get(KeyBindings.RESET_GAME).isDown()) {
@@ -133,9 +144,6 @@ public class ICoop extends AreaGame implements DialogHandler {
         DiscreteCoordinates coordsBlue = area.getBluePlayerSpawnPosition();
         waterPlayer.enterArea(area, coordsBlue);
         waterPlayer.restoreHealth();
-
-
-        CenterOfMass cameraCenter = new CenterOfMass(firePlayer, waterPlayer);
 
     }
 

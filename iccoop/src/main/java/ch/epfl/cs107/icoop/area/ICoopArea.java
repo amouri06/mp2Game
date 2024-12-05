@@ -10,7 +10,7 @@ import ch.epfl.cs107.play.window.Window;
 
 public abstract class ICoopArea extends Area {
 
-    public final static float DEFAULT_SCALE_FACTOR = 13.f;
+    public final static float DEFAULT_SCALE_FACTOR = 3.f;
     private float cameraScaleFactor = DEFAULT_SCALE_FACTOR;
     protected DialogHandler dialogHandler;
 
@@ -50,6 +50,14 @@ public abstract class ICoopArea extends Area {
     @Override
     public final float getCameraScaleFactor() {
         return cameraScaleFactor;
+    }
+
+    /**
+     * Setter for ICoop's camera scale factor
+     * @param cameraScaleFactor (float): new camera scale factor
+     */
+    public final void setCameraScaleFactor(float cameraScaleFactor) {
+        this.cameraScaleFactor = cameraScaleFactor;
     }
 
     /**
