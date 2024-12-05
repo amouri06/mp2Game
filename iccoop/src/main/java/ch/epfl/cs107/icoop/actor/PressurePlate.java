@@ -16,15 +16,13 @@ import ch.epfl.cs107.play.window.Canvas;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PressurePlate extends AreaEntity implements Interactable, Logic, Interactor {
+public class PressurePlate extends AreaEntity implements Interactable, Logic {
 
-    private final List<DiscreteCoordinates> fieldOfView;
     private RPGSprite rpgSprite;
     private int timer;
 
-    public PressurePlate(Area owner, DiscreteCoordinates mainCellPosition, List<DiscreteCoordinates> fieldOfView){
+    public PressurePlate(Area owner, DiscreteCoordinates mainCellPosition){
         super(owner, Orientation.DOWN, mainCellPosition);
-        this.fieldOfView = fieldOfView;
         rpgSprite = new RPGSprite("GroundPlateOff", 1.f, 1.f, this);
         timer = 0;
     }
@@ -76,44 +74,12 @@ public class PressurePlate extends AreaEntity implements Interactable, Logic, In
     ///Implements Logic
     @Override
     public boolean isOn() {
-        return !timerIsZero();
+        return timerIsZero();
     }
 
     @Override
     public boolean isOff() {
-        return timerIsZero();
+        return !timerIsZero();
     }
 
-    ///Implements Interactor
-    @Override
-    public List<DiscreteCoordinates> getFieldOfViewCells() {
-        return fieldOfView;
-    }
-
-    @Override
-    public boolean wantsCellInteraction() {
-        return false;
-    }
-
-    @Override
-    public boolean wantsViewInteraction() {
-        return isOn();
-    }
-
-    @Override
-    public void interactWith(Interactable other, boolean isCellInteraction) {
-        other.acceptInteraction(new PressurePlateInteractionHandler(), isCellInteraction);
-    }
-
-    private class PressurePlateInteractionHandler implements ICoopInteractionVisitor {
-
-        @Override
-        public void interactWith(ElementalWall elementalWall, boolean isCellInteraction) {
-            if (elementalWall.timerIsZero()) {
-                elementalWall.playerIsOn();
-            }
-            elementalWall.playerIsOn();
-        }
-
-    }
 }

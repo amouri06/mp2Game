@@ -33,21 +33,6 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
     }
 
     @Override
-    public void update(float deltaTime) {
-        timer = Math.max(0, timer - 1);
-        if (timerIsZero()) logic = Logic.TRUE;
-        else logic = Logic.FALSE;
-    }
-
-    public boolean timerIsZero() {
-        return timer == 0;
-    }
-
-    public void playerIsOn() {
-        timer += 1;
-    }
-
-    @Override
     public void draw(Canvas canvas) {
         if (logic.isOn()) {
             wallSprites[getOrientation().ordinal()].draw(canvas);
