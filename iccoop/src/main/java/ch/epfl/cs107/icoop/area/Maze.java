@@ -1,10 +1,11 @@
 package ch.epfl.cs107.icoop.area;
 
-import ch.epfl.cs107.icoop.actor.Door;
+import ch.epfl.cs107.icoop.actor.*;
 import ch.epfl.cs107.icoop.handler.DialogHandler;
 import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.signal.logic.Logic;
 
 import java.util.ArrayList;
@@ -50,5 +51,43 @@ public class Maze extends ICoopArea {
     protected void createArea() {
         registerActor(new Background(this));
         registerActor(new Foreground(this));
+
+        for (int i = 0; i < 2; ++i) {
+            registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(4, 35 + i), ElementalEntity.Element.EAU, Logic.TRUE, "water_wall"));
+        }
+
+        PressurePlate firstPressurePlate = new PressurePlate(this, new DiscreteCoordinates(6,33));
+        registerActor(firstPressurePlate);
+        for (int i = 0; i < 2; ++i) {
+            registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(6, 35 + i), ElementalEntity.Element.FEU, firstPressurePlate, "fire_wall"));
+        }
+
+        for (int i = 0; i < 2; ++i) {
+            registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(2 + i, 34), ElementalEntity.Element.FEU, Logic.TRUE, "fire_wall"));
+        }
+
+        registerActor(new Explosive(this, Orientation.LEFT, new DiscreteCoordinates(6, 25)));
+
+        for (int i = 0; i < 2; ++i) {
+            registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(5+i, 24), ElementalEntity.Element.EAU, Logic.TRUE, "water_wall"));
+        }
+
+        PressurePlate secondPressurePlate = new PressurePlate(this, new DiscreteCoordinates(9,25));
+        registerActor(secondPressurePlate);
+        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(8, 21), ElementalEntity.Element.FEU, secondPressurePlate, "fire_wall"));
+
+
+        registerActor(new Heart(this, Orientation.DOWN, new DiscreteCoordinates(15, 18)));
+        registerActor(new Heart(this, Orientation.DOWN, new DiscreteCoordinates(16, 19)));
+        registerActor(new Heart(this, Orientation.DOWN, new DiscreteCoordinates(14, 19)));
+        registerActor(new Heart(this, Orientation.DOWN, new DiscreteCoordinates(14, 17)));
+
+
+
+
+
+
+
+
     }
 }

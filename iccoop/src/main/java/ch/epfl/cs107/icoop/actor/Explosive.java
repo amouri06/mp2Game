@@ -121,6 +121,9 @@ public class Explosive extends ICoopCellCollectable implements Interactor, Inter
         public void interactWith(ICoopPlayer player, boolean isCellInteraction) {
             player.decreaseHealth(2);
         }
+
+        @Override
+        public void interactWith(ElementalWall elementalWall, boolean isCellInteraction) { getOwnerArea().unregisterActor(elementalWall); }
     }
 
 
