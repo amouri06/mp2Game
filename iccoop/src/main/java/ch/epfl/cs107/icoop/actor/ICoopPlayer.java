@@ -145,8 +145,9 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         if (keyboard.get(keys.useItem()).isPressed()) {
             switch(currentItem) {
                 case Explosive -> {
-                    if (getOwnerArea().canEnterAreaCells(this, getFieldOfViewCells())) {
-                        getOwnerArea().registerActor(new Explosive(getOwnerArea(), Orientation.DOWN, getFieldOfViewCells().getFirst()));
+                    Explosive explosive = new Explosive(getOwnerArea(), DOWN, getFieldOfViewCells().getFirst());
+                    if (getOwnerArea().canEnterAreaCells(explosive, getFieldOfViewCells())) {
+                        getOwnerArea().registerActor(explosive);
                         inventory.removePocketItem(ICoopItem.Explosive, 1);
                         if (!inventory.contains(ICoopItem.Explosive)) {
                             switchItem();
