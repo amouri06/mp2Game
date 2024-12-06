@@ -12,7 +12,7 @@ import ch.epfl.cs107.play.math.Orientation;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class Projectile extends MovableAreaEntity implements Interactor {
+public abstract class Projectile extends MovableAreaEntity implements Interactor, Unstoppable {
 
 
     private int speed;
@@ -39,6 +39,8 @@ public abstract class Projectile extends MovableAreaEntity implements Interactor
         }
     }
 
+    public abstract void stop();
+
     ///Implements Interactable
     @Override
     public List<DiscreteCoordinates> getCurrentCells() {
@@ -63,7 +65,7 @@ public abstract class Projectile extends MovableAreaEntity implements Interactor
     ///Implements Interactor
     @Override
     public List<DiscreteCoordinates> getFieldOfViewCells() {
-        return List.of();
+        return Collections.singletonList(getCurrentMainCellCoordinates());
     }
 
     @Override
@@ -76,8 +78,4 @@ public abstract class Projectile extends MovableAreaEntity implements Interactor
         return false;
     }
 
-    @Override
-    public void interactWith(Interactable other, boolean isCellInteraction) {
-
-    }
 }

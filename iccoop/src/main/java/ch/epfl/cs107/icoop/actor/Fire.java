@@ -1,4 +1,93 @@
 package ch.epfl.cs107.icoop.actor;
 
-public class Fire {
+import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
+import ch.epfl.cs107.play.areagame.actor.Interactable;
+import ch.epfl.cs107.play.areagame.area.Area;
+import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.engine.actor.Animation;
+import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.math.Orientation;
+import ch.epfl.cs107.play.window.Canvas;
+
+public class Fire extends Projectile implements ElementalEntity {
+
+    private Vulnerability vulnerability;
+    private Element element;
+    private Animation animation;
+    private int ANIMATION_DURATION = 12;
+
+
+    /**
+     * Default Fire constructor
+     *
+     * @param area          (Area): Owner area. Not null
+     * @param orientation   (Orientation): Initial orientation of the entity. Not null
+     * @param position      (Coordinate): Initial position of the entity. Not null
+     * @param MOVE_DURATION
+     * @param speed
+     * @param maxDistance
+     */
+    public Fire(Area area, Orientation orientation, DiscreteCoordinates position, int MOVE_DURATION, int speed, int maxDistance) {
+        super(area, orientation, position, MOVE_DURATION, speed, maxDistance);
+        vulnerability = Vulnerability.FIRE;
+        element = Element.FEU;
+        animation = new Animation("icoop/magicFireProjectile", 4, 1, 1, this, 32, 32, ANIMATION_DURATION/4, true)
+    }
+
+    @Override
+    public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
+        ((ICoopInteractionVisitor)v).interactWith(this, isCellInteraction);
+    }
+
+    @Override
+    public void interactWith(Interactable other, boolean isCellInteraction) {
+        other.acceptInteraction(new FireInteractionHandler(), isCellInteraction);
+    }
+
+    @Override
+    public Element element() {
+        return element;
+    }
+
+    public Vulnerability getVulnerability() {
+        return vulnerability;
+    }
+
+    public void stop() {
+        getOwnerArea().unregisterActor(this);
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        animation.draw(canvas);
+    }
+
+    @Override
+    public void update()
+
+    private class FireInteractionHandler implements ICoopInteractionVisitor {
+
+        @Override
+        public void interactWith(ICoopPlayer player, boolean isCellInteraction) {
+            if (player.element() == element && player.isElementImmune()) {
+                player.decreaseHealth(1);
+            }
+        }
+
+        @Override
+        public void interactWith(Explosive explosive, boolean isCellInteraction) {
+            explosive.activate();
+        }
+
+        @Override
+        public void interactWith(Foe foe, boolean isCellInteraction) {
+            for (Vulnerability vulnerability : foe.getVulnerabilityList()) {
+                if (vulnerability == getVulnerability()) {
+                    foe.decreaseHealth(1);
+                }
+            }
+        }
+
+
+    }
 }

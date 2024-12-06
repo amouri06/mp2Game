@@ -39,4 +39,6 @@ public interface ICoopInteractionVisitor extends AreaInteractionVisitor {
 
     default void interactWith(Foe foe, boolean isCellInteraction) {}
 
+    default void interactWith(Fire fire, boolean isCellInteraction) {}
+
 }

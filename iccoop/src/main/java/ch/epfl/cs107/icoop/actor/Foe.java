@@ -25,7 +25,7 @@ public abstract class Foe extends MovableAreaEntity implements Interactor, Inter
     private int immuneTimer;
     private OrientedAnimation orientedAnimation;
     private Animation deathAnimation;
-    private final Invulnerability[] invulnerabilityList;
+    private final Vulnerability[] vulnerabilityList;
 
     /**
      * Default Foe constructor
@@ -34,11 +34,11 @@ public abstract class Foe extends MovableAreaEntity implements Interactor, Inter
      * @param orientation (Orientation): Initial orientation of the entity. Not null
      * @param position    (Coordinate): Initial position of the entity. Not null
      */
-    public Foe(Area area, Orientation orientation, DiscreteCoordinates position, int hp, OrientedAnimation orientedAnimation, Interactor[] invulnerabilityList) {
+    public Foe(Area area, Orientation orientation, DiscreteCoordinates position, int hp, OrientedAnimation orientedAnimation, Vulnerability[] vulnerabilityList) {
         super(area, orientation, position);
         this.hp = hp;
         this.orientedAnimation = orientedAnimation;
-        this.invulnerabilityList = invulnerabilityList.clone();
+        this.vulnerabilityList = vulnerabilityList.clone();
         immuneTimer = 0;
         deathTimer = 24;
         deathAnimation = new Animation("icoop/vanish", 7, 2, 2, this, 32, 32, new Vector(-0.5f, 0f), ANIMATION_DURATION/7, false);
@@ -72,6 +72,10 @@ public abstract class Foe extends MovableAreaEntity implements Interactor, Inter
         } else {
             orientedAnimation.draw(canvas);
         }
+    }
+
+    public Vulnerability[] getVulnerabilityList() {
+        return vulnerabilityList.clone();
     }
 
     ///Implements Interactor
