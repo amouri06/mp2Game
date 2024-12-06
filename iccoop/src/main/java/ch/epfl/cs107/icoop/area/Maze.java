@@ -88,6 +88,13 @@ public class Maze extends ICoopArea {
         registerActor(new Staff(this, Orientation.DOWN, new DiscreteCoordinates(13,2), Staff.StaffType.FEU));
         registerActor(new Staff(this, Orientation.DOWN, new DiscreteCoordinates(8,2), Staff.StaffType.EAU));
 
-        registerActor(new HellSkull(this, Orientation.RIGHT, new DiscreteCoordinates(12, 33)));
+        for (int i = 0; i < 9; i += 2) {
+            registerActor(new HellSkull(this, Orientation.RIGHT, new DiscreteCoordinates(12, 25 + i), 38));
+        }
+
+        for (int i = 0; i < 7; i += 2) {
+            registerActor(new HellSkull(this, Orientation.RIGHT, new DiscreteCoordinates(10, 26 + i), 49));
+        }
+
     }
 }

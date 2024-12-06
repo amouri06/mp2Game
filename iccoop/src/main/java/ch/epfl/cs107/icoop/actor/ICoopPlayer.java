@@ -327,6 +327,15 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
             }
             pressurePlate.playerIsOn();
         }
+
+        @Override
+        public void interactWith(Staff staff, boolean isCellInteraction) {
+            switch(staff.getStaffType()) {
+                case FEU -> inventory.addPocketItem(ICoopItem.FireStaff, 1);
+                case EAU -> inventory.addPocketItem(ICoopItem.WaterStaff, 1);
+            }
+            interactWith((ElementalItem) staff, isCellInteraction);
+        }
     }
 
 

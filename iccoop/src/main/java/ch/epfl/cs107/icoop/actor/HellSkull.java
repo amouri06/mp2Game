@@ -20,6 +20,7 @@ public class HellSkull extends Foe {
     private final Orientation[] orders = new Orientation[]{Orientation.UP, Orientation.LEFT, Orientation.DOWN, Orientation.RIGHT};
     private float tempsLanceFlamme;
     private OrientedAnimation orientedAnimation;
+    private int projectileMaxDistance;
 
     /**
      * Default HellSkull constructor
@@ -28,9 +29,10 @@ public class HellSkull extends Foe {
      * @param orientation       (Orientation): Initial orientation of the entity. Not null
      * @param position          (Coordinate): Initial position of the entity. Not null
      */
-    public HellSkull(Area area, Orientation orientation, DiscreteCoordinates position) {
+    public HellSkull(Area area, Orientation orientation, DiscreteCoordinates position, int projectileMaxDistance) {
         super(area, orientation, position, MAX_LIFE, new Vulnerability[]{Vulnerability.PHYSIQUE, Vulnerability.WATER});
         tempsLanceFlamme = 0;
+        this.projectileMaxDistance = projectileMaxDistance;
         orientedAnimation = new OrientedAnimation("icoop/flameskull", ANIMATION_DURATION/3, this, new Vector(-0.5f, -0.5f), orders, 3, 2, 2, 32, 32, true);
     }
 
@@ -38,9 +40,10 @@ public class HellSkull extends Foe {
     public void update(float deltaTime) {
         if (tempsLanceFlamme <= 0) {
             tempsLanceFlamme = RandomGenerator.getInstance().nextFloat(.5f, 2.f);
-            getOwnerArea().registerActor(new Fire(getOwnerArea(), getOrientation(), getCurrentMainCellCoordinates().jump(getOrientation().toVector()), 40));
+            getOwnerArea().registerActor(new Fire(getOwnerArea(), getOrientation(), getCurrentMainCellCoordinates().jump(getOrientation().toVector()), projectileMaxDistance));
         }
-        tempsLanceFlamme -= .1f;
+        tempsLanceFlamme -= .05f;
+        orientedAnimation.update(deltaTime);
     }
 
     @Override

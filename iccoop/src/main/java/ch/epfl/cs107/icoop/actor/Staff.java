@@ -19,10 +19,11 @@ import java.util.List;
 public class Staff  extends ElementalItem implements Interactable {
     private final static int PROJECTILE_ANIMATION_DURATION =12;
     private final static int SPRITE_ANIMATION_DURATION =32;
-    ;
+
     private RPGSprite[] rpgSprite;
     private Animation projectileAnimation;
     private int currentSpriteIndex;
+    private StaffType staffType;
 
 
     public enum StaffType{
@@ -61,6 +62,7 @@ public class Staff  extends ElementalItem implements Interactable {
         this.projectileAnimation=new Animation ( staffType.getProjectileAnimationName() , 4, 1, 1, this , 32 , 32 ,
                 PROJECTILE_ANIMATION_DURATION /4 , true );
         currentSpriteIndex = 0;
+        this.staffType = staffType;
 
     }
 
@@ -68,6 +70,8 @@ public class Staff  extends ElementalItem implements Interactable {
     public List<DiscreteCoordinates> getCurrentCells() {
         return Collections.singletonList(getCurrentMainCellCoordinates());
     }
+
+    public StaffType getStaffType() { return staffType; }
 
     @Override
     public boolean takeCellSpace() {
