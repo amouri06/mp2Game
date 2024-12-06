@@ -20,7 +20,7 @@ public class Play {
 	public static final int WINDOW_WIDTH = 550;
 
 	/**
-	 * Main entry point.
+	 * Main entry point
 	 * @param args (Array of String): ignored
 	 */
 	public static void main(String[] args) {

@@ -32,7 +32,7 @@ import static ch.epfl.cs107.play.math.Orientation.*;
 /**
  * A ICoopPlayer is a player for the ICoop game.
  */
-public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, Interactor {
+public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, Interactor, Interactable {
 
     private final static int MOVE_DURATION = 8;
     private final static int ANIMATION_DURATION = 4;
