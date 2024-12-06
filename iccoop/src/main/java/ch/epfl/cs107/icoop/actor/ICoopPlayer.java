@@ -3,6 +3,8 @@ package ch.epfl.cs107.icoop.actor;
 import ch.epfl.cs107.icoop.KeyBindings;
 import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
+import ch.epfl.cs107.icoop.handler.ICoopInventory;
+import ch.epfl.cs107.icoop.handler.ICoopItem;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.actor.Interactor;
 import ch.epfl.cs107.play.areagame.actor.MovableAreaEntity;
@@ -41,7 +43,9 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private Health health;
     private int immuneTimer;
     private boolean isElementImmune;
-    private ArrayList<ICoopCellCollectable> collected;
+    private ICoopInventory inventory;
+    private ICoopItem currentItem;
+
 
 
     /**
@@ -59,11 +63,14 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         this.prefix = prefix;
         this.keys = keys;
         isLeavingAreaDoor = null;
-        collected = new ArrayList<ICoopCellCollectable>();
         Vector anchor = new Vector(0, 0);
         Orientation[] orders = {DOWN, RIGHT, UP, LEFT};
         sprite = new OrientedAnimation(prefix, ANIMATION_DURATION, this, anchor, orders, 4, 1, 2, 16, 32, true);
         health = new Health(this, Transform.I.translated(0, 1.75f), MAX_LIFE, true);
+        inventory = new ICoopInventory();
+        inventory.addPocketItem(ICoopItem.Sword, 1);
+        inventory.addPocketItem(ICoopItem.Explosive, 5);
+        currentItem = ICoopItem.Sword;
         resetMotion();
 
     }
@@ -95,6 +102,15 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     }
 
     public boolean isElementImmune() { return isElementImmune; }
+
+    public String getCurrentItemName() {
+        if (currentItem == null) {
+            return "";
+        }
+        return currentItem.getName();
+    }
+
+
 
     /**
      * @param deltaTime elapsed time since last update, in seconds, non-negative
@@ -240,8 +256,8 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         @Override
         public void interactWith(Explosive explosive, boolean isCellInteraction) {
             if (isCellInteraction) {
-                collected.add(explosive);
                 explosive.collect();
+                inventory.addPocketItem(ICoopItem.Explosive, 1);
             }
             else {
                 explosive.activate();
@@ -252,7 +268,6 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         public void interactWith(ElementalItem elementalItem, boolean isCellInteraction) {
             if (isCellInteraction && element == elementalItem.element()) {
                 elementalItem.collect();
-                collected.add(elementalItem);
             }
         }
 

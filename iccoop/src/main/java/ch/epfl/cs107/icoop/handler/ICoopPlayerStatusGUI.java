@@ -39,5 +39,8 @@ public class ICoopPlayerStatusGUI implements Graphics {
         //Draw selected gear
         ImageGraphics gearDisplay = new ImageGraphics(ResourcePath.getSprite("icoop/gearDisplay"), 1.5f, 1.5f, new RegionOfInterest(0, 0, 32, 32), anchor.add(new Vector(0, height - 1.75f)), 1, DEPTH);
         gearDisplay.draw(canvas);
+
+        ImageGraphics gear = new ImageGraphics(ResourcePath.getSprite(player.getCurrentItemName()), 0.5f, 0.5f, new RegionOfInterest(0, 0, 16, 16), anchor.add(new Vector(0.5f, height - 1.25f)), 1, DEPTH);
+        gear.draw(canvas);
     }
 }

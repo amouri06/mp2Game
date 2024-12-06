@@ -10,6 +10,7 @@ import ch.epfl.cs107.icoop.area.Maze;
 import ch.epfl.cs107.icoop.area.OrbWay;
 import ch.epfl.cs107.icoop.area.Spawn;
 import ch.epfl.cs107.icoop.handler.DialogHandler;
+import ch.epfl.cs107.icoop.handler.ICoopPlayerStatusGUI;
 import ch.epfl.cs107.play.areagame.AreaGame;
 import ch.epfl.cs107.play.engine.actor.Dialog;
 import ch.epfl.cs107.play.io.FileSystem;
@@ -28,7 +29,9 @@ public class ICoop extends AreaGame implements DialogHandler {
     private final String[] areas = {"Spawn", "OrbWay", "Maze"};
     private int areaIndex;
     private ICoopPlayer firePlayer;
+    private ICoopPlayerStatusGUI firePlayerStatusGUI;
     private ICoopPlayer waterPlayer;
+    private ICoopPlayerStatusGUI waterPlayerStatusGUI;
     private Dialog dialog = null;
     CenterOfMass cameraCenter;
 
@@ -66,9 +69,11 @@ public class ICoop extends AreaGame implements DialogHandler {
 
             DiscreteCoordinates coordsRed = area.getRedPlayerSpawnPosition();
             firePlayer = new ICoopPlayer(area, Orientation.DOWN, coordsRed, ElementalEntity.Element.FEU, "icoop/player", KeyBindings.RED_PLAYER_KEY_BINDINGS);
+            firePlayerStatusGUI = new ICoopPlayerStatusGUI(firePlayer, true);
 
             DiscreteCoordinates coordsBlue = area.getBluePlayerSpawnPosition();
             waterPlayer = new ICoopPlayer(area, Orientation.DOWN, coordsBlue, ElementalEntity.Element.EAU, "icoop/player2", KeyBindings.BLUE_PLAYER_KEY_BINDINGS);
+            waterPlayerStatusGUI = new ICoopPlayerStatusGUI(waterPlayer, false);
 
             initArea(areas[areaIndex]);
 
@@ -89,6 +94,10 @@ public class ICoop extends AreaGame implements DialogHandler {
 
         ((ICoopArea) getCurrentArea()).setCameraScaleFactor((float) max(DEFAULT_SCALE_FACTOR, DEFAULT_SCALE_FACTOR * 0.75 + (new Vector(firePlayer.getCurrentMainCellCoordinates().x, firePlayer.getCurrentMainCellCoordinates().y).sub(new Vector(waterPlayer.getCurrentMainCellCoordinates().x, waterPlayer.getCurrentMainCellCoordinates().y))).getLength()));
         getCurrentArea().setViewCandidate(cameraCenter);
+
+
+        firePlayerStatusGUI.draw(getWindow());
+        waterPlayerStatusGUI.draw(getWindow());
 
         Keyboard keyboard = getCurrentArea().getKeyboard();
         if (!getCurrentArea().isPaused()) {
