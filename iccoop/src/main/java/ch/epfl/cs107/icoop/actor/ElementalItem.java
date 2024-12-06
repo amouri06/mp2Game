@@ -7,7 +7,6 @@ import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.signal.logic.Logic;
 
 public abstract class ElementalItem extends ICoopCellCollectable implements ElementalEntity, Logic {
-
     private Element element;
 
     public ElementalItem(Area area, Orientation orientation, DiscreteCoordinates position, Element element) {

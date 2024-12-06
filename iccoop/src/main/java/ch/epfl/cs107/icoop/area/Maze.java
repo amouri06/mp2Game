@@ -85,5 +85,7 @@ public class Maze extends ICoopArea {
         registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(8, 4), ElementalEntity.Element.EAU, Logic.TRUE, "water_wall"));
         registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(13, 4), ElementalEntity.Element.FEU, Logic.TRUE, "fire_wall"));
 
+        registerActor(new Staff(this, Orientation.DOWN, new DiscreteCoordinates(13,2), Staff.StaffType.FEU));
+        registerActor(new Staff(this, Orientation.DOWN, new DiscreteCoordinates(8,2), Staff.StaffType.EAU));
     }
 }

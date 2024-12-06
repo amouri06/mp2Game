@@ -34,7 +34,7 @@ import static ch.epfl.cs107.play.math.Orientation.*;
  */
 public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, Interactor, Interactable {
 
-    private final static int MOVE_DURATION = 8;
+    private final static int MOVE_DURATION = 4;
     private final static int ANIMATION_DURATION = 4;
     private final static int MAX_LIFE = 5;
     private final Element element;
