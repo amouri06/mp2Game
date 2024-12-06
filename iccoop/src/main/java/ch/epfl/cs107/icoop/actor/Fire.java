@@ -31,7 +31,7 @@ public class Fire extends Projectile implements ElementalEntity {
         super(area, orientation, position, MOVE_DURATION, speed, maxDistance);
         vulnerability = Vulnerability.FIRE;
         element = Element.FEU;
-        animation = new Animation("icoop/magicFireProjectile", 4, 1, 1, this, 32, 32, ANIMATION_DURATION/4, true);
+        animation = new Animation("icoop/fire", 4, 1, 1, this, 32, 32, ANIMATION_DURATION/4, true);
     }
 
     @Override
@@ -63,7 +63,9 @@ public class Fire extends Projectile implements ElementalEntity {
     }
 
     @Override
-    public void update(float deltaTime) {}
+    public void update(float deltaTime) {
+        animation.update(deltaTime);
+    }
 
     private class FireInteractionHandler implements ICoopInteractionVisitor {
 
