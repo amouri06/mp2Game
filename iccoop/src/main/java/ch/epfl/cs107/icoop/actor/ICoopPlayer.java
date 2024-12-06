@@ -110,6 +110,10 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         return currentItem.getName();
     }
 
+    private void switchItem() {
+
+    }
+
 
 
     /**
