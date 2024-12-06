@@ -25,7 +25,7 @@ public abstract class Foe extends MovableAreaEntity implements Interactor, Inter
     private int immuneTimer;
     private OrientedAnimation orientedAnimation;
     private Animation deathAnimation;
-    private final Interactor[] invulnerabilityList;
+    private final Invulnerability[] invulnerabilityList;
 
     /**
      * Default Foe constructor

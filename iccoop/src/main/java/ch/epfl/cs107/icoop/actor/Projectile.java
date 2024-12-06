@@ -1,0 +1,83 @@
+package ch.epfl.cs107.icoop.actor;
+
+import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
+import ch.epfl.cs107.play.areagame.actor.Interactable;
+import ch.epfl.cs107.play.areagame.actor.Interactor;
+import ch.epfl.cs107.play.areagame.actor.MovableAreaEntity;
+import ch.epfl.cs107.play.areagame.area.Area;
+import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.math.Orientation;
+
+import java.util.Collections;
+import java.util.List;
+
+public abstract class Projectile extends MovableAreaEntity implements Interactor {
+
+
+    private int speed;
+    private int MOVE_DURATION;
+    private int maxDistance;
+    /**
+     * Default Projectile constructor
+     *
+     * @param area        (Area): Owner area. Not null
+     * @param orientation (Orientation): Initial orientation of the entity. Not null
+     * @param position    (Coordinate): Initial position of the entity. Not null
+     */
+    public Projectile(Area area, Orientation orientation, DiscreteCoordinates position, int MOVE_DURATION, int speed, int maxDistance) {
+        super(area, orientation, position);
+        this.MOVE_DURATION = MOVE_DURATION;
+        this.speed = speed;
+        this.maxDistance = maxDistance;
+    }
+
+    public void update(float deltaTime) {
+        if (maxDistance >= 0) {
+            move(MOVE_DURATION/speed);
+            maxDistance -= 1;
+        }
+    }
+
+    ///Implements Interactable
+    @Override
+    public List<DiscreteCoordinates> getCurrentCells() {
+        return Collections.singletonList(getCurrentMainCellCoordinates());
+    }
+
+    @Override
+    public boolean takeCellSpace() {
+        return false;
+    }
+
+    @Override
+    public boolean isCellInteractable() {
+        return false;
+    }
+
+    @Override
+    public boolean isViewInteractable() {
+        return false;
+    }
+
+    ///Implements Interactor
+    @Override
+    public List<DiscreteCoordinates> getFieldOfViewCells() {
+        return List.of();
+    }
+
+    @Override
+    public boolean wantsCellInteraction() {
+        return false;
+    }
+
+    @Override
+    public boolean wantsViewInteraction() {
+        return false;
+    }
+
+    @Override
+    public void interactWith(Interactable other, boolean isCellInteraction) {
+
+    }
+}
