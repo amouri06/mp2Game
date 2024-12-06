@@ -10,6 +10,7 @@ import ch.epfl.cs107.play.areagame.actor.Interactor;
 import ch.epfl.cs107.play.areagame.actor.MovableAreaEntity;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.engine.actor.Actor;
 import ch.epfl.cs107.play.engine.actor.OrientedAnimation;
 import ch.epfl.cs107.play.engine.actor.Sprite;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -22,6 +23,7 @@ import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -44,7 +46,9 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private int immuneTimer;
     private boolean isElementImmune;
     private ICoopInventory inventory;
+    private final ICoopItem[] items;
     private ICoopItem currentItem;
+    private int currentItemIndex;
 
 
 
@@ -70,7 +74,9 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         inventory = new ICoopInventory();
         inventory.addPocketItem(ICoopItem.Sword, 1);
         inventory.addPocketItem(ICoopItem.Explosive, 5);
+        items = ICoopItem.values();
         currentItem = ICoopItem.Sword;
+        currentItemIndex = 0;
         resetMotion();
 
     }
@@ -110,11 +116,16 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         return currentItem.getName();
     }
 
-    private void switchItem() {
-
+    public void switchItem() {
+        boolean switched = false;
+        for (int i = 1; i < items.length; ++i) {
+            if (!switched && inventory.contains(items[(currentItemIndex + i) % items.length])) {
+                currentItemIndex = (currentItemIndex + i) % items.length;
+                currentItem = items[currentItemIndex];
+                switched = true;
+            }
+        }
     }
-
-
 
     /**
      * @param deltaTime elapsed time since last update, in seconds, non-negative
@@ -126,6 +137,24 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         moveIfPressed(UP, keyboard.get(keys.up()));
         moveIfPressed(RIGHT, keyboard.get(keys.right()));
         moveIfPressed(DOWN, keyboard.get(keys.down()));
+
+        if (keyboard.get(keys.switchItem()).isPressed()) {
+            switchItem();
+        }
+
+        if (keyboard.get(keys.useItem()).isPressed()) {
+            switch(currentItem) {
+                case Explosive -> {
+                    if (getOwnerArea().canEnterAreaCells(this, getFieldOfViewCells())) {
+                        getOwnerArea().registerActor(new Explosive(getOwnerArea(), Orientation.DOWN, getFieldOfViewCells().getFirst()));
+                        inventory.removePocketItem(ICoopItem.Explosive, 1);
+                        if (!inventory.contains(ICoopItem.Explosive)) {
+                            switchItem();
+                        }
+                    }
+                }
+            }
+        }
 
         if (isDisplacementOccurs()) {
             sprite.update(deltaTime);
