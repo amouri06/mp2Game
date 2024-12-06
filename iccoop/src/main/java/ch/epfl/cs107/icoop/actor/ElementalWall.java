@@ -22,14 +22,12 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
     private final Element element;
     private Logic logic;
     private final Sprite[] wallSprites;
-    private int timer;
 
     public ElementalWall(Area owner, Orientation orientation, DiscreteCoordinates mainCellPosition, Element element, Logic logic, String spriteName) {
         super(owner, orientation, mainCellPosition);
         this.element = element;
         this.logic = logic;
         wallSprites = RPGSprite.extractSprites(spriteName, 4, 1, 1, this , Vector.ZERO , 256 , 256);
-        timer = 0;
     }
 
     @Override

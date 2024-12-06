@@ -37,6 +37,7 @@ public abstract class Projectile extends MovableAreaEntity implements Interactor
             move(MOVE_DURATION/speed);
             maxDistance -= 1;
         }
+        move(24);
     }
 
     public abstract void stop();
