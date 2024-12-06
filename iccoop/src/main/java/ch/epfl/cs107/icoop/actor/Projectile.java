@@ -37,10 +37,15 @@ public abstract class Projectile extends MovableAreaEntity implements Interactor
             move(MOVE_DURATION/speed);
             maxDistance -= 1;
         }
-        move(24);
+        super.update(deltaTime);
+        if (maxDistance == 0) {
+            stop();
+        }
     }
 
-    public abstract void stop();
+    protected void stop() {
+        getOwnerArea().unregisterActor(this);
+    }
 
     ///Implements Interactable
     @Override
@@ -71,7 +76,7 @@ public abstract class Projectile extends MovableAreaEntity implements Interactor
 
     @Override
     public boolean wantsCellInteraction() {
-        return false;
+        return maxDistance != 0;
     }
 
     @Override

@@ -89,8 +89,6 @@ public final class Spawn extends ICoopArea {
 
 
         registerActor(new Rock(this, Orientation.DOWN, new DiscreteCoordinates(10, 10)));
-
-        registerActor(new Fire(this, Orientation.RIGHT, new DiscreteCoordinates(8, 8), 2, 2, 50));
     }
 
 }

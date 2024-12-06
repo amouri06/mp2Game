@@ -14,7 +14,7 @@ public class Fire extends Projectile implements ElementalEntity {
     private Vulnerability vulnerability;
     private Element element;
     private Animation animation;
-    private int ANIMATION_DURATION = 12;
+    private final static int ANIMATION_DURATION = 12;
 
 
     /**
@@ -23,12 +23,10 @@ public class Fire extends Projectile implements ElementalEntity {
      * @param area          (Area): Owner area. Not null
      * @param orientation   (Orientation): Initial orientation of the entity. Not null
      * @param position      (Coordinate): Initial position of the entity. Not null
-     * @param MOVE_DURATION
-     * @param speed
      * @param maxDistance
      */
-    public Fire(Area area, Orientation orientation, DiscreteCoordinates position, int MOVE_DURATION, int speed, int maxDistance) {
-        super(area, orientation, position, MOVE_DURATION, speed, maxDistance);
+    public Fire(Area area, Orientation orientation, DiscreteCoordinates position, int maxDistance) {
+        super(area, orientation, position, ANIMATION_DURATION, 2, maxDistance);
         vulnerability = Vulnerability.FIRE;
         element = Element.FEU;
         animation = new Animation("icoop/fire", 4, 1, 1, this, 16, 32, ANIMATION_DURATION/4, true);
@@ -53,10 +51,6 @@ public class Fire extends Projectile implements ElementalEntity {
         return vulnerability;
     }
 
-    public void stop() {
-        getOwnerArea().unregisterActor(this);
-    }
-
     @Override
     public void draw(Canvas canvas) {
         animation.draw(canvas);
@@ -72,7 +66,7 @@ public class Fire extends Projectile implements ElementalEntity {
 
         @Override
         public void interactWith(ICoopPlayer player, boolean isCellInteraction) {
-            if (player.element() == element && player.isElementImmune()) {
+            if (!(player.element() == element && player.isElementImmune())) {
                 player.decreaseHealth(1);
             }
         }

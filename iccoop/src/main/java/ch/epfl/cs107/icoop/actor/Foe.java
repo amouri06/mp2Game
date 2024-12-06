@@ -18,12 +18,11 @@ import java.util.List;
 
 public abstract class Foe extends MovableAreaEntity implements Interactor, Interactable {
 
-    private int ANIMATION_DURATION = 24;
+    protected int ANIMATION_DURATION = 24;
     private final int IMMUNITY_DURATION = 24;
     private int deathTimer;
     private int hp;
     private int immuneTimer;
-    private OrientedAnimation orientedAnimation;
     private Animation deathAnimation;
     private final Vulnerability[] vulnerabilityList;
 
@@ -34,10 +33,9 @@ public abstract class Foe extends MovableAreaEntity implements Interactor, Inter
      * @param orientation (Orientation): Initial orientation of the entity. Not null
      * @param position    (Coordinate): Initial position of the entity. Not null
      */
-    public Foe(Area area, Orientation orientation, DiscreteCoordinates position, int hp, OrientedAnimation orientedAnimation, Vulnerability[] vulnerabilityList) {
+    public Foe(Area area, Orientation orientation, DiscreteCoordinates position, int hp, Vulnerability[] vulnerabilityList) {
         super(area, orientation, position);
         this.hp = hp;
-        this.orientedAnimation = orientedAnimation;
         this.vulnerabilityList = vulnerabilityList.clone();
         immuneTimer = 0;
         deathTimer = 24;
@@ -58,6 +56,10 @@ public abstract class Foe extends MovableAreaEntity implements Interactor, Inter
         }
     }
 
+    public boolean isAlive() {
+        return hp > 0;
+    }
+
     public void decreaseHealth(int amount) {
         if (immuneTimer == 0) {
             hp = Math.max(hp - amount, 0);
@@ -69,8 +71,6 @@ public abstract class Foe extends MovableAreaEntity implements Interactor, Inter
     public void draw(Canvas canvas) {
         if (hp == 0) {
             deathAnimation.draw(canvas);
-        } else {
-            orientedAnimation.draw(canvas);
         }
     }
 

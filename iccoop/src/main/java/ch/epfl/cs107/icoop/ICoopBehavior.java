@@ -105,7 +105,9 @@ public final class ICoopBehavior extends AreaBehavior {
                     return false;
                 }
                 if (cellEntity instanceof ElementalEntity && entity instanceof ElementalEntity && ((ElementalEntity) entity).element() != ((ElementalEntity) cellEntity).element()  && (((ElementalEntity) cellEntity).element() != null)) {
-                    return false;
+                    if (!(cellEntity instanceof Unstoppable)) {
+                        return false;
+                    }
                 }
             }
             return type.canWalk;
