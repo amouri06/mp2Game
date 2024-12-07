@@ -51,7 +51,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private ICoopInventory inventory;
     private final ICoopItem[] items;
     private ICoopItem currentItem;
-    private static final int PROJECTILE_MAX_DISTANCE= 30;
+    private final static int PROJECTILE_MAX_DISTANCE= 30;
     private int currentItemIndex;
     private int waterAnimationTimer;
     private int fireAnimationTimer;
