@@ -174,6 +174,9 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                     Boule boule = new Boule(getOwnerArea(), getOrientation(), getCurrentMainCellCoordinates(), 15, Boule.AttackType.EAU);
                     getOwnerArea().registerActor(boule);
                     }
+                case Sword -> {
+                    resetSwordAnimationTimer();
+                    }
                 }
             }
 
@@ -192,10 +195,16 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         if (fireAnimationTimer>0){
             fireAnimationTimer--;
         }
+        if (swordAnimationTimer>0){
+            swordAnimationTimer--;
+        }
 
         super.update(deltaTime);
     }
 
+    public void resetSwordAnimationTimer(){
+        swordAnimationTimer=8;
+    }
 
     public void resetWaterAnimationTimer(){
         waterAnimationTimer=8;
@@ -223,6 +232,12 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                 OrientedAnimation fireAttackAnimation = new OrientedAnimation ( "icoop/player.staff_fire" , STAFF_ANIMATION_DURATION , this ,
                         anchor , orders , 4, 2, 2, 32 , 32);
                 fireAttackAnimation.draw(canvas);
+            }else if (swordAnimationTimer>0){
+                final Vector anchor = new Vector ( -.5f , 0) ;
+                final Orientation [] orders = { DOWN , UP , RIGHT , LEFT };
+                OrientedAnimation swordAttackAnimation =  new OrientedAnimation ( prefix +".sword",  SWORD_ANIMATION_DURATION , this ,
+                        anchor , orders , 4, 2, 2, 32 , 32);
+                swordAttackAnimation.draw(canvas);
             }
             else{sprite.draw(canvas);}
         }
@@ -383,6 +398,13 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                 case EAU -> inventory.addPocketItem(ICoopItem.WaterStaff, 1);
             }
             interactWith((ElementalItem) staff, isCellInteraction);
+        }
+        @Override
+        public void interactWith(Foe foe, boolean isCellInteraction){
+            Keyboard keyboard = getOwnerArea().getKeyboard();
+            if (currentItem==ICoopItem.Sword&& keyboard.get(keys.useItem()).isPressed()&& !foe.Immune()){
+                foe.decreaseHealth(1);
+            }
         }
     }
 }
