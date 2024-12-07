@@ -83,19 +83,19 @@ public class Boule extends Projectile implements ElementalEntity {
             if (!foe.Immune()){
                 foe.decreaseHealth(1);
             }
-            getOwnerArea().unregisterActor(Boule.this);
+            stop();
         }
 
         @Override
         public void interactWith(Rock rock, boolean isCellInteraction) {
             getOwnerArea().unregisterActor(rock);
-            getOwnerArea().unregisterActor(Boule.this);
+            stop();
         }
 
         @Override
         public void interactWith(Explosive explosive, boolean isCellInteraction) {
             explosive.activate();
-            getOwnerArea().unregisterActor(Boule.this);
+            stop();
         }
     }
 }

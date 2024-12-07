@@ -57,9 +57,6 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private int itemAnimationTimer;
     private OrientedAnimation useItemAnimation;
 
-
-
-
     /**
      * Default ICoopPlayer constructor
      *
@@ -82,7 +79,6 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         inventory = new ICoopInventory();
         inventory.addPocketItem(ICoopItem.Sword, 1);
         inventory.addPocketItem(ICoopItem.Explosive, 5);
-        inventory.addPocketItem(ICoopItem.FireStaff, 1);
         items = ICoopItem.values();
         currentItem = ICoopItem.Sword;
         currentItemIndex = 0;
