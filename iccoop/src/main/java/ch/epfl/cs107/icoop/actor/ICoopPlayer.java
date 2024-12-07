@@ -37,6 +37,8 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
     private final static int MOVE_DURATION = 4;
     private final static int ANIMATION_DURATION = 4;
+    private final static int STAFF_ANIMATION_DURATION=2;
+    private final static int SWORD_ANIMATION_DURATION=2;
     private final static int MAX_LIFE = 5;
     private final Element element;
     private final String prefix;
@@ -50,6 +52,10 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private final ICoopItem[] items;
     private ICoopItem currentItem;
     private int currentItemIndex;
+    private int waterAnimationTimer;
+    private int fireAnimationTimer;
+    private int swordAnimationTimer;
+
 
 
 
@@ -75,6 +81,8 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         inventory = new ICoopInventory();
         inventory.addPocketItem(ICoopItem.Sword, 1);
         inventory.addPocketItem(ICoopItem.Explosive, 5);
+        inventory.addPocketItem(ICoopItem.WaterStaff, 1);
+        inventory.addPocketItem(ICoopItem.FireStaff, 1);
         items = ICoopItem.values();
         currentItem = ICoopItem.Sword;
         currentItemIndex = 0;
@@ -144,7 +152,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         }
 
         if (keyboard.get(keys.useItem()).isPressed()) {
-            switch(currentItem) {
+            switch (currentItem) {
                 case Explosive -> {
                     Explosive explosive = new Explosive(getOwnerArea(), DOWN, getFieldOfViewCells().getFirst());
                     if (getOwnerArea().canEnterAreaCells(explosive, getFieldOfViewCells())) {
@@ -154,16 +162,20 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                             switchItem();
                         }
                     }
-                }case WaterStaff -> {
-                    Boule boule =new Boule(getOwnerArea(), getOrientation(),getFieldOfViewCells().getFirst(),15, Boule.AttackType.EAU);
-                    getOwnerArea().registerActor(boule);
-                }case FireStaff -> {
-                    Boule boule =new Boule(getOwnerArea(), getOrientation(),getFieldOfViewCells().getFirst(),15, Boule.AttackType.FEU);
+                }
+                case FireStaff -> {
+                    resetFireAnimationTimer();
+                    Boule boule = new Boule(getOwnerArea(), getOrientation(), getCurrentMainCellCoordinates(), 15, Boule.AttackType.FEU);
                     getOwnerArea().registerActor(boule);
 
                 }
+                case WaterStaff -> {
+                    resetWaterAnimationTimer();
+                    Boule boule = new Boule(getOwnerArea(), getOrientation(), getCurrentMainCellCoordinates(), 15, Boule.AttackType.EAU);
+                    getOwnerArea().registerActor(boule);
+                    }
+                }
             }
-        }
 
         if (isDisplacementOccurs()) {
             sprite.update(deltaTime);
@@ -174,9 +186,24 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         if (immuneTimer > 0) {
             immuneTimer--;
         }
+        if (waterAnimationTimer > 0) {
+            waterAnimationTimer--;
+        }
+        if (fireAnimationTimer>0){
+            fireAnimationTimer--;
+        }
 
         super.update(deltaTime);
     }
+
+
+    public void resetWaterAnimationTimer(){
+        waterAnimationTimer=8;
+    }
+    public void resetFireAnimationTimer(){
+        fireAnimationTimer=8;
+    }
+
 
     /**
      * @param canvas target, not null
@@ -184,7 +211,20 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     @Override
     public void draw(Canvas canvas) {
         if (immuneTimer % 8 == 0) {
-            sprite.draw(canvas);
+            if (waterAnimationTimer>0){
+                final Vector anchor = new Vector(-.5f, -.20f);
+                final Orientation[] orders = {DOWN, UP, RIGHT, LEFT};
+                OrientedAnimation waterAttackAnimation = new OrientedAnimation("icoop/player2.staff_water", STAFF_ANIMATION_DURATION, this,
+                        anchor, orders, 4, 2, 2, 32, 32);
+                waterAttackAnimation.draw(canvas);
+            }else if (fireAnimationTimer>0){
+                final Vector anchor = new Vector ( -.5f , -.20f);
+                final Orientation [] orders = { DOWN , UP , RIGHT , LEFT };
+                OrientedAnimation fireAttackAnimation = new OrientedAnimation ( "icoop/player.staff_fire" , STAFF_ANIMATION_DURATION , this ,
+                        anchor , orders , 4, 2, 2, 32 , 32);
+                fireAttackAnimation.draw(canvas);
+            }
+            else{sprite.draw(canvas);}
         }
         health.draw(canvas);
     }
