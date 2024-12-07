@@ -78,6 +78,10 @@ public abstract class Foe extends MovableAreaEntity implements Interactor, Inter
         return vulnerabilityList.clone();
     }
 
+    public boolean Immune(){
+        return immuneTimer>0;
+    }
+
     ///Implements Interactor
     @Override
     public List<DiscreteCoordinates> getCurrentCells() {

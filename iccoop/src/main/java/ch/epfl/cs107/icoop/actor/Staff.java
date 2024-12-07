@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Staff  extends ElementalItem implements Interactable {
+
     private final static int PROJECTILE_ANIMATION_DURATION =12;
     private final static int SPRITE_ANIMATION_DURATION =32;
 
@@ -27,17 +28,16 @@ public class Staff  extends ElementalItem implements Interactable {
 
 
     public enum StaffType{
-        FEU("icoop/staff_fire","icoop/magicFireProjectile", Element.FEU),
-        EAU("icoop/staff_water","icoop/magicWaterProjectile", Element.EAU),;
+        FEU("icoop/staff_fire", Element.FEU),
+        EAU("icoop/staff_water", Element.EAU),;
 
         private Element element;
         private String spriteName;
-        private String projectileAnimationName;
 
-        private StaffType(String spriteName, String projectileSpriteName, Element element){
+
+        private StaffType(String spriteName, Element element){
             this.spriteName=spriteName;
             this.element=element;
-            this.projectileAnimationName=projectileSpriteName;
         }
 
         public Element getElement() {
@@ -46,9 +46,7 @@ public class Staff  extends ElementalItem implements Interactable {
         public String getSpriteName(){
             return spriteName;
         }
-        public String getProjectileAnimationName(){
-            return projectileAnimationName;
-        }
+
     }
 
 
@@ -59,8 +57,6 @@ public class Staff  extends ElementalItem implements Interactable {
             this.rpgSprite[i] = new RPGSprite(staffType.getSpriteName(), 2, 2, this, new RegionOfInterest(i *
                     32, 0, 32, 32), new Vector(-0.5f, 0));
         }
-        this.projectileAnimation=new Animation ( staffType.getProjectileAnimationName() , 4, 1, 1, this , 32 , 32 ,
-                PROJECTILE_ANIMATION_DURATION /4 , true );
         currentSpriteIndex = 0;
         this.staffType = staffType;
 

@@ -11,6 +11,7 @@ import ch.epfl.cs107.play.areagame.actor.MovableAreaEntity;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.engine.actor.Actor;
+import ch.epfl.cs107.play.engine.actor.Animation;
 import ch.epfl.cs107.play.engine.actor.OrientedAnimation;
 import ch.epfl.cs107.play.engine.actor.Sprite;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -153,6 +154,13 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                             switchItem();
                         }
                     }
+                }case WaterStaff -> {
+                    Boule boule =new Boule(getOwnerArea(), getOrientation(),getFieldOfViewCells().getFirst(),15, Boule.AttackType.EAU);
+                    getOwnerArea().registerActor(boule);
+                }case FireStaff -> {
+                    Boule boule =new Boule(getOwnerArea(), getOrientation(),getFieldOfViewCells().getFirst(),15, Boule.AttackType.FEU);
+                    getOwnerArea().registerActor(boule);
+
                 }
             }
         }
@@ -337,6 +345,4 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
             interactWith((ElementalItem) staff, isCellInteraction);
         }
     }
-
-
 }
