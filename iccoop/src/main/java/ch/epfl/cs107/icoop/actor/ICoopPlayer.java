@@ -51,6 +51,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private ICoopInventory inventory;
     private final ICoopItem[] items;
     private ICoopItem currentItem;
+    private static final int PROJECTILE_MAX_DISTANCE= 30;
     private int currentItemIndex;
     private int waterAnimationTimer;
     private int fireAnimationTimer;
@@ -164,13 +165,13 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                 }
                 case FireStaff -> {
                     resetFireAnimationTimer();
-                    Boule boule = new Boule(getOwnerArea(), getOrientation(), getCurrentMainCellCoordinates(), 15, Boule.AttackType.FEU);
+                    Boule boule = new Boule(getOwnerArea(), getOrientation(), getCurrentMainCellCoordinates(), PROJECTILE_MAX_DISTANCE, Boule.AttackType.FEU);
                     getOwnerArea().registerActor(boule);
 
                 }
                 case WaterStaff -> {
                     resetWaterAnimationTimer();
-                    Boule boule = new Boule(getOwnerArea(), getOrientation(), getCurrentMainCellCoordinates(), 15, Boule.AttackType.EAU);
+                    Boule boule = new Boule(getOwnerArea(), getOrientation(), getCurrentMainCellCoordinates(), PROJECTILE_MAX_DISTANCE, Boule.AttackType.EAU);
                     getOwnerArea().registerActor(boule);
                     }
                 case Sword -> {
