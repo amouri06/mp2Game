@@ -37,8 +37,8 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
     private final static int MOVE_DURATION = 4;
     private final static int ANIMATION_DURATION = 4;
-    private final static int STAFF_ANIMATION_DURATION=2;
-    private final static int SWORD_ANIMATION_DURATION=2;
+    private final static int STAFF_ANIMATION_DURATION = 2;
+    private final static int SWORD_ANIMATION_DURATION = 2;
     private final static int MAX_LIFE = 5;
     private final Element element;
     private final String prefix;
@@ -235,7 +235,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
             }else if (swordAnimationTimer>0){
                 final Vector anchor = new Vector ( -.5f , 0) ;
                 final Orientation [] orders = { DOWN , UP , RIGHT , LEFT };
-                OrientedAnimation swordAttackAnimation =  new OrientedAnimation ( prefix +".sword",  SWORD_ANIMATION_DURATION , this ,
+                OrientedAnimation swordAttackAnimation =  new OrientedAnimation ( prefix + ".sword",  SWORD_ANIMATION_DURATION , this ,
                         anchor , orders , 4, 2, 2, 32 , 32);
                 swordAttackAnimation.draw(canvas);
             }
