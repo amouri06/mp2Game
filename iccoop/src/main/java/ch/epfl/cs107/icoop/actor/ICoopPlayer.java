@@ -40,6 +40,8 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private final static int STAFF_ANIMATION_DURATION = 2;
     private final static int SWORD_ANIMATION_DURATION = 2;
     private final static int MAX_LIFE = 5;
+    private final static int PROJECTILE_MAX_DISTANCE= 20;
+    private final Orientation [] orders = { DOWN , UP , RIGHT , LEFT };
     private final Element element;
     private final String prefix;
     private final KeyBindings.PlayerKeyBindings keys;
@@ -51,11 +53,9 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private ICoopInventory inventory;
     private final ICoopItem[] items;
     private ICoopItem currentItem;
-    private final static int PROJECTILE_MAX_DISTANCE= 30;
     private int currentItemIndex;
-    private int waterAnimationTimer;
-    private int fireAnimationTimer;
-    private int swordAnimationTimer;
+    private int itemAnimationTimer;
+    private OrientedAnimation useItemAnimation;
 
 
 
@@ -164,18 +164,23 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                     }
                 }
                 case FireStaff -> {
-                    resetFireAnimationTimer();
-                    Boule boule = new Boule(getOwnerArea(), getOrientation(), getCurrentMainCellCoordinates(), PROJECTILE_MAX_DISTANCE, Boule.AttackType.FEU);
+                    resetItemAnimationTimer();
+                    Boule boule = new Boule(getOwnerArea(), getOrientation(), getFieldOfViewCells().getFirst(), PROJECTILE_MAX_DISTANCE, Boule.AttackType.FEU);
                     getOwnerArea().registerActor(boule);
-
+                    final Vector anchor = new Vector ( -.5f , -.20f);
+                    useItemAnimation =  new OrientedAnimation ( "icoop/player.staff_fire" , STAFF_ANIMATION_DURATION , this ,  anchor , orders , 4, 2, 2, 32 , 32);
                 }
                 case WaterStaff -> {
-                    resetWaterAnimationTimer();
-                    Boule boule = new Boule(getOwnerArea(), getOrientation(), getCurrentMainCellCoordinates(), PROJECTILE_MAX_DISTANCE, Boule.AttackType.EAU);
+                    resetItemAnimationTimer();
+                    Boule boule = new Boule(getOwnerArea(), getOrientation(), getFieldOfViewCells().getFirst(), PROJECTILE_MAX_DISTANCE, Boule.AttackType.EAU);
                     getOwnerArea().registerActor(boule);
-                    }
+                    final Vector anchor = new Vector(-.5f, -.20f);
+                    useItemAnimation = new OrientedAnimation("icoop/player2.staff_water", STAFF_ANIMATION_DURATION, this, anchor, orders, 4, 2, 2, 32, 32);
+                }
                 case Sword -> {
-                    resetSwordAnimationTimer();
+                    resetItemAnimationTimer();
+                    final Vector anchor = new Vector ( -.5f , 0) ;
+                    useItemAnimation =  new OrientedAnimation ( prefix + ".sword",  SWORD_ANIMATION_DURATION , this ,  anchor , orders , 4, 2, 2, 32 , 32);
                     }
                 }
             }
@@ -189,28 +194,16 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         if (immuneTimer > 0) {
             immuneTimer--;
         }
-        if (waterAnimationTimer > 0) {
-            waterAnimationTimer--;
-        }
-        if (fireAnimationTimer>0){
-            fireAnimationTimer--;
-        }
-        if (swordAnimationTimer>0){
-            swordAnimationTimer--;
+        if (itemAnimationTimer > 0) {
+            itemAnimationTimer--;
+            useItemAnimation.update(deltaTime);
         }
 
         super.update(deltaTime);
     }
 
-    public void resetSwordAnimationTimer(){
-        swordAnimationTimer=8;
-    }
-
-    public void resetWaterAnimationTimer(){
-        waterAnimationTimer=8;
-    }
-    public void resetFireAnimationTimer(){
-        fireAnimationTimer=8;
+    public void resetItemAnimationTimer(){
+        itemAnimationTimer=8;
     }
 
 
@@ -220,24 +213,8 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     @Override
     public void draw(Canvas canvas) {
         if (immuneTimer % 8 == 0) {
-            if (waterAnimationTimer>0){
-                final Vector anchor = new Vector(-.5f, -.20f);
-                final Orientation[] orders = {DOWN, UP, RIGHT, LEFT};
-                OrientedAnimation waterAttackAnimation = new OrientedAnimation("icoop/player2.staff_water", STAFF_ANIMATION_DURATION, this,
-                        anchor, orders, 4, 2, 2, 32, 32);
-                waterAttackAnimation.draw(canvas);
-            }else if (fireAnimationTimer>0){
-                final Vector anchor = new Vector ( -.5f , -.20f);
-                final Orientation [] orders = { DOWN , UP , RIGHT , LEFT };
-                OrientedAnimation fireAttackAnimation = new OrientedAnimation ( "icoop/player.staff_fire" , STAFF_ANIMATION_DURATION , this ,
-                        anchor , orders , 4, 2, 2, 32 , 32);
-                fireAttackAnimation.draw(canvas);
-            }else if (swordAnimationTimer>0){
-                final Vector anchor = new Vector ( -.5f , 0) ;
-                final Orientation [] orders = { DOWN , UP , RIGHT , LEFT };
-                OrientedAnimation swordAttackAnimation =  new OrientedAnimation ( prefix + ".sword",  SWORD_ANIMATION_DURATION , this ,
-                        anchor , orders , 4, 2, 2, 32 , 32);
-                swordAttackAnimation.draw(canvas);
+            if (itemAnimationTimer>0){
+                useItemAnimation.draw(canvas);
             }
             else{sprite.draw(canvas);}
         }
