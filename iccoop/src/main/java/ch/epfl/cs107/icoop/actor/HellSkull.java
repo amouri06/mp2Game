@@ -43,7 +43,10 @@ public class HellSkull extends Foe {
             getOwnerArea().registerActor(new Fire(getOwnerArea(), getOrientation(), getCurrentMainCellCoordinates().jump(getOrientation().toVector()), projectileMaxDistance));
         }
         tempsLanceFlamme -= .05f;
-        orientedAnimation.update(deltaTime);
+        if (isAlive()) {
+            orientedAnimation.update(deltaTime);
+        }
+        super.update(deltaTime);
     }
 
     @Override

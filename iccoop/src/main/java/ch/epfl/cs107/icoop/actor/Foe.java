@@ -44,7 +44,8 @@ public abstract class Foe extends MovableAreaEntity implements Interactor, Inter
 
     @Override
     public void update(float deltaTime) {
-        if (hp == 0) {
+        if (hp <= 0) {
+            System.out.println("hello");
             deathTimer--;
             deathAnimation.update(deltaTime);
         }
