@@ -81,6 +81,7 @@ public class Fire extends Projectile implements ElementalEntity {
             for (Vulnerability vulnerability : foe.getVulnerabilityList()) {
                 if (vulnerability == getVulnerability()) {
                     foe.decreaseHealth(1);
+                    getOwnerArea().unregisterActor(Fire.this);
                 }
             }
         }
