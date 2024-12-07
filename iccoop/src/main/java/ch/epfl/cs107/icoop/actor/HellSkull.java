@@ -75,7 +75,7 @@ public class HellSkull extends Foe {
 
     @Override
     public boolean isViewInteractable() {
-        return false;
+        return true;
     }
 
     ///Implements Interactor
