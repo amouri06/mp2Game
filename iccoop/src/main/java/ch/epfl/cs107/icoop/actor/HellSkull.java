@@ -98,7 +98,10 @@ public class HellSkull extends Foe {
 
         @Override
         public void interactWith(ICoopPlayer player, boolean isCellInteraction) {
-            player.decreaseHealth(1);
+
+            if (isAlive()) {
+                player.decreaseHealth(1);
+            }
         }
     }
 
