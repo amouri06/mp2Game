@@ -143,6 +143,13 @@ public class BombFoe extends Foe {
         super.draw(canvas);
     }
 
+    @Override
+    public void decreaseHealth(int amount, Vulnerability attackType) {
+        if (state != State.PROTECTING) {
+            super.decreaseHealth(amount, attackType);
+        }
+    }
+
 
 
     ///Implements Interactor
