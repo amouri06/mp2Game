@@ -5,10 +5,7 @@ import ch.epfl.cs107.icoop.actor.CenterOfMass;
 import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.actor.ElementalEntity;
 import ch.epfl.cs107.icoop.actor.ICoopPlayer;
-import ch.epfl.cs107.icoop.area.ICoopArea;
-import ch.epfl.cs107.icoop.area.Maze;
-import ch.epfl.cs107.icoop.area.OrbWay;
-import ch.epfl.cs107.icoop.area.Spawn;
+import ch.epfl.cs107.icoop.area.*;
 import ch.epfl.cs107.icoop.handler.DialogHandler;
 import ch.epfl.cs107.icoop.handler.ICoopPlayerStatusGUI;
 import ch.epfl.cs107.play.areagame.AreaGame;
@@ -26,7 +23,7 @@ import static java.lang.Math.max;
 
 public class ICoop extends AreaGame implements DialogHandler {
 
-    private final String[] areas = {"Spawn", "OrbWay", "Maze"};
+    private final String[] areas = {"Spawn", "OrbWay", "Maze", "Arena"};
     private int areaIndex;
     private ICoopPlayer firePlayer;
     private ICoopPlayerStatusGUI firePlayerStatusGUI;
@@ -43,6 +40,7 @@ public class ICoop extends AreaGame implements DialogHandler {
         addArea(new Spawn(this));
         addArea(new OrbWay(this));
         addArea(new Maze(this));
+        addArea(new Arena(this));
     }
 
     @Override
@@ -173,4 +171,5 @@ public class ICoop extends AreaGame implements DialogHandler {
             }
         }
     }
+
 }

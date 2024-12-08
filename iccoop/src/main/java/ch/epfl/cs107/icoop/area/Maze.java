@@ -9,6 +9,8 @@ import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.signal.logic.Logic;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Maze extends ICoopArea {
 
@@ -100,6 +102,14 @@ public class Maze extends ICoopArea {
         registerActor(new BombFoe(this, new DiscreteCoordinates(6, 17)));
         registerActor(new BombFoe(this, new DiscreteCoordinates(10, 17)));
         registerActor(new BombFoe(this, new DiscreteCoordinates(5, 14)));
+
+        List<DiscreteCoordinates> arrivalCoordinates = new ArrayList<DiscreteCoordinates>();
+        arrivalCoordinates.add(new DiscreteCoordinates(4,5));
+        arrivalCoordinates.add(new DiscreteCoordinates(14, 15));
+        registerActor(new Door("Arena", Logic.TRUE, arrivalCoordinates, this, new DiscreteCoordinates(19,6), Collections.singletonList(new DiscreteCoordinates(19,7))));
+
+        registerActor(new Rock(this, Orientation.DOWN, new DiscreteCoordinates(15, 6)));
+        registerActor(new Rock(this, Orientation.DOWN, new DiscreteCoordinates(15, 7)));
 
 
     }

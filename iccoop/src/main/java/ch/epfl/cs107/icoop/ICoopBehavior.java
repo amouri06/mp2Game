@@ -28,6 +28,10 @@ public final class ICoopBehavior extends AreaBehavior {
         }
     }
 
+    public ICoopCellType getType(int x, int y) {
+        return ((ICoopCell) getCell(x, y)).getType();
+    }
+
     /**
      * Types of cells adapted to the ICoop game
      */
@@ -104,8 +108,8 @@ public final class ICoopBehavior extends AreaBehavior {
                 if (cellEntity.takeCellSpace()) {
                     return false;
                 }
-                if (cellEntity instanceof ElementalEntity && entity instanceof ElementalEntity && ((ElementalEntity) entity).element() != ((ElementalEntity) cellEntity).element()  && (((ElementalEntity) cellEntity).element() != null)) {
-                    if (!(cellEntity instanceof Unstoppable)) {
+                if (!(cellEntity instanceof Unstoppable) && cellEntity instanceof ElementalEntity) {
+                    if (!(entity instanceof ElementalEntity) || ((((ElementalEntity) entity).element() != ((ElementalEntity) cellEntity).element()) && (((ElementalEntity) cellEntity).element()) != null)) {
                         return false;
                     }
                 }
@@ -126,6 +130,10 @@ public final class ICoopBehavior extends AreaBehavior {
         @Override
         public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
             ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
+        }
+
+        public ICoopCellType getType() {
+            return type;
         }
 
     }
