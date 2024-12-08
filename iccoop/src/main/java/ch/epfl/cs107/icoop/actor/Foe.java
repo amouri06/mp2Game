@@ -61,10 +61,12 @@ public abstract class Foe extends MovableAreaEntity implements Interactor, Inter
         return hp > 0;
     }
 
-    public void decreaseHealth(int amount) {
-        if (immuneTimer == 0) {
-            hp = Math.max(hp - amount, 0);
-            immuneTimer = IMMUNITY_DURATION;
+    public void decreaseHealth(int amount, Vulnerability attackType) {
+        for (Vulnerability vulnerability : vulnerabilityList) {
+            if (attackType == vulnerability && immuneTimer == 0) {
+                hp = Math.max(hp - amount, 0);
+                immuneTimer = IMMUNITY_DURATION;
+            }
         }
     }
 

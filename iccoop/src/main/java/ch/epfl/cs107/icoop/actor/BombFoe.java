@@ -57,7 +57,7 @@ public class BombFoe extends Foe {
      * @param position          (Coordinate): Initial position of the entity. Not null
      */
     public BombFoe(Area area, DiscreteCoordinates position) {
-        super(area, DOWN, position, MAX_LIFE, new Vulnerability[]{Vulnerability.PHYSIQUE, Vulnerability.FIRE});
+        super(area, RIGHT, position, MAX_LIFE, new Vulnerability[]{Vulnerability.PHYSIQUE, Vulnerability.FIRE});
         state = State.IDLE;
         inactionTime = 0;
         protectingTime = 0;

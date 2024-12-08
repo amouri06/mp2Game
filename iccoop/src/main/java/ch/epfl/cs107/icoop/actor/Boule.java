@@ -12,9 +12,9 @@ import ch.epfl.cs107.play.window.Canvas;
 public class Boule extends Projectile implements ElementalEntity {
     private AttackType attackType;
     private final static int ANIMATION_DURATION = 12;
-    public Animation animation;
-    public Element element;
-    public Vulnerability vulnerability;
+    private Animation animation;
+    private Element element;
+    private Vulnerability vulnerability;
 
 
     public enum AttackType{
@@ -80,9 +80,7 @@ public class Boule extends Projectile implements ElementalEntity {
     private class BouleInteractionHandler implements ICoopInteractionVisitor {
         @Override
         public void interactWith(Foe foe, boolean isCellInteraction) {
-            if (!foe.isImmune()){
-                foe.decreaseHealth(1);
-            }
+            foe.decreaseHealth(1, vulnerability);
             stop();
         }
 

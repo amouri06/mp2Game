@@ -78,12 +78,7 @@ public class Fire extends Projectile implements ElementalEntity {
 
         @Override
         public void interactWith(Foe foe, boolean isCellInteraction) {
-            for (Vulnerability vulnerability : foe.getVulnerabilityList()) {
-                if (vulnerability == getVulnerability()) {
-                    foe.decreaseHealth(1);
-                    getOwnerArea().unregisterActor(Fire.this);
-                }
-            }
+            foe.decreaseHealth(1, vulnerability);
         }
 
 
