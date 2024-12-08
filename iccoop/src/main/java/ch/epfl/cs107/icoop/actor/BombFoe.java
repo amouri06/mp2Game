@@ -146,7 +146,6 @@ public class BombFoe extends Foe {
 
 
     ///Implements Interactor
-
     @Override
     public boolean wantsViewInteraction() {
         return true;
