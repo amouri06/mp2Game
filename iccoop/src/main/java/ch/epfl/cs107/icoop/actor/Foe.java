@@ -54,6 +54,7 @@ public abstract class Foe extends MovableAreaEntity implements Interactor, Inter
         if (immuneTimer > 0) {
             immuneTimer--;
         }
+        super.update(deltaTime);
     }
 
     public boolean isAlive() {
@@ -67,9 +68,11 @@ public abstract class Foe extends MovableAreaEntity implements Interactor, Inter
         }
     }
 
+    protected int getImmuneTimer() { return immuneTimer; }
+
     @Override
     public void draw(Canvas canvas) {
-        if (hp == 0) {
+        if (hp <= 0) {
             deathAnimation.draw(canvas);
         }
     }
@@ -78,8 +81,8 @@ public abstract class Foe extends MovableAreaEntity implements Interactor, Inter
         return vulnerabilityList.clone();
     }
 
-    public boolean Immune(){
-        return immuneTimer>0;
+    public boolean isImmune(){
+        return immuneTimer > 0;
     }
 
     ///Implements Interactor

@@ -96,5 +96,11 @@ public class Maze extends ICoopArea {
             registerActor(new HellSkull(this, Orientation.RIGHT, new DiscreteCoordinates(10, 26 + i), 49));
         }
 
+        registerActor(new BombFoe(this, new DiscreteCoordinates(5, 15)));
+        registerActor(new BombFoe(this, new DiscreteCoordinates(6, 17)));
+        registerActor(new BombFoe(this, new DiscreteCoordinates(10, 17)));
+        registerActor(new BombFoe(this, new DiscreteCoordinates(5, 14)));
+
+
     }
 }

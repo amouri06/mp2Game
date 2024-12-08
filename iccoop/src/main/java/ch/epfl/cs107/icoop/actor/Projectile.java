@@ -32,6 +32,7 @@ public abstract class Projectile extends MovableAreaEntity implements Interactor
         this.maxDistance = maxDistance;
     }
 
+    @Override
     public void update(float deltaTime) {
         if (maxDistance >= 0) {
             move(MOVE_DURATION/speed);

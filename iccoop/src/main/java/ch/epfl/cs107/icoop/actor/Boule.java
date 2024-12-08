@@ -80,7 +80,7 @@ public class Boule extends Projectile implements ElementalEntity {
     private class BouleInteractionHandler implements ICoopInteractionVisitor {
         @Override
         public void interactWith(Foe foe, boolean isCellInteraction) {
-            if (!foe.Immune()){
+            if (!foe.isImmune()){
                 foe.decreaseHealth(1);
             }
             stop();
