@@ -1,5 +1,6 @@
 package ch.epfl.cs107.icoop.actor;
 
+import ch.epfl.cs107.icoop.ICoop;
 import ch.epfl.cs107.icoop.KeyBindings;
 import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
@@ -10,6 +11,7 @@ import ch.epfl.cs107.play.areagame.actor.Interactor;
 import ch.epfl.cs107.play.areagame.actor.MovableAreaEntity;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.areagame.handler.Inventory;
 import ch.epfl.cs107.play.engine.actor.Actor;
 import ch.epfl.cs107.play.engine.actor.Animation;
 import ch.epfl.cs107.play.engine.actor.OrientedAnimation;
@@ -202,6 +204,10 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
     public void resetItemAnimationTimer(){
         itemAnimationTimer=8;
+    }
+
+    public boolean inventoryContains(ICoopItem iCoopItem) {
+        return inventory.contains(iCoopItem);
     }
 
 

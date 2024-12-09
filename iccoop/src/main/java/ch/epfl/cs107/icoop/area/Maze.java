@@ -1,5 +1,6 @@
 package ch.epfl.cs107.icoop.area;
 
+import ch.epfl.cs107.icoop.ICoop;
 import ch.epfl.cs107.icoop.actor.*;
 import ch.epfl.cs107.icoop.handler.DialogHandler;
 import ch.epfl.cs107.play.engine.actor.Background;
@@ -7,6 +8,7 @@ import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.signal.logic.Logic;
+import ch.epfl.cs107.play.window.Image;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,8 +16,15 @@ import java.util.List;
 
 public class Maze extends ICoopArea {
 
+    private ICoop.AreaCompleteLogic areaCompleteLogic;
+
     public Maze(DialogHandler dialogHandler) {
         super(dialogHandler);
+    }
+
+    public Maze(DialogHandler dialogHandler, ICoop.AreaCompleteLogic areaCompleteLogic) {
+        this(dialogHandler);
+        this.areaCompleteLogic = areaCompleteLogic;
     }
     /**
      *
@@ -106,7 +115,7 @@ public class Maze extends ICoopArea {
         List<DiscreteCoordinates> arrivalCoordinates = new ArrayList<DiscreteCoordinates>();
         arrivalCoordinates.add(new DiscreteCoordinates(4,5));
         arrivalCoordinates.add(new DiscreteCoordinates(14, 15));
-        registerActor(new Door("Arena", Logic.TRUE, arrivalCoordinates, this, new DiscreteCoordinates(19,6), Collections.singletonList(new DiscreteCoordinates(19,7))));
+        registerActor(new Door("Arena", areaCompleteLogic, arrivalCoordinates, this, new DiscreteCoordinates(19,6), Collections.singletonList(new DiscreteCoordinates(19,7))));
 
         registerActor(new Rock(this, Orientation.DOWN, new DiscreteCoordinates(15, 6)));
         registerActor(new Rock(this, Orientation.DOWN, new DiscreteCoordinates(15, 7)));
