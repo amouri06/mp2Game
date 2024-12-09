@@ -35,7 +35,7 @@ import static ch.epfl.cs107.play.math.Orientation.*;
  */
 public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, Interactor, Interactable {
 
-    private final static int MOVE_DURATION = 4;
+    private final static int MOVE_DURATION = 3;
     private final static int ANIMATION_DURATION = 4;
     private final static int STAFF_ANIMATION_DURATION = 2;
     private final static int SWORD_ANIMATION_DURATION = 2;
@@ -338,8 +338,10 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
         @Override
         public void interactWith(ElementalItem elementalItem, boolean isCellInteraction) {
+            System.out.printf("why not");
             if (isCellInteraction && element == elementalItem.element()) {
                 elementalItem.collect();
+                System.out.println("hello");
             }
         }
 
@@ -380,6 +382,15 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
             if (currentItem==ICoopItem.Sword && keyboard.get(keys.useItem()).isPressed()){
                 foe.decreaseHealth(1, Vulnerability.PHYSIQUE);
             }
+        }
+
+        @Override
+        public void interactWith(ElementalKey elementalKey, boolean isCellInteraction) {
+            switch(elementalKey.element()) {
+                case FEU -> inventory.addPocketItem(ICoopItem.FireKey, 1);
+                case EAU -> inventory.addPocketItem(ICoopItem.WaterKey, 1);
+            }
+            interactWith((ElementalItem) elementalKey, isCellInteraction);
         }
     }
 }
