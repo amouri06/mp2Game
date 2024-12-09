@@ -41,10 +41,12 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private final static int SWORD_ANIMATION_DURATION = 2;
     private final static int MAX_LIFE = 5;
     private final static int PROJECTILE_MAX_DISTANCE= 20;
+
     private final Orientation [] orders = { DOWN , UP , RIGHT , LEFT };
     private final Element element;
     private final String prefix;
     private final KeyBindings.PlayerKeyBindings keys;
+
     private OrientedAnimation sprite;
     private Door isLeavingAreaDoor;
     private Health health;
