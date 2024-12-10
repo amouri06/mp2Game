@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Arena extends ICoopArea {
+public final class Arena extends ICoopArea {
 
     private Image behaviorMap;
     private ICoop.AreaCompleteLogic areaCompleteLogic;
