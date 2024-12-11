@@ -87,7 +87,6 @@ public class Boule extends Projectile implements ElementalEntity {
         @Override
         public void interactWith(Rock rock, boolean isCellInteraction) {
             getOwnerArea().unregisterActor(rock);
-            stop();
         }
 
         @Override
