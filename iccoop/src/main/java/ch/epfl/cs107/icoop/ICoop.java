@@ -44,8 +44,8 @@ public class ICoop extends AreaGame implements DialogHandler {
     private void createAreas() {
         addArea(new Spawn(this));
         addArea(new OrbWay(this));
-        addArea(new Maze(this, AreaCompleteLogic.MAZE));
-        addArea(new Arena(this, getWindow().getImage(ResourcePath.getBehavior("Arena"), null, false), AreaCompleteLogic.ARENA));
+        addArea(new Maze(this));
+        addArea(new Arena(this));
     }
 
     @Override
@@ -174,39 +174,6 @@ public class ICoop extends AreaGame implements DialogHandler {
             if (areas[i].equals(door.getDestination())) {
                 areaIndex = i;
             }
-        }
-    }
-
-    public enum AreaCompleteLogic implements Logic {
-        MAZE(new ICoopItem[]{ICoopItem.FireStaff, ICoopItem. WaterStaff}, new ICoopPlayer[]{firePlayer, waterPlayer}),
-        ARENA(new ICoopItem[]{ICoopItem.FireKey, ICoopItem.WaterKey}, new ICoopPlayer[]{firePlayer, waterPlayer});
-
-        private AreaCompleteLogic(ICoopItem[] iCoopItems, ICoopPlayer[] players) {
-            this.iCoopItems = iCoopItems;
-            this.players = players;
-        }
-
-        private ICoopItem[] iCoopItems;
-        private ICoopPlayer[] players;
-
-        @Override
-        public boolean isOn() {
-//            for (ICoopPlayer player: players) {
-//                boolean inventoryContains = false;
-//                for (ICoopItem iCoopItem: iCoopItems) {
-//                    if (player.inventoryContains(iCoopItem)) {
-//                        inventoryContains = true;
-//                    }
-//                }
-//                if (!inventoryContains) return false;
-//            }
-//            return true;
-            return ((firePlayer.inventoryContains(iCoopItems[0]) || firePlayer.inventoryContains(iCoopItems[1])) && (waterPlayer.inventoryContains(iCoopItems[0]) || waterPlayer.inventoryContains(iCoopItems[1])));
-        }
-
-        @Override
-        public boolean isOff() {
-            return !isOn();
         }
     }
 
