@@ -18,21 +18,9 @@ import java.util.List;
 
 public final class Arena extends ICoopArea {
 
-    private Image behaviorMap;
-    private ICoop.AreaCompleteLogic areaCompleteLogic;
 
     public Arena(DialogHandler dialogHandler) {
         super(dialogHandler);
-    }
-
-    public Arena(DialogHandler dialogHandler, Image behaviorMap) {
-        this(dialogHandler);
-        this.behaviorMap = behaviorMap;
-    }
-
-    public Arena(DialogHandler dialogHandler, Image behaviorMap, ICoop.AreaCompleteLogic areaCompleteLogic) {
-        this(dialogHandler, behaviorMap);
-        this.areaCompleteLogic = areaCompleteLogic;
     }
 
     @Override
@@ -50,25 +38,17 @@ public final class Arena extends ICoopArea {
         registerActor(new Background(this));
         registerActor(new Foreground(this));
 
-        int height = getHeight();
-        int width = getWidth();
 
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                ICoopBehavior.ICoopCellType color = ICoopBehavior.ICoopCellType.toType(behaviorMap.getRGB(height - 1 - y, x));
-                switch (color) {
-                    case ROCK -> registerActor(new Rock(this, Orientation.DOWN, new DiscreteCoordinates(x,y)));
-                    case OBSTACLE -> registerActor(new Obstacle(this, Orientation.DOWN, new DiscreteCoordinates(x,y)));
-                }
-            }
-        }
+        ElementalKey fireKey = new ElementalKey(this, new DiscreteCoordinates(9,16), ElementalEntity.Element.FEU);
+        ElementalKey waterKey = new ElementalKey(this, new DiscreteCoordinates(9,4), ElementalEntity.Element.EAU);
+        registerActor(fireKey);
+        registerActor(waterKey);
 
-        registerActor(new ElementalKey(this, new DiscreteCoordinates(9,16), ElementalEntity.Element.FEU));
-        registerActor(new ElementalKey(this, new DiscreteCoordinates(9,4), ElementalEntity.Element.EAU));
+        And areaComplete = new And(fireKey, waterKey);
 
         List<DiscreteCoordinates> arrivalCoordinates = new ArrayList<DiscreteCoordinates>();
         arrivalCoordinates.add(new DiscreteCoordinates(13,6)); arrivalCoordinates.add(new DiscreteCoordinates(14,6));
-        registerActor(new Teleporter("Spawn", areaCompleteLogic, arrivalCoordinates, this, new DiscreteCoordinates(10,11)));
+        registerActor(new Teleporter("Spawn", areaComplete, arrivalCoordinates, this, new DiscreteCoordinates(10,11)));
     }
 
     @Override

@@ -1,11 +1,16 @@
 package ch.epfl.cs107.icoop.area;
 
 import ch.epfl.cs107.icoop.ICoopBehavior;
+import ch.epfl.cs107.icoop.actor.Obstacle;
+import ch.epfl.cs107.icoop.actor.Rock;
 import ch.epfl.cs107.icoop.handler.DialogHandler;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.engine.actor.Dialog;
 import ch.epfl.cs107.play.io.FileSystem;
+import ch.epfl.cs107.play.io.ResourcePath;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.math.Orientation;
+import ch.epfl.cs107.play.window.Image;
 import ch.epfl.cs107.play.window.Window;
 
 public abstract class ICoopArea extends Area {
@@ -13,6 +18,7 @@ public abstract class ICoopArea extends Area {
     public final static float DEFAULT_SCALE_FACTOR = 3.f;
     private float cameraScaleFactor = DEFAULT_SCALE_FACTOR;
     protected DialogHandler dialogHandler;
+    private Image behaviorMap;
 
     protected ICoopArea(DialogHandler dialogHandler) {
         this.dialogHandler = dialogHandler;
@@ -76,8 +82,23 @@ public abstract class ICoopArea extends Area {
         if (super.begin(window, fileSystem)) {
             setBehavior(new ICoopBehavior(window, getTitle()));
             createArea();
+            mapInitialize(window.getImage(ResourcePath.getBehavior(getTitle()), null, false));
             return true;
         }
         return false;
+    }
+
+    private void mapInitialize(Image behaviorMap) {
+        int height = getHeight();
+        int width = getWidth();
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                ICoopBehavior.ICoopCellType color = ICoopBehavior.ICoopCellType.toType(behaviorMap.getRGB(height - 1 - y, x));
+                switch (color) {
+                    case OBSTACLE -> registerActor(new Obstacle(this, Orientation.DOWN, new DiscreteCoordinates(x,y)));
+                    case ROCK -> registerActor(new Rock(this, Orientation.DOWN, new DiscreteCoordinates(x,y)));
+                }
+            }
+        }
     }
 }

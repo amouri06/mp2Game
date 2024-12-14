@@ -16,16 +16,11 @@ import java.util.List;
 
 public final class Maze extends ICoopArea {
 
-    private ICoop.AreaCompleteLogic areaCompleteLogic;
 
     public Maze(DialogHandler dialogHandler) {
         super(dialogHandler);
     }
 
-    public Maze(DialogHandler dialogHandler, ICoop.AreaCompleteLogic areaCompleteLogic) {
-        this(dialogHandler);
-        this.areaCompleteLogic = areaCompleteLogic;
-    }
     /**
      *
      * @return red player's spawn coordinates in this area
@@ -96,8 +91,11 @@ public final class Maze extends ICoopArea {
         registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(8, 4), ElementalEntity.Element.EAU, Logic.TRUE, "water_wall"));
         registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(13, 4), ElementalEntity.Element.FEU, Logic.TRUE, "fire_wall"));
 
-        registerActor(new Staff(this, Orientation.DOWN, new DiscreteCoordinates(13,2), Staff.StaffType.FEU));
-        registerActor(new Staff(this, Orientation.DOWN, new DiscreteCoordinates(8,2), Staff.StaffType.EAU));
+        Staff waterStaff = new Staff(this, Orientation.DOWN, new DiscreteCoordinates(13,2), Staff.StaffType.FEU);
+        Staff fireStaff = new Staff(this, Orientation.DOWN, new DiscreteCoordinates(8,2), Staff.StaffType.EAU);
+        registerActor(waterStaff);
+        registerActor(fireStaff);
+        And areaComplete = new And(fireStaff, waterStaff);
 
         for (int i = 0; i < 9; i += 2) {
             registerActor(new HellSkull(this, Orientation.RIGHT, new DiscreteCoordinates(12, 25 + i), 38));
@@ -115,11 +113,10 @@ public final class Maze extends ICoopArea {
         List<DiscreteCoordinates> arrivalCoordinates = new ArrayList<DiscreteCoordinates>();
         arrivalCoordinates.add(new DiscreteCoordinates(4,5));
         arrivalCoordinates.add(new DiscreteCoordinates(14, 15));
-        registerActor(new Door("Arena", areaCompleteLogic, arrivalCoordinates, this, new DiscreteCoordinates(19,6), Collections.singletonList(new DiscreteCoordinates(19,7))));
+        registerActor(new Door("Arena", areaComplete, arrivalCoordinates, this, new DiscreteCoordinates(19,6), Collections.singletonList(new DiscreteCoordinates(19,7))));
 
         registerActor(new Rock(this, Orientation.DOWN, new DiscreteCoordinates(15, 6)));
         registerActor(new Rock(this, Orientation.DOWN, new DiscreteCoordinates(15, 7)));
-
 
     }
 }
