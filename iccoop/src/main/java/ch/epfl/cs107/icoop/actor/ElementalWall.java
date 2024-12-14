@@ -19,23 +19,60 @@ import java.util.List;
 public class ElementalWall extends AreaEntity implements ElementalEntity, Interactable, Interactor {
 
 
+    public enum WallType {
+        EAU("water_wall", Element.EAU, Logic.TRUE),
+        FEU("fire_wall", Element.FEU, Logic.TRUE);
+
+        private Element element;
+        private String spriteName;
+        private Logic logic;
+
+        private WallType(String spriteName, Element element, Logic logic){
+            this.spriteName=spriteName;
+            this.element=element;
+            this.logic=logic;
+        }
+
+        public Element getElement() {
+            return element;
+        }
+
+        public Logic getLogic() {
+            return logic;
+        }
+
+        public String getSpriteName() {
+            return spriteName;
+        }
+
+        public void setLogic(Logic logic) {
+            this.logic = logic;
+        }
+    }
     private final Element element;
     private Logic logic;
     private final Sprite[] wallSprites;
 
-    public ElementalWall(Area owner, Orientation orientation, DiscreteCoordinates mainCellPosition, Element element, Logic logic, String spriteName) {
+    public ElementalWall(Area owner, Orientation orientation, DiscreteCoordinates mainCellPosition, WallType wallType) {
         super(owner, orientation, mainCellPosition);
-        this.element = element;
-        this.logic = logic;
-        wallSprites = RPGSprite.extractSprites(spriteName, 4, 1, 1, this , Vector.ZERO , 256 , 256);
+        this.element = wallType.getElement();
+        this.logic = wallType.getLogic();
+        wallSprites = RPGSprite.extractSprites(wallType.getSpriteName(), 4, 1, 1, this, Vector.ZERO, 256, 256);
     }
 
-    @Override
+    public ElementalWall(Area owner, Orientation orientation, DiscreteCoordinates mainCellPosition, Logic logic, WallType wallType) {
+        super(owner, orientation, mainCellPosition);
+        this.element = wallType.getElement();
+        wallSprites = RPGSprite.extractSprites(wallType.getSpriteName(), 4, 1, 1, this, Vector.ZERO, 256, 256);
+        this.logic = logic;
+    }
+
     public void draw(Canvas canvas) {
         if (logic.isOn()) {
             wallSprites[getOrientation().ordinal()].draw(canvas);
         }
     }
+
 
     ///Implements ElementalEntity
     @Override

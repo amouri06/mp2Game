@@ -178,7 +178,7 @@ public class ICoop extends AreaGame implements DialogHandler {
     }
 
     public enum AreaCompleteLogic implements Logic {
-        MAZE(new ICoopItem[]{ICoopItem.FireStaff, ICoopItem.WaterStaff}, new ICoopPlayer[]{firePlayer, waterPlayer}),
+        MAZE(new ICoopItem[]{ICoopItem.FireStaff, ICoopItem. WaterStaff}, new ICoopPlayer[]{firePlayer, waterPlayer}),
         ARENA(new ICoopItem[]{ICoopItem.FireKey, ICoopItem.WaterKey}, new ICoopPlayer[]{firePlayer, waterPlayer});
 
         private AreaCompleteLogic(ICoopItem[] iCoopItems, ICoopPlayer[] players) {

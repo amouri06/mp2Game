@@ -35,7 +35,7 @@ public class BombFoe extends Foe {
     private int protectingTime;
     private Interactable target;
 
-    protected enum State {
+    private enum State {
         IDLE(2),
         ATTACKING(6),
         PROTECTING(1);

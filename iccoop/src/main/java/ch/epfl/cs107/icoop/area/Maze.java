@@ -64,28 +64,28 @@ public final class Maze extends ICoopArea {
         registerActor(new Foreground(this));
 
         for (int i = 0; i < 2; ++i) {
-            registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(4, 35 + i), ElementalEntity.Element.EAU, Logic.TRUE, "water_wall"));
+            registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(4, 35 + i), ElementalWall.WallType.EAU));
         }
 
         PressurePlate firstPressurePlate = new PressurePlate(this, new DiscreteCoordinates(6,33));
         registerActor(firstPressurePlate);
         for (int i = 0; i < 2; ++i) {
-            registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(6, 35 + i), ElementalEntity.Element.FEU, firstPressurePlate, "fire_wall"));
+            registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(6, 35 + i), firstPressurePlate,ElementalWall.WallType.FEU));
         }
 
         for (int i = 0; i < 2; ++i) {
-            registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(2 + i, 34), ElementalEntity.Element.FEU, Logic.TRUE, "fire_wall"));
+            registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(2 + i, 34), ElementalWall.WallType.FEU));
         }
 
         registerActor(new Explosive(this, Orientation.LEFT, new DiscreteCoordinates(6, 25)));
 
         for (int i = 0; i < 2; ++i) {
-            registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(5+i, 24), ElementalEntity.Element.EAU, Logic.TRUE, "water_wall"));
+            registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(5+i, 24), ElementalWall.WallType.EAU));
         }
 
         PressurePlate secondPressurePlate = new PressurePlate(this, new DiscreteCoordinates(9,25));
         registerActor(secondPressurePlate);
-        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(8, 21), ElementalEntity.Element.FEU, secondPressurePlate, "fire_wall"));
+        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(8, 21), secondPressurePlate, ElementalWall.WallType.FEU));
 
 
         registerActor(new Heart(this, Orientation.DOWN, new DiscreteCoordinates(15, 18)));
@@ -93,8 +93,8 @@ public final class Maze extends ICoopArea {
         registerActor(new Heart(this, Orientation.DOWN, new DiscreteCoordinates(14, 19)));
         registerActor(new Heart(this, Orientation.DOWN, new DiscreteCoordinates(14, 17)));
 
-        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(8, 4), ElementalEntity.Element.EAU, Logic.TRUE, "water_wall"));
-        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(13, 4), ElementalEntity.Element.FEU, Logic.TRUE, "fire_wall"));
+        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(8, 4), ElementalWall.WallType.EAU));
+        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(13, 4), ElementalWall.WallType.FEU));
 
         registerActor(new Staff(this, Orientation.DOWN, new DiscreteCoordinates(13,2), Staff.StaffType.FEU));
         registerActor(new Staff(this, Orientation.DOWN, new DiscreteCoordinates(8,2), Staff.StaffType.EAU));

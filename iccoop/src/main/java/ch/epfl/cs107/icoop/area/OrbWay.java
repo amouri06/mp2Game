@@ -81,18 +81,18 @@ public final class OrbWay extends ICoopArea {
         PressurePlate firstPressurePlate = new PressurePlate(this, new DiscreteCoordinates(5, 7));
         registerActor(firstPressurePlate);
         for (int i = 0; i < 5; ++i) {
-            registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(12, 10 + i), ElementalEntity.Element.FEU, firstPressurePlate, "fire_wall" ));
+            registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(12, 10 + i), firstPressurePlate, ElementalWall.WallType.FEU ));
         }
 
         PressurePlate secondPressurePlate = new PressurePlate(this, new DiscreteCoordinates(5, 10));
         registerActor(secondPressurePlate);
         for (int i = 0; i < 5; ++i) {
-            registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(12, 4 + i), ElementalEntity.Element.EAU, secondPressurePlate, "water_wall" ));
+            registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(12, 4 + i), secondPressurePlate, ElementalWall.WallType.EAU));
         }
 
 
-        registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(7, 6), ElementalEntity.Element.FEU, Logic.TRUE, "fire_wall" ));
-        registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(7, 12), ElementalEntity.Element.EAU, Logic.TRUE, "water_wall" ));
+        registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(7, 6), ElementalWall.WallType.FEU ));
+        registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(7, 12), ElementalWall.WallType.EAU));
 
 
     }
