@@ -1,19 +1,12 @@
 package ch.epfl.cs107.icoop.area;
 
-import ch.epfl.cs107.icoop.ICoop;
-import ch.epfl.cs107.icoop.ICoopBehavior;
 import ch.epfl.cs107.icoop.actor.*;
 import ch.epfl.cs107.icoop.handler.DialogHandler;
 import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;
-import ch.epfl.cs107.play.io.ResourcePath;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
-import ch.epfl.cs107.play.math.Orientation;
-import ch.epfl.cs107.play.signal.logic.Logic;
-import ch.epfl.cs107.play.window.Image;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public final class Arena extends ICoopArea {
@@ -44,7 +37,7 @@ public final class Arena extends ICoopArea {
         registerActor(fireKey);
         registerActor(waterKey);
 
-        And areaComplete = new And(fireKey, waterKey);
+        AreaComplete areaComplete = new AreaComplete(fireKey, waterKey);
 
         List<DiscreteCoordinates> arrivalCoordinates = new ArrayList<DiscreteCoordinates>();
         arrivalCoordinates.add(new DiscreteCoordinates(13,6)); arrivalCoordinates.add(new DiscreteCoordinates(14,6));

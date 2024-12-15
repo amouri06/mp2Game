@@ -316,7 +316,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     }
 
     public Door getIsLeavingAreaDoor() {
-        return isLeavingAreaDoor;
+        return new Door(isLeavingAreaDoor);
     }
 
     public void nullifyIsLeavingAreaDoor() {
@@ -344,10 +344,8 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
         @Override
         public void interactWith(ElementalItem elementalItem, boolean isCellInteraction) {
-            System.out.printf("why not");
             if (isCellInteraction && element == elementalItem.element()) {
                 elementalItem.collect();
-                System.out.println("hello");
             }
         }
 

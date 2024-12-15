@@ -1,6 +1,5 @@
 package ch.epfl.cs107.icoop.area;
 
-import ch.epfl.cs107.icoop.ICoop;
 import ch.epfl.cs107.icoop.actor.*;
 import ch.epfl.cs107.icoop.handler.DialogHandler;
 import ch.epfl.cs107.play.engine.actor.Background;
@@ -8,7 +7,6 @@ import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.signal.logic.Logic;
-import ch.epfl.cs107.play.window.Image;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -95,7 +93,7 @@ public final class Maze extends ICoopArea {
         Staff fireStaff = new Staff(this, Orientation.DOWN, new DiscreteCoordinates(8,2), Staff.StaffType.EAU);
         registerActor(waterStaff);
         registerActor(fireStaff);
-        And areaComplete = new And(fireStaff, waterStaff);
+        AreaComplete areaComplete = new AreaComplete(fireStaff, waterStaff);
 
         for (int i = 0; i < 9; i += 2) {
             registerActor(new HellSkull(this, Orientation.RIGHT, new DiscreteCoordinates(12, 25 + i), 38));

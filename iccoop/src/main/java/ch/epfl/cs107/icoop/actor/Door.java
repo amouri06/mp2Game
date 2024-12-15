@@ -26,6 +26,14 @@ public class Door extends AreaEntity implements Interactable {
         this.occupiedCells= occupiedCells;
     }
 
+    public Door(Door door) {
+        super(door.getOwnerArea(), Orientation.UP, door.getCurrentMainCellCoordinates());
+        this.destination = door.destination;
+        this.signal= door. signal;
+        this.arrivalCoordinates = door.arrivalCoordinates;
+        this.occupiedCells = door.occupiedCells;
+    }
+
     public DiscreteCoordinates getPlayer1ArrivalCoordinates() {
         return arrivalCoordinates.getFirst();
     }
