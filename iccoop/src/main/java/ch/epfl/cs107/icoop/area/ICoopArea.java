@@ -6,10 +6,12 @@ import ch.epfl.cs107.icoop.actor.Rock;
 import ch.epfl.cs107.icoop.handler.DialogHandler;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.engine.actor.Dialog;
+import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.io.ResourcePath;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
+import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.window.Image;
 import ch.epfl.cs107.play.window.Window;
 
@@ -18,7 +20,6 @@ public abstract class ICoopArea extends Area {
     public final static float DEFAULT_SCALE_FACTOR = 3.f;
     private float cameraScaleFactor = DEFAULT_SCALE_FACTOR;
     protected DialogHandler dialogHandler;
-    private Image behaviorMap;
 
     protected ICoopArea(DialogHandler dialogHandler) {
         this.dialogHandler = dialogHandler;
@@ -101,4 +102,5 @@ public abstract class ICoopArea extends Area {
             }
         }
     }
+
 }

@@ -47,4 +47,6 @@ public interface ICoopInteractionVisitor extends AreaInteractionVisitor {
 
     default void interactWith(ElementalKey elementalKey, boolean isCellInteraction) {}
 
+    default void interactWith(Coin coin, boolean isCellInteraction) {}
+
 }

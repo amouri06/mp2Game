@@ -22,7 +22,6 @@ public class Staff  extends ElementalItem implements Interactable {
     private final static int SPRITE_ANIMATION_DURATION =32;
 
     private RPGSprite[] rpgSprite;
-    private Animation projectileAnimation;
     private int currentSpriteIndex;
     private StaffType staffType;
 

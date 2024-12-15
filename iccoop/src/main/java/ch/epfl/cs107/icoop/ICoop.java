@@ -11,6 +11,7 @@ import ch.epfl.cs107.icoop.handler.ICoopItem;
 import ch.epfl.cs107.icoop.handler.ICoopPlayerStatusGUI;
 import ch.epfl.cs107.play.areagame.AreaGame;
 import ch.epfl.cs107.play.engine.actor.Dialog;
+import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.io.ResourcePath;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -36,6 +37,7 @@ public class ICoop extends AreaGame implements DialogHandler {
     private ICoopPlayerStatusGUI waterPlayerStatusGUI;
     private Dialog dialog = null;
     CenterOfMass cameraCenter;
+    private Foreground pauseAnimation;
 
 
     /**
@@ -103,21 +105,6 @@ public class ICoop extends AreaGame implements DialogHandler {
         waterPlayerStatusGUI.draw(getWindow());
 
         Keyboard keyboard = getCurrentArea().getKeyboard();
-        if (!getCurrentArea().isPaused()) {
-            if (keyboard.get(KeyBindings.RESET_GAME).isDown()) {
-                begin(getWindow(), getFileSystem());
-            }
-            if (keyboard.get(KeyBindings.RESET_AREA).isDown() || !firePlayer.isAlive() || !waterPlayer.isAlive()) {
-                initArea(areas[areaIndex]);
-            }
-            if (firePlayer.getIsLeavingAreaDoor() != null) {
-                switchArea(firePlayer.getIsLeavingAreaDoor());
-            }
-            if (waterPlayer.getIsLeavingAreaDoor() != null) {
-                switchArea(waterPlayer.getIsLeavingAreaDoor());
-            }
-            super.update(deltaTime);
-        }
         if (dialog != null) {
             if (!dialog.isCompleted()) {
                 dialog.draw(getWindow());
@@ -131,6 +118,33 @@ public class ICoop extends AreaGame implements DialogHandler {
                 dialog = null;
             }
         }
+        if (!getCurrentArea().isPaused()) {
+            if (keyboard.get(KeyBindings.RESET_GAME).isDown()) {
+                begin(getWindow(), getFileSystem());
+            }
+            if (keyboard.get(KeyBindings.RESET_AREA).isDown() || !firePlayer.isAlive() || !waterPlayer.isAlive()) {
+                initArea(areas[areaIndex]);
+            }
+            if (firePlayer.getIsLeavingAreaDoor() != null) {
+                switchArea(firePlayer.getIsLeavingAreaDoor());
+            }
+            if (waterPlayer.getIsLeavingAreaDoor() != null) {
+                switchArea(waterPlayer.getIsLeavingAreaDoor());
+            }
+            if (keyboard.get(KeyBindings.PAUSE_GAME).isPressed()) {
+                getCurrentArea().requestPause();
+                pauseAnimation = new Foreground(getCurrentArea(), null, "pause");
+                getCurrentArea().registerActor(pauseAnimation);
+            }
+            super.update(deltaTime);
+            return;
+        }
+        if (keyboard.get(KeyBindings.PAUSE_GAME).isPressed()) {
+            getCurrentArea().requestResume();
+            getCurrentArea().unregisterActor(pauseAnimation);
+        }
+
+
     }
 
     @Override
@@ -158,6 +172,7 @@ public class ICoop extends AreaGame implements DialogHandler {
         waterPlayer.restoreHealth();
 
     }
+
 
     /**
      * switches from one area to the other
