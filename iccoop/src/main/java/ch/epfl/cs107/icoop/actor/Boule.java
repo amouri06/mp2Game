@@ -16,8 +16,13 @@ public class Boule extends Projectile implements ElementalEntity {
     private Element element;
     private Vulnerability vulnerability;
 
+    @Override
+    public Element element() {
+        return null;
+    }
+
     /**
-     *Enum pour les deux differents types d'attaques de longue portee
+     *Enum Foe the different types of attacks depending on the element of the attacker.
      */
     public enum AttackType{
         FEU("icoop/magicFireProjectile", Element.FEU, Vulnerability.FIRE),
@@ -47,6 +52,14 @@ public class Boule extends Projectile implements ElementalEntity {
 
     }
 
+    /**
+     * Constructor for Boule
+     * @param area
+     * @param orientation
+     * @param position
+     * @param maxDistance
+     * @param attackType
+     */
     public Boule(Area area, Orientation orientation, DiscreteCoordinates position, int maxDistance, AttackType attackType) {
         super(area, orientation, position, ANIMATION_DURATION, 2, maxDistance);
         this.element = attackType.getElement();
@@ -60,15 +73,16 @@ public class Boule extends Projectile implements ElementalEntity {
     public void interactWith(Interactable other, boolean isCellInteraction) {
         other.acceptInteraction(new Boule.BouleInteractionHandler(), isCellInteraction);
     }
-    @Override
-    public Element element() {
-        return element;
-    }
 
     @Override
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
         ((ICoopInteractionVisitor)v).interactWith(this, isCellInteraction);
     }
+
+    /**
+     * Updates the attack's animation
+     * @param deltaTime elapsed time since last update, in seconds, non-negative
+     */
     public void update(float deltaTime){
         animation.update(deltaTime);
         super.update(deltaTime);
@@ -79,6 +93,13 @@ public class Boule extends Projectile implements ElementalEntity {
     public void draw(Canvas canvas) {
         animation.draw(canvas);
     }
+
+    /**
+     * Explains all the interaction between the projectile and different elements of the game
+     * Damages a foe
+     *Destroys a rock
+     * Sets off an explosive
+     */
     private class BouleInteractionHandler implements ICoopInteractionVisitor {
         @Override
         public void interactWith(Foe foe, boolean isCellInteraction) {

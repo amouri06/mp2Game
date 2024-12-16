@@ -20,6 +20,17 @@ public class Door extends AreaEntity implements Interactable {
     private final String onDialog;
     private final String offDialog;
 
+    /**
+     * Constructor n1 for the door
+     * @param destination
+     * @param signal
+     * @param arrivalCoordinates
+     * @param owner
+     * @param mainCellPosition
+     * @param occupiedCells
+     * @param onDialog
+     * @param offDialog
+     */
     public Door(String destination, Logic signal, List<DiscreteCoordinates>arrivalCoordinates, Area owner, DiscreteCoordinates mainCellPosition, List<DiscreteCoordinates> occupiedCells, String onDialog, String offDialog) {
         super(owner, Orientation.UP, mainCellPosition);
         this.destination=destination;
@@ -30,10 +41,23 @@ public class Door extends AreaEntity implements Interactable {
         this.offDialog = offDialog;
     }
 
+    /**
+     * Constructor n2 for the door
+     * @param door
+     */
     public Door(Door door) {
         this(door.destination, door.signal, door.arrivalCoordinates, door.getOwnerArea(), door.getCurrentMainCellCoordinates(), door.occupiedCells, door.onDialog, door.offDialog);
     }
 
+    /**
+     * Constructor n3 for the door
+     * @param destination
+     * @param signal
+     * @param arrivalCoordinates
+     * @param owner
+     * @param mainCellPosition
+     * @param occupiedCells
+     */
     public Door(String destination, Logic signal, List<DiscreteCoordinates>arrivalCoordinates, Area owner, DiscreteCoordinates mainCellPosition, List<DiscreteCoordinates> occupiedCells) {
         this(destination, signal, arrivalCoordinates, owner, mainCellPosition, occupiedCells, null, null);
     }
@@ -41,7 +65,7 @@ public class Door extends AreaEntity implements Interactable {
     public List<DiscreteCoordinates> getArrivalCoordinates() {
         return new ArrayList<>(arrivalCoordinates);
     }
-
+    ///Implements Interactable
     @Override
     public List<DiscreteCoordinates> getCurrentCells(){
         List<DiscreteCoordinates> currentCells = new ArrayList<DiscreteCoordinates>(occupiedCells);
@@ -70,13 +94,22 @@ public class Door extends AreaEntity implements Interactable {
         ((ICoopInteractionVisitor)v).interactWith(this, isCellInteraction );
     }
 
+    /**
+     * Return whether the door is activated or not
+     * @return
+     */
     public Logic getSignal() {
         return signal;
     }
 
+    /**
+     * Returns where the door leads
+     * @return
+     */
     public String getDestination() {
         return destination;
     }
+
 
     public String getDialog() {
         if (signal.isOn()) {

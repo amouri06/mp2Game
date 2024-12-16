@@ -66,6 +66,10 @@ public class BombFoe extends Foe {
         protectingAnimation = new OrientedAnimation("icoop/bombFoe.protecting", ANIMATION_DURATION/3, this, anchor, orders, 4, 2, 2, 32, 32, false);
     }
 
+    /**
+     * Repeatedly calls this method, chances the course of action of the BombFoe depending on his current state (States given in the enum)
+     * @param deltaTime elapsed time since last update, in seconds, non-negative
+     */
     @Override
     public void update(float deltaTime) {
         if (isImmune()) {
@@ -130,6 +134,10 @@ public class BombFoe extends Foe {
         }
     }
 
+    /**
+     * Draws the animation of the BombFoe depending on his state
+     * @param canvas target, not null
+     */
     @Override
     public void draw(Canvas canvas) {
         if (isAlive()) {
@@ -143,6 +151,11 @@ public class BombFoe extends Foe {
         super.draw(canvas);
     }
 
+    /**
+     * Decreases the BombFoe's health iff it it's not prottecting. Since it is not vulnerable during that time.
+     * @param amount
+     * @param attackType
+     */
     @Override
     public void decreaseHealth(int amount, Vulnerability attackType) {
         if (state != State.PROTECTING) {
@@ -177,6 +190,11 @@ public class BombFoe extends Foe {
     }
 
     private class BombFoeInteractionHandler implements ICoopInteractionVisitor {
+        /**
+         * Interaction between a BombFoe and a ICoopPlayer. The interaction consists in the BombFoe's state to become Attacking and to target the player.
+         * @param player
+         * @param isCellInteraction
+         */
         @Override
         public void interactWith(ICoopPlayer player, boolean isCellInteraction) {
             state = State.ATTACKING;
