@@ -44,13 +44,10 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
         public String getSpriteName() {
             return spriteName;
         }
-
-        public void setLogic(Logic logic) {
-            this.logic = logic;
-        }
     }
+
     private final Element element;
-    private Logic logic;
+    private final Logic logic;
     private final Sprite[] wallSprites;
 
     public ElementalWall(Area owner, Orientation orientation, DiscreteCoordinates mainCellPosition, WallType wallType) {
