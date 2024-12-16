@@ -179,10 +179,13 @@ public class ICoop extends AreaGame implements DialogHandler {
      * the player is healed when moving to a new area
      */
     private void switchArea(Door door) {
-        firePlayer.leaveArea(); waterPlayer.leaveArea();
         ICoopArea currentArea = (ICoopArea) setCurrentArea(door.getDestination(), false);
-        firePlayer.enterArea(currentArea, (door.getPlayer1ArrivalCoordinates()));
-        waterPlayer.enterArea(currentArea, (door.getPlayer2ArrivalCoordinates()));
+        if (door.getPlayerArrivalCoordinates() != null) {
+            firePlayer.enterArea(currentArea, (door.getPlayerArrivalCoordinates().getFirst()));
+            waterPlayer.enterArea(currentArea, (door.getPlayerArrivalCoordinates().get(1)));
+            firePlayer.leaveArea(); waterPlayer.leaveArea();
+        }
+
         firePlayer.nullifyIsLeavingAreaDoor(); waterPlayer.nullifyIsLeavingAreaDoor();
 
         for (int i = 0; i < areas.length; ++i) {

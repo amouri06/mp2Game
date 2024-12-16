@@ -60,6 +60,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private int currentItemIndex;
     private int itemAnimationTimer;
     private OrientedAnimation useItemAnimation;
+    private int displacementTimer;
 
     /**
      * Default ICoopPlayer constructor
@@ -149,6 +150,9 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
         if (keyboard.get(keys.switchItem()).isPressed()) {
             switchItem();
+        }
+        if (displacementTimer > 0) {
+            displacementTimer--;
         }
 
         if (keyboard.get(keys.useItem()).isPressed()) {
@@ -331,6 +335,10 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         public void interactWith(Door door, boolean isCellInteraction) {
             if (door.getSignal().isOn()) {
                 isLeavingAreaDoor = door;
+            }
+            if (door.getDialog() != null && isDisplacementOccurs() && displacementTimer == 0) {
+                ((ICoopArea) getOwnerArea()).publish(door.getDialog());
+                displacementTimer = 24;
             }
         }
 
