@@ -28,6 +28,12 @@ public final class ICoopBehavior extends AreaBehavior {
         }
     }
 
+    /**
+     *
+     * @param x (int)
+     * @param y
+     * @return
+     */
     public ICoopCellType getType(int x, int y) {
         return ((ICoopCell) getCell(x, y)).getType();
     }

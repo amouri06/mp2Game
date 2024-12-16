@@ -16,7 +16,9 @@ public class Boule extends Projectile implements ElementalEntity {
     private Element element;
     private Vulnerability vulnerability;
 
-
+    /**
+     *Enum pour les deux differents types d'attaques de longue portee
+     */
     public enum AttackType{
         FEU("icoop/magicFireProjectile", Element.FEU, Vulnerability.FIRE),
         EAU("icoop/magicWaterProjectile", Element.EAU, Vulnerability.WATER );
