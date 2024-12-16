@@ -10,6 +10,8 @@ import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.signal.logic.Logic;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public final class Spawn extends ICoopArea {
 
@@ -87,6 +89,10 @@ public final class Spawn extends ICoopArea {
         registerActor(new Coin(this, Orientation.DOWN, new DiscreteCoordinates(14, 14)));
 
         registerActor(new Rock(this, Orientation.DOWN, new DiscreteCoordinates(10, 10)));
+
+        registerActor(new Coin(this, Orientation.DOWN, new DiscreteCoordinates(15, 13)));
+
+        registerActor(new Door("Spawn", Logic.TRUE, null, this, new DiscreteCoordinates( 6,11), Collections.singletonList(new DiscreteCoordinates(6, 11)), "victory", "key_required"));
 
     }
 
