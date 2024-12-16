@@ -47,7 +47,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private final Orientation [] orders = { DOWN , UP , RIGHT , LEFT };
     private final Element element;
     private final String prefix;
-    private final KeyBindings.PlayerKeyBindings keys;
+    public final KeyBindings.PlayerKeyBindings keys;
 
     private OrientedAnimation sprite;
     private Door isLeavingAreaDoor;

@@ -1,10 +1,7 @@
 package ch.epfl.cs107.icoop;
 
 
-import ch.epfl.cs107.icoop.actor.CenterOfMass;
-import ch.epfl.cs107.icoop.actor.Door;
-import ch.epfl.cs107.icoop.actor.ElementalEntity;
-import ch.epfl.cs107.icoop.actor.ICoopPlayer;
+import ch.epfl.cs107.icoop.actor.*;
 import ch.epfl.cs107.icoop.area.*;
 import ch.epfl.cs107.icoop.handler.DialogHandler;
 import ch.epfl.cs107.icoop.handler.ICoopItem;
@@ -34,6 +31,7 @@ public class ICoop extends AreaGame implements DialogHandler {
     private static ICoopPlayer firePlayer;
     private ICoopPlayerStatusGUI firePlayerStatusGUI;
     private static ICoopPlayer waterPlayer;
+    private static Pet firePlayerPet;
     private ICoopPlayerStatusGUI waterPlayerStatusGUI;
     private Dialog dialog = null;
     private CenterOfMass cameraCenter;
@@ -76,6 +74,7 @@ public class ICoop extends AreaGame implements DialogHandler {
             DiscreteCoordinates coordsRed = area.getRedPlayerSpawnPosition();
             firePlayer = new ICoopPlayer(area, Orientation.DOWN, coordsRed, ElementalEntity.Element.FEU, "icoop/player", KeyBindings.RED_PLAYER_KEY_BINDINGS);
             firePlayerStatusGUI = new ICoopPlayerStatusGUI(firePlayer, true);
+            firePlayerPet= new Pet(area, Orientation.LEFT, coordsRed, firePlayer,"icoop/Slime3_Walk_Full");
 
             DiscreteCoordinates coordsBlue = area.getBluePlayerSpawnPosition();
             waterPlayer = new ICoopPlayer(area, Orientation.DOWN, coordsBlue, ElementalEntity.Element.EAU, "icoop/player2", KeyBindings.BLUE_PLAYER_KEY_BINDINGS);
@@ -164,6 +163,7 @@ public class ICoop extends AreaGame implements DialogHandler {
 
         DiscreteCoordinates coordsRed = area.getRedPlayerSpawnPosition();
         firePlayer.enterArea(area, coordsRed);
+        firePlayerPet.enterArea(area, coordsRed);
         firePlayer.restoreHealth();
 
         DiscreteCoordinates coordsBlue = area.getBluePlayerSpawnPosition();
