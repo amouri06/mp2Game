@@ -84,6 +84,7 @@ public final class Spawn extends ICoopArea {
         registerActor(new Explosive(this, Orientation.DOWN, new DiscreteCoordinates(12, 10)));
         registerActor(new Explosive(this, Orientation.DOWN, new DiscreteCoordinates(12, 11)));
 
+        registerActor(new Coin(this, Orientation.DOWN, new DiscreteCoordinates(14, 14)));
 
         registerActor(new Rock(this, Orientation.DOWN, new DiscreteCoordinates(10, 10)));
 

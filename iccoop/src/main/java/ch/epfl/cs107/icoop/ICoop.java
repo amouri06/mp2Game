@@ -11,6 +11,7 @@ import ch.epfl.cs107.icoop.handler.ICoopItem;
 import ch.epfl.cs107.icoop.handler.ICoopPlayerStatusGUI;
 import ch.epfl.cs107.play.areagame.AreaGame;
 import ch.epfl.cs107.play.engine.actor.Dialog;
+import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.io.ResourcePath;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -35,7 +36,9 @@ public class ICoop extends AreaGame implements DialogHandler {
     private static ICoopPlayer waterPlayer;
     private ICoopPlayerStatusGUI waterPlayerStatusGUI;
     private Dialog dialog = null;
-    CenterOfMass cameraCenter;
+    private CenterOfMass cameraCenter;
+    private Foreground pauseAnimation;
+
 
 
     /**
@@ -103,6 +106,19 @@ public class ICoop extends AreaGame implements DialogHandler {
         waterPlayerStatusGUI.draw(getWindow());
 
         Keyboard keyboard = getCurrentArea().getKeyboard();
+        if (dialog != null) {
+            if (!dialog.isCompleted()) {
+                dialog.draw(getWindow());
+                getCurrentArea().requestPause();
+                if (keyboard.get(KeyBindings.NEXT_DIALOG).isPressed()) {
+                    dialog.update(deltaTime);
+                }
+            }
+            else {
+                getCurrentArea().requestResume();
+                dialog = null;
+            }
+        }
         if (!getCurrentArea().isPaused()) {
             if (keyboard.get(KeyBindings.RESET_GAME).isDown()) {
                 begin(getWindow(), getFileSystem());
@@ -116,20 +132,17 @@ public class ICoop extends AreaGame implements DialogHandler {
             if (waterPlayer.getIsLeavingAreaDoor() != null) {
                 switchArea(waterPlayer.getIsLeavingAreaDoor());
             }
-            super.update(deltaTime);
-        }
-        if (dialog != null) {
-            if (!dialog.isCompleted()) {
-                dialog.draw(getWindow());
+            if (keyboard.get(KeyBindings.PAUSE_GAME).isPressed()) {
                 getCurrentArea().requestPause();
-                if (keyboard.get(KeyBindings.NEXT_DIALOG).isPressed()) {
-                    dialog.update(deltaTime);
-                }
+                pauseAnimation = new Foreground(getCurrentArea(), null, "pause");
+                getCurrentArea().registerActor(pauseAnimation);
             }
-            else {
-                getCurrentArea().requestResume();
-                dialog = null;
-            }
+            super.update(deltaTime);
+            return;
+        }
+        if (keyboard.get(KeyBindings.PAUSE_GAME).isPressed()) {
+            getCurrentArea().requestResume();
+            getCurrentArea().unregisterActor(pauseAnimation);
         }
     }
 
@@ -164,15 +177,17 @@ public class ICoop extends AreaGame implements DialogHandler {
      * the player is healed when moving to a new area
      */
     private void switchArea(Door door) {
-        firePlayer.leaveArea(); waterPlayer.leaveArea();
-        ICoopArea currentArea = (ICoopArea) setCurrentArea(door.getDestination(), false);
-        firePlayer.enterArea(currentArea, (door.getPlayer1ArrivalCoordinates()));
-        waterPlayer.enterArea(currentArea, (door.getPlayer2ArrivalCoordinates()));
-        firePlayer.nullifyIsLeavingAreaDoor(); waterPlayer.nullifyIsLeavingAreaDoor();
+        if (door.getArrivalCoordinates() != null) {
+            firePlayer.leaveArea(); waterPlayer.leaveArea();
+            ICoopArea currentArea = (ICoopArea) setCurrentArea(door.getDestination(), false);
+            firePlayer.enterArea(currentArea, (door.getArrivalCoordinates().getFirst()));
+            waterPlayer.enterArea(currentArea, (door.getArrivalCoordinates().get(1)));
+            firePlayer.nullifyIsLeavingAreaDoor(); waterPlayer.nullifyIsLeavingAreaDoor();
 
-        for (int i = 0; i < areas.length; ++i) {
-            if (areas[i].equals(door.getDestination())) {
-                areaIndex = i;
+            for (int i = 0; i < areas.length; ++i) {
+                if (areas[i].equals(door.getDestination())) {
+                    areaIndex = i;
+                }
             }
         }
     }
