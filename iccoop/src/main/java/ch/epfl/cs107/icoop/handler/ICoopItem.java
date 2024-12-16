@@ -10,9 +10,7 @@ public enum ICoopItem implements InventoryItem {
     WaterKey("icoop/key_blue"),
     FireStaff( "icoop/staff_fire.icon"),
     WaterStaff("icoop/staff_water.icon"),
-    Explosive("icoop/explosive"),
-    Coin("icoop/singleCoin"),;
-
+    Explosive("icoop/explosive"),;
     private String spriteName;
 
     private ICoopItem(String spriteName) {
