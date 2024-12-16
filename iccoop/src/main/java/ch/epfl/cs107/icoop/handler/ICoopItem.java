@@ -11,7 +11,6 @@ public enum ICoopItem implements InventoryItem {
     FireStaff( "icoop/staff_fire.icon"),
     WaterStaff("icoop/staff_water.icon"),
     Explosive("icoop/explosive"),;
-
     private String spriteName;
 
     private ICoopItem(String spriteName) {

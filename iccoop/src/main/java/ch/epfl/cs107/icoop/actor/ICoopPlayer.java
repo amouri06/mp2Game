@@ -316,7 +316,10 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     }
 
     public Door getIsLeavingAreaDoor() {
-        return isLeavingAreaDoor;
+        if (isLeavingAreaDoor != null) {
+            return new Door(isLeavingAreaDoor);
+        }
+        return null;
     }
 
     public void nullifyIsLeavingAreaDoor() {
@@ -344,10 +347,8 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
         @Override
         public void interactWith(ElementalItem elementalItem, boolean isCellInteraction) {
-            System.out.printf("why not");
             if (isCellInteraction && element == elementalItem.element()) {
                 elementalItem.collect();
-                System.out.println("hello");
             }
         }
 
@@ -397,6 +398,11 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                 case EAU -> inventory.addPocketItem(ICoopItem.WaterKey, 1);
             }
             interactWith((ElementalItem) elementalKey, isCellInteraction);
+        }
+
+        @Override
+        public void interactWith(Coin coin, boolean isCellInteraction) {
+            coin.collect();
         }
     }
 }

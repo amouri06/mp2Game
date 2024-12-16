@@ -42,23 +42,26 @@ public final class ICoopBehavior extends AreaBehavior {
      * Types of cells adapted to the ICoop game
      */
     public enum ICoopCellType {
-        NULL(0, false, false),
-        WALL(-16777216, false, false),
-        IMPASSABLE(-8750470, false, true),
-        INTERACT(-256, true, true),
-        DOOR(-195580, true, true),
-        WALKABLE(-1, true, true),
-        ROCK(-16777204, true, true),
-        OBSTACLE(-16723187, true, true);
+        NULL(0, false, false, null),
+        WALL(-16777216, false, false, null),
+        IMPASSABLE(-8750470, false, true, null),
+        INTERACT(-256, true, true, null),
+        DOOR(-195580, true, true, null),
+        WALKABLE(-1, true, true, null),
+        ROCK(-16777204, true, true, null),
+        OBSTACLE(-16723187, true, true, null),
+        FIRE(-16755555, true, true, ElementalEntity.Element.FEU);
 
         final int type;
         final boolean canWalk;
         final boolean canFly;
+        final ElementalEntity.Element element;
 
-        ICoopCellType(int t, boolean w, boolean f) {
+        ICoopCellType(int t, boolean w, boolean f, ElementalEntity.Element e) {
             type = t;
             canWalk = w;
             canFly = f;
+            element = e;
         }
 
         /**

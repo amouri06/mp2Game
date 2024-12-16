@@ -1,16 +1,12 @@
 package ch.epfl.cs107.icoop.actor;
 
-import ch.epfl.cs107.icoop.handler.ICoopItem;
 import ch.epfl.cs107.play.signal.logic.Logic;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class And implements Logic {
+public class AreaComplete implements Logic {
 
     private ElementalItem[] items;
 
-    public And(ElementalItem... items) {
+    public AreaComplete(ElementalItem... items) {
         this.items = items.clone();
     }
 

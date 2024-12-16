@@ -17,21 +17,29 @@ public class Door extends AreaEntity implements Interactable {
     private final List<DiscreteCoordinates> arrivalCoordinates;
     private Logic signal;
     private final List<DiscreteCoordinates> occupiedCells;
+    private final String onDialog;
+    private final String offDialog;
 
-    public Door(String destination, Logic signal, List<DiscreteCoordinates>arrivalCoordinates, Area owner, DiscreteCoordinates mainCellPosition, List<DiscreteCoordinates> occupiedCells) {
+    public Door(String destination, Logic signal, List<DiscreteCoordinates>arrivalCoordinates, Area owner, DiscreteCoordinates mainCellPosition, List<DiscreteCoordinates> occupiedCells, String onDialog, String offDialog) {
         super(owner, Orientation.UP, mainCellPosition);
         this.destination=destination;
         this.signal=signal;
         this.arrivalCoordinates=arrivalCoordinates;
         this.occupiedCells= occupiedCells;
+        this.onDialog = onDialog;
+        this.offDialog = offDialog;
     }
 
-    public DiscreteCoordinates getPlayer1ArrivalCoordinates() {
-        return arrivalCoordinates.getFirst();
+    public Door(Door door) {
+        this(door.destination, door.signal, door.arrivalCoordinates, door.getOwnerArea(), door.getCurrentMainCellCoordinates(), door.occupiedCells, door.onDialog, door.offDialog);
     }
 
-    public DiscreteCoordinates getPlayer2ArrivalCoordinates() {
-        return arrivalCoordinates.get(1);
+    public Door(String destination, Logic signal, List<DiscreteCoordinates>arrivalCoordinates, Area owner, DiscreteCoordinates mainCellPosition, List<DiscreteCoordinates> occupiedCells) {
+        this(destination, signal, arrivalCoordinates, owner, mainCellPosition, occupiedCells, null, null);
+    }
+
+    public List<DiscreteCoordinates> getArrivalCoordinates() {
+        return new ArrayList<>(arrivalCoordinates);
     }
 
     @Override
@@ -68,6 +76,14 @@ public class Door extends AreaEntity implements Interactable {
 
     public String getDestination() {
         return destination;
+    }
+
+    public String getDialog() {
+        if (signal.isOn()) {
+            return onDialog;
+        } else {
+            return offDialog;
+        }
     }
 
 }
