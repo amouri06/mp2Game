@@ -57,7 +57,7 @@ public class Pet extends MovableAreaEntity {
                 orientationOccured = !orientate(Orientation.fromVector(new Vector(0, -deltaY)));
             }
             if (!orientationOccured) {
-                move(ANIMATION_DURATION/2);
+                move((int) (ANIMATION_DURATION / 2.25));
             }
         }
     }

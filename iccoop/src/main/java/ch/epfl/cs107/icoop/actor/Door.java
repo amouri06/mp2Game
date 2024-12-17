@@ -63,6 +63,9 @@ public class Door extends AreaEntity implements Interactable {
     }
 
     public List<DiscreteCoordinates> getArrivalCoordinates() {
+        if (arrivalCoordinates == null) {
+            return null;
+        }
         return new ArrayList<>(arrivalCoordinates);
     }
     ///Implements Interactable
