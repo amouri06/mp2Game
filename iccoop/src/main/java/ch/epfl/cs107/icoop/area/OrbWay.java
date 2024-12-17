@@ -24,11 +24,17 @@ public final class OrbWay extends ICoopArea implements Logic{
 
     @Override
     public boolean isOn() {
+        if (areaComplete==null){
+            return false;
+        }
         return areaComplete.isOn();
     }
 
     @Override
     public boolean isOff() {
+        if (areaComplete==null){
+            return true;
+        }
         return areaComplete.isOff();
     }
 

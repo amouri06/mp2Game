@@ -1,7 +1,13 @@
 <strings id="goToOrbway">
     <string name="game_name">Je vous remercie gracieusement de m'avoir sauvé!</string>
     <string name="game_name">Vous semblez etre perdus, avez-vous besoin d'aide?</string>
-     <string name="game_name">Je vois que vous n'etes toujours pas immunise des degats de feu et d'eau. Je vous conseillerais d'aller recuperer les orbes</string>
-    <string name="game_name"> Quelles orbes vous dites!? Je parle des fameuses orbes de la vie. Pour y parvenir allez au Nord-Est d'ici, vous trouverez une porte vous emmenant vers les orbes. </string>
-    <string name="game_name"> Mais mefiez-vous! Il est possible que vous aller devoir resoudre quelques enigmes. MOUAHAHAHAHAHHAHA </string>
+    <string name="game_name"> Vous voulez sortir d'ici? Biensur que je peux vous aider</string>
+     <string name="game_name">Je vois que vous n'etes toujours pas immunise des degats de feu et d'eau</string>
+    <string name="game_name"> Je vous conseillerais d'aller recuperer les orbes</string>
+    <string name="game_name"> Quelles orbes vous dites!? Je parle des fameuses orbes de la vie</string>
+    <string name="game_name"> Pour y parvenir allez au Nord-Est d'ici, vous trouverez une porte vous emmenant vers les orbes </string>
+    <string name="game_name"> Mais méfiez-vous! Il est possible que vous aller devoir resoudre quelques enigmes </string>
+    <string name="game_name"> MOUAHAHAHAHAHHAHA </string>
+    <string name ="game_name"> Revenez-me voir quand vous terminez</string>
+    <string name ="game_name"> Ou plutot si vous terminez MOUHAHAHAHAH</string>
 </strings>
