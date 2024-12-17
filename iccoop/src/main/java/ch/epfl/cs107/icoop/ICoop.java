@@ -45,6 +45,7 @@ public class ICoop extends AreaGame implements DialogHandler {
      * Add all the Tuto2 areas
      */
     private void createAreas() {
+
         Spawn spawn =  new Spawn(this);
         addArea(spawn);
 
@@ -58,6 +59,7 @@ public class ICoop extends AreaGame implements DialogHandler {
 
 
         helper = new Helper(spawn, Orientation.DOWN, new DiscreteCoordinates(4,10), orbWay, arena);
+
     }
 
     @Override
@@ -94,7 +96,9 @@ public class ICoop extends AreaGame implements DialogHandler {
 
             cameraCenter = new CenterOfMass(firePlayer, waterPlayer);
 
-            getCurrentArea().registerActor(helper);
+            stopMusic();
+            playMusic(1);
+
 
             return true;
         }
@@ -182,7 +186,12 @@ public class ICoop extends AreaGame implements DialogHandler {
         DiscreteCoordinates coordsBlue = area.getBluePlayerSpawnPosition();
         waterPlayer.enterArea(area, coordsBlue);
         waterPlayer.restoreHealth();
-        playMusic(1);
+
+        if (areas[areaIndex].equals("Spawn")) {
+            getCurrentArea().registerActor(helper);
+        }
+
+
     }
 
     /**
@@ -217,6 +226,7 @@ public class ICoop extends AreaGame implements DialogHandler {
     public void stopMusic(){
         sound.stop();
     }
+
     public void playSoundEffect(int i){
         sound.setFile(i);
         sound.play();
