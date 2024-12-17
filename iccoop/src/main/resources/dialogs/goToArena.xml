@@ -1,10 +1,11 @@
 <strings id="goToArena">
-    <string name="game_name"> Je suis impressione, vous avez reussis a capturer les orbes de la vie!</string>
+    <string name="game_name">Je suis impressione, vous avez reussis a capturer les orbes de la vie!</string>
     <string name="game_name">Mais ceci n'est qu'une premiere etape </string>
-    <string name="game_name"> Vous devez encore passer par l'arene et le labyrinthe, on ne se verra plus pendant longtemps.</string>
-    <string name="game_name"> Laissez moi vous expliquer, </string>
+    <string name="game_name">Vous devez encore passer par l'arene et le labyrinthe, on ne se verra plus pendant longtemps.</string>
+    <string name="game_name">Laissez moi vous expliquer, </string>
     <string name="game_name">Vous devez d'abord prendre les explosifs qui sont la </string>
     <string name="game_name">Ensuite allez prendre la porte au sud</string>
     <string name="game_name">Vous devrez faire plusieurs choses </string>
-    <string name="game_name">Passer le mur l'enfer, esquiver les  </string>
+    <string name="game_name">Passer le mur l'enfer, esquiver les attaquant </string>
+    <string name="game_name"></string>
 </strings>

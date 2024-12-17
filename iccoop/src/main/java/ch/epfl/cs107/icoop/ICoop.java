@@ -54,7 +54,8 @@ public class ICoop extends AreaGame implements DialogHandler {
 
         Arena arena = new Arena(this);
         addArea(arena);
-        Logic[] areas= {orbWay, arena};
+
+
         helper = new Helper(spawn, Orientation.DOWN, new DiscreteCoordinates(4,10), orbWay, arena);
     }
 

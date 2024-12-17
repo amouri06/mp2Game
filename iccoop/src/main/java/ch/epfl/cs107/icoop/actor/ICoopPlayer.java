@@ -401,5 +401,18 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         public void interactWith(Helper helper, boolean isCellInteraction){
             ((ICoopArea)getOwnerArea()).publish(helper.getDialog());
         }
+
+        public void interactWith(Safe safe, boolean isCellInteraction){
+            boolean safeOpened = false;
+            if (safe.isOrbWayComplete() && !safeOpened){
+                inventory.addPocketItem(ICoopItem.Explosive, 3);
+                safeOpened=true;
+            }else if (!safe.isOrbWayComplete() && !safeOpened){
+                ((ICoopArea)getOwnerArea()).publish("goToOrbway2"); ///ADD STRING
+            }else if (safe.isOrbWayComplete() && safeOpened){
+                ((ICoopArea)getOwnerArea()).publish("safeOpened"); ///ADD STRING
+            }
+        }
+
     }
 }
