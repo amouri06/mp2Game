@@ -165,10 +165,10 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                     }
                 }
                 case FireStaff -> {
-                    staffAttack(Boule.AttackType.FEU);
+                    staffAttack("icoop/player.staff_fire", Boule.AttackType.FEU);
                 }
                 case WaterStaff -> {
-                    staffAttack(Boule.AttackType.EAU);
+                    staffAttack("icoop/player2.staff_water", Boule.AttackType.FEU);
                 }
                 case Sword -> {
                     resetItemAnimationTimer();
@@ -197,12 +197,12 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         super.update(deltaTime);
     }
 
-    private void staffAttack(Boule.AttackType type) {
+    private void staffAttack(String useAnimationString, Boule.AttackType type) {
         resetItemAnimationTimer();
         Boule boule = new Boule(getOwnerArea(), getOrientation(), getFieldOfViewCells().getFirst(), PROJECTILE_MAX_DISTANCE, type);
         getOwnerArea().registerActor(boule);
         final Vector anchor = new Vector ( -.5f , -.20f);
-        useItemAnimation =  new OrientedAnimation (boule.getAnimationString() , STAFF_ANIMATION_DURATION , this, anchor , orders , 4, 2, 2, 32 , 32);
+        useItemAnimation =  new OrientedAnimation (useAnimationString, STAFF_ANIMATION_DURATION , this, anchor , orders , 4, 2, 2, 32 , 32);
     }
 
     public void resetItemAnimationTimer(){
