@@ -27,10 +27,7 @@ public final class Arena extends ICoopArea implements Logic {
 
     @Override
     public boolean isOff() {
-        if (areaComplete==null){
-            return true;
-        }
-        return areaComplete.isOff();
+        return !isOn();
     }
 
     public Arena(DialogHandler dialogHandler) {

@@ -28,7 +28,7 @@ import static java.lang.Math.max;
 
 public class ICoop extends AreaGame implements DialogHandler {
     private Helper helper;
-    private final String[] areas = {"Spawn", "OrbWay", "Maze", "Arena"};
+    private final String[] areas = {"Arena", "Spawn", "OrbWay", "Maze"};
     private int areaIndex;
     private static ICoopPlayer firePlayer;
     private Sound sound = new Sound();
@@ -47,16 +47,16 @@ public class ICoop extends AreaGame implements DialogHandler {
      */
     private void createAreas() {
 
-        Spawn spawn =  new Spawn(this);
+        Arena arena = new Arena(this);
+        addArea(arena);
+
+        Spawn spawn =  new Spawn(this, arena);
         addArea(spawn);
 
         OrbWay orbWay= new OrbWay(this);
         addArea(orbWay);
 
         addArea(new Maze(this));
-
-        Arena arena = new Arena(this);
-        addArea(arena);
 
 
         helper = new Helper(spawn, Orientation.DOWN, new DiscreteCoordinates(4,10), orbWay, arena);
@@ -81,7 +81,7 @@ public class ICoop extends AreaGame implements DialogHandler {
     public boolean begin(Window window, FileSystem fileSystem) {
         if (super.begin(window, fileSystem)) {
             createAreas();
-            areaIndex = 0;
+            areaIndex = 1;
             ICoopArea area = (ICoopArea) setCurrentArea(areas[areaIndex], true);
 
             DiscreteCoordinates coordsRed = area.getRedPlayerSpawnPosition();
