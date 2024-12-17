@@ -1,7 +1,14 @@
 package ch.epfl.cs107.icoop.actor;
 
 import ch.epfl.cs107.icoop.KeyBindings;
+import ch.epfl.cs107.icoop.actor.collectables.*;
+import ch.epfl.cs107.icoop.actor.doors.Door;
+import ch.epfl.cs107.icoop.actor.foes.Foe;
+import ch.epfl.cs107.icoop.actor.miscellaneous.Health;
+import ch.epfl.cs107.icoop.actor.miscellaneous.PressurePlate;
+import ch.epfl.cs107.icoop.actor.projectiles.Boule;
 import ch.epfl.cs107.icoop.area.ICoopArea;
+import ch.epfl.cs107.icoop.audio.Sound;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
 import ch.epfl.cs107.icoop.handler.ICoopInventory;
 import ch.epfl.cs107.icoop.handler.ICoopItem;

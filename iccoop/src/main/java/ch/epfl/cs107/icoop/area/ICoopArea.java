@@ -1,18 +1,16 @@
 package ch.epfl.cs107.icoop.area;
 
 import ch.epfl.cs107.icoop.ICoopBehavior;
-import ch.epfl.cs107.icoop.actor.Coin;
+import ch.epfl.cs107.icoop.actor.collectables.Coin;
 import ch.epfl.cs107.icoop.actor.Obstacle;
 import ch.epfl.cs107.icoop.actor.Rock;
 import ch.epfl.cs107.icoop.handler.DialogHandler;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.engine.actor.Dialog;
-import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.io.ResourcePath;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
-import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.math.random.RandomGenerator;
 import ch.epfl.cs107.play.window.Image;
 import ch.epfl.cs107.play.window.Window;

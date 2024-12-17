@@ -1,5 +1,6 @@
-package ch.epfl.cs107.icoop.actor;
+package ch.epfl.cs107.icoop.actor.miscellaneous;
 
+import ch.epfl.cs107.icoop.actor.collectables.ElementalItem;
 import ch.epfl.cs107.play.signal.logic.Logic;
 
 public class AreaComplete implements Logic {

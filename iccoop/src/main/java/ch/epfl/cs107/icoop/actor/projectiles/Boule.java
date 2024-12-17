@@ -1,5 +1,8 @@
-package ch.epfl.cs107.icoop.actor;
+package ch.epfl.cs107.icoop.actor.projectiles;
 
+import ch.epfl.cs107.icoop.actor.*;
+import ch.epfl.cs107.icoop.actor.collectables.Explosive;
+import ch.epfl.cs107.icoop.actor.foes.Foe;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.area.Area;

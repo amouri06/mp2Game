@@ -1,6 +1,6 @@
-package ch.epfl.cs107.icoop.actor;
+package ch.epfl.cs107.icoop.actor.collectables;
 
-import ch.epfl.cs107.play.areagame.actor.CollectableAreaEntity;
+import ch.epfl.cs107.icoop.actor.ElementalEntity;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;

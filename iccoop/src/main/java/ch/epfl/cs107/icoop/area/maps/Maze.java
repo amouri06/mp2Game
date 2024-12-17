@@ -1,12 +1,20 @@
-package ch.epfl.cs107.icoop.area;
+package ch.epfl.cs107.icoop.area.maps;
 
 import ch.epfl.cs107.icoop.actor.*;
+import ch.epfl.cs107.icoop.actor.collectables.Explosive;
+import ch.epfl.cs107.icoop.actor.collectables.Heart;
+import ch.epfl.cs107.icoop.actor.collectables.Staff;
+import ch.epfl.cs107.icoop.actor.doors.Door;
+import ch.epfl.cs107.icoop.actor.foes.BombFoe;
+import ch.epfl.cs107.icoop.actor.foes.HellSkull;
+import ch.epfl.cs107.icoop.actor.miscellaneous.AreaComplete;
+import ch.epfl.cs107.icoop.actor.miscellaneous.PressurePlate;
+import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.icoop.handler.DialogHandler;
 import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
-import ch.epfl.cs107.play.signal.logic.Logic;
 
 import java.util.ArrayList;
 import java.util.Collections;
