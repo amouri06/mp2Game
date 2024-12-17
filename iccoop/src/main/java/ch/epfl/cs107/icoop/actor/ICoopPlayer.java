@@ -37,7 +37,7 @@ import static ch.epfl.cs107.play.math.Orientation.*;
 public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, Interactor, Interactable {
     Sound sound = new Sound();
 
-    private final static int MOVE_DURATION = 8;
+    private final static int MOVE_DURATION = 2;
     private final static int ANIMATION_DURATION = 4;
     private final static int STAFF_ANIMATION_DURATION = 2;
     private final static int SWORD_ANIMATION_DURATION = 2;
@@ -428,6 +428,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
         @Override
         public void interactWith(Helper helper, boolean isCellInteraction){
+            System.out.println(helper.getDialog());
             ((ICoopArea)getOwnerArea()).publish(helper.getDialog());
         }
 

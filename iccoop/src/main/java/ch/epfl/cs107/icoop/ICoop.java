@@ -219,11 +219,13 @@ public class ICoop extends AreaGame implements DialogHandler {
             ((ICoopArea) getCurrentArea()).publish(door.getDialog());
         }
     }
+
     public void playMusic(int i){
         sound.setFile(i);
         sound.play();
         sound.loop();
     }
+
     public void stopMusic(){
         sound.stop();
     }
