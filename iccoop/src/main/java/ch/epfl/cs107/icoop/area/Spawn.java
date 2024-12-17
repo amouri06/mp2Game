@@ -94,6 +94,10 @@ public final class Spawn extends ICoopArea {
 
         registerActor(new Door("Spawn", Logic.TRUE, null, this, new DiscreteCoordinates( 6,11), Collections.singletonList(new DiscreteCoordinates(6, 11)), "victory", "key_required"));
 
+        registerActor(new Helper(this, Orientation.DOWN, new DiscreteCoordinates(9,10)));
+
+
+
     }
 
 }

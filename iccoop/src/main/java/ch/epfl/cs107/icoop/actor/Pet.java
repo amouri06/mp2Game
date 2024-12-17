@@ -17,7 +17,7 @@ import static ch.epfl.cs107.play.math.Orientation.*;
 import static ch.epfl.cs107.play.math.Orientation.LEFT;
 
 public class Pet extends MovableAreaEntity {
-    private final static int ANIMATION_DURATION = 24;
+    private final static int ANIMATION_DURATION = 6;
     private final ICoopPlayer player;
     private OrientedAnimation sprite;
 

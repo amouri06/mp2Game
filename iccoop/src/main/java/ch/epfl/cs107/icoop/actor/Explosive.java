@@ -127,6 +127,8 @@ public class Explosive extends ICoopCellCollectable implements Interactor, Inter
 
         @Override
         public void interactWith(Explosive explosive, boolean isCellInteraction) { explosive.activate(); }
+
+
     }
 
 

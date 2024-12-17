@@ -1,6 +1,5 @@
 package ch.epfl.cs107.icoop.actor;
 
-import ch.epfl.cs107.icoop.ICoop;
 import ch.epfl.cs107.icoop.KeyBindings;
 import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
@@ -11,22 +10,15 @@ import ch.epfl.cs107.play.areagame.actor.Interactor;
 import ch.epfl.cs107.play.areagame.actor.MovableAreaEntity;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
-import ch.epfl.cs107.play.areagame.handler.Inventory;
-import ch.epfl.cs107.play.engine.actor.Actor;
-import ch.epfl.cs107.play.engine.actor.Animation;
 import ch.epfl.cs107.play.engine.actor.OrientedAnimation;
-import ch.epfl.cs107.play.engine.actor.Sprite;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.math.Transform;
 import ch.epfl.cs107.play.math.Vector;
-import ch.epfl.cs107.play.signal.logic.Logic;
 import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -198,7 +190,6 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
             itemAnimationTimer--;
             useItemAnimation.update(deltaTime);
         }
-
         super.update(deltaTime);
     }
 
@@ -327,6 +318,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     }
 
     private class ICoopPlayerInteractionHandler implements ICoopInteractionVisitor {
+
         @Override
         public void interactWith(Door door, boolean isCellInteraction) {
             if (door.getSignal().isOn()) {
@@ -403,6 +395,12 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         @Override
         public void interactWith(Coin coin, boolean isCellInteraction) {
             coin.collect();
+        }
+
+        @Override
+        public void interactWith(Helper helper, boolean isCellInteraction){
+            System.out.println("H");
+            ((ICoopArea)getOwnerArea()).publish("welcome");
         }
     }
 }
