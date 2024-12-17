@@ -138,7 +138,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         moveIfPressed(UP, keyboard.get(keys.up()));
         moveIfPressed(RIGHT, keyboard.get(keys.right()));
         moveIfPressed(DOWN, keyboard.get(keys.down()));
-
+        System.out.println(getCurrentMainCellCoordinates());
         if (keyboard.get(keys.switchItem()).isPressed()) {
             switchItem();
         }
@@ -399,8 +399,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
         @Override
         public void interactWith(Helper helper, boolean isCellInteraction){
-
-            ((ICoopArea)getOwnerArea()).publish("welcome");
+            ((ICoopArea)getOwnerArea()).publish(helper.getDialog());
         }
     }
 }

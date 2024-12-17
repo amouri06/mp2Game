@@ -54,8 +54,8 @@ public class ICoop extends AreaGame implements DialogHandler {
 
         Arena arena = new Arena(this);
         addArea(arena);
-
-        helper = new Helper(spawn, Orientation.DOWN, new DiscreteCoordinates(9,10));
+        Logic[] areas= {orbWay, arena};
+        helper = new Helper(spawn, Orientation.DOWN, new DiscreteCoordinates(4,10), orbWay, arena);
     }
 
     @Override
@@ -189,7 +189,6 @@ public class ICoop extends AreaGame implements DialogHandler {
      */
     private void switchArea(Door door) {
         if (door.getArrivalCoordinates() != null) {
-            System.out.println("HELLO");
             firePlayer.leaveArea(); waterPlayer.leaveArea();
             getCurrentArea().unregisterActor(firePlayerPet);
             ICoopArea currentArea = (ICoopArea) setCurrentArea(door.getDestination(), false);

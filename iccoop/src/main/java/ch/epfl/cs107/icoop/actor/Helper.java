@@ -19,6 +19,8 @@ public class Helper extends AreaEntity implements Interactable{
 
     private final Sprite rpgSprite;
     private String dialog;
+    private Logic firstArea;
+    public Logic secondArea;
 
 
     /**
@@ -28,9 +30,23 @@ public class Helper extends AreaEntity implements Interactable{
      * @param orientation (Orientation): Initial orientation of the entity in the Area. Not null
      * @param position    (DiscreteCoordinate): Initial position of the entity in the Area. Not null
      */
-    public Helper(Area area, Orientation orientation, DiscreteCoordinates position) {
+    public Helper(Area area, Orientation orientation, DiscreteCoordinates position, Logic firstArea, Logic secondArea) {
         super(area, orientation, position);
-        rpgSprite = new Sprite("icoop/logMonster", 2f, 3f, this);
+        rpgSprite = new Sprite("icoop/logMonster", 1f, 1f, this);
+        this.firstArea= firstArea;
+        this.secondArea=secondArea;
+    }
+    public String getDialog(){
+        if (firstArea.isOff() && secondArea.isOff()){
+            return "goToOrbway";
+        }
+        else if(firstArea.isOn() && secondArea.isOff()){
+            return "goToArena";
+        }
+        else if (firstArea.isOn() && secondArea.isOn()){
+            return "goToEnd";
+        }
+        else return "";
     }
 
     @Override
