@@ -30,6 +30,7 @@ public class ICoop extends AreaGame implements DialogHandler {
     private final String[] areas = {"Spawn", "OrbWay", "Maze", "Arena"};
     private int areaIndex;
     private static ICoopPlayer firePlayer;
+    private Sound sound = new Sound();
     private ICoopPlayerStatusGUI firePlayerStatusGUI;
     private static ICoopPlayer waterPlayer;
     private static Pet firePlayerPet;
@@ -78,7 +79,7 @@ public class ICoop extends AreaGame implements DialogHandler {
         if (super.begin(window, fileSystem)) {
             createAreas();
             areaIndex = 0;
-
+            playMusic(1);
             ICoopArea area = (ICoopArea) setCurrentArea(areas[areaIndex], true);
 
             DiscreteCoordinates coordsRed = area.getRedPlayerSpawnPosition();
@@ -171,6 +172,7 @@ public class ICoop extends AreaGame implements DialogHandler {
      * @param areaKey (String) title of an area
      */
     private void initArea(String areaKey) {
+
         ICoopArea area = (ICoopArea) setCurrentArea(areas[areaIndex], true);
 
         DiscreteCoordinates coordsRed = area.getRedPlayerSpawnPosition();
@@ -207,6 +209,18 @@ public class ICoop extends AreaGame implements DialogHandler {
         if (door.getDialog() != null) {
             ((ICoopArea) getCurrentArea()).publish(door.getDialog());
         }
+    }
+    public void playMusic(int i){
+        sound.setFile(i);
+        sound.play();
+        sound.loop();
+    }
+    public void stopMusic(){
+        sound.stop();
+    }
+    public void playSoundEffect(int i){
+        sound.setFile(i);
+        sound.play();
     }
 
 }
