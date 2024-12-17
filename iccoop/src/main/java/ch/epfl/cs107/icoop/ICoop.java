@@ -178,6 +178,7 @@ public class ICoop extends AreaGame implements DialogHandler {
      */
     private void switchArea(Door door) {
         if (door.getArrivalCoordinates() != null) {
+            System.out.println("HELLO");
             firePlayer.leaveArea(); waterPlayer.leaveArea();
             getCurrentArea().unregisterActor(firePlayerPet);
             ICoopArea currentArea = (ICoopArea) setCurrentArea(door.getDestination(), false);
@@ -191,6 +192,9 @@ public class ICoop extends AreaGame implements DialogHandler {
                     areaIndex = i;
                 }
             }
+        }
+        if (door.getDialog() != null) {
+            ((ICoopArea) getCurrentArea()).publish(door.getDialog());
         }
     }
 

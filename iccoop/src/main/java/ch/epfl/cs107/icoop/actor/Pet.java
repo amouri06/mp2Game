@@ -26,12 +26,18 @@ public class Pet extends MovableAreaEntity {
         this.player = player;
         Vector anchor = new Vector(0, 0);
         Orientation[] orders = {DOWN, UP, LEFT, RIGHT};
-        sprite = new OrientedAnimation(prefix, ANIMATION_DURATION, this, anchor, orders, 8, 2, 2, 64, 64, true);
+        sprite = new OrientedAnimation(prefix, ANIMATION_DURATION, this, anchor, orders, 4, 2, 2, 64, 64, true);
     }
 
     public void update(float deltaTime){
-        if (player!=null){
-            targetedMove();
+        targetedMove();
+        if (isDisplacementOccurs()) {
+            sprite.update(deltaTime);
+            sprite.update(deltaTime);
+            sprite.update(deltaTime);
+
+        } else {
+            sprite.reset();
         }
         super.update(deltaTime);
     }
@@ -57,7 +63,7 @@ public class Pet extends MovableAreaEntity {
                 orientationOccured = !orientate(Orientation.fromVector(new Vector(0, -deltaY)));
             }
             if (!orientationOccured) {
-                move(ANIMATION_DURATION/2);
+                move((int) (ANIMATION_DURATION / 2.25));
             }
         }
     }
