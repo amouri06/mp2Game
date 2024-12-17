@@ -17,7 +17,7 @@ import static ch.epfl.cs107.play.math.Orientation.*;
 import static ch.epfl.cs107.play.math.Orientation.LEFT;
 
 public class Pet extends MovableAreaEntity {
-    private final static int ANIMATION_DURATION = 4;
+    private final static int ANIMATION_DURATION = 24;
     private final ICoopPlayer player;
     private OrientedAnimation sprite;
 
@@ -25,7 +25,7 @@ public class Pet extends MovableAreaEntity {
         super(owner, orientation, coordinates);
         this.player = player;
         Vector anchor = new Vector(0, 0);
-        Orientation[] orders = {DOWN, RIGHT, UP, LEFT};
+        Orientation[] orders = {DOWN, UP, LEFT, RIGHT};
         sprite = new OrientedAnimation(prefix, ANIMATION_DURATION, this, anchor, orders, 8, 2, 2, 64, 64, true);
     }
 
@@ -33,7 +33,6 @@ public class Pet extends MovableAreaEntity {
         if (player!=null){
             targetedMove();
         }
-        sprite.update(deltaTime);
         super.update(deltaTime);
     }
     public void enterArea(Area area, DiscreteCoordinates position) {
@@ -44,20 +43,23 @@ public class Pet extends MovableAreaEntity {
     }
 
     public void draw(Canvas canvas){
-        if (getOrientation()!=null) {
-            sprite.draw(canvas);
-        }
+        sprite.draw(canvas);
     }
 
     private void targetedMove() {
         Vector v = getPosition().sub(((Entity) player).getPosition());
         float deltaX = v.getX(); float deltaY = v.getY();
-        if (Math.abs(deltaX) > Math.abs(deltaY)) {
-            orientate(Orientation.fromVector(new Vector(-deltaX, 0)));
-        } else {
-            orientate(Orientation.fromVector(new Vector(0, -deltaY)));
+        if (deltaX != 0 || deltaY != 0) {
+            boolean orientationOccured;
+            if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                orientationOccured = !orientate(Orientation.fromVector(new Vector(-deltaX, 0)));
+            } else {
+                orientationOccured = !orientate(Orientation.fromVector(new Vector(0, -deltaY)));
+            }
+            if (!orientationOccured) {
+                move(ANIMATION_DURATION/2);
+            }
         }
-        move(ANIMATION_DURATION / 3);
     }
 
 

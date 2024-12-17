@@ -123,14 +123,16 @@ public class BombFoe extends Foe {
     private void targetedMove() {
         Vector v = getPosition().sub(((Entity) target).getPosition());
         float deltaX = v.getX(); float deltaY = v.getY();
-        Orientation previousOrientation = getOrientation();
-        if (Math.abs(deltaX) > Math.abs(deltaY)) {
-            orientate(Orientation.fromVector(new Vector(-deltaX, 0)));
-        } else {
-            orientate(Orientation.fromVector(new Vector(0, -deltaY)));
-        }
-        if (previousOrientation == getOrientation()) {
-            move(ANIMATION_DURATION / state.getSpeedFactor());
+        boolean orientationOccured;
+        if (deltaX != 0 || deltaY != 0) {
+            if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                orientationOccured = !orientate(Orientation.fromVector(new Vector(-deltaX, 0)));
+            } else {
+                orientationOccured = !orientate(Orientation.fromVector(new Vector(0, -deltaY)));
+            }
+            if (!orientationOccured) {
+                move(ANIMATION_DURATION / state.getSpeedFactor());
+            }
         }
     }
 

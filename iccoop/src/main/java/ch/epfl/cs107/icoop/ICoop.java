@@ -74,7 +74,7 @@ public class ICoop extends AreaGame implements DialogHandler {
             DiscreteCoordinates coordsRed = area.getRedPlayerSpawnPosition();
             firePlayer = new ICoopPlayer(area, Orientation.DOWN, coordsRed, ElementalEntity.Element.FEU, "icoop/player", KeyBindings.RED_PLAYER_KEY_BINDINGS);
             firePlayerStatusGUI = new ICoopPlayerStatusGUI(firePlayer, true);
-            firePlayerPet= new Pet(area, Orientation.LEFT, coordsRed, firePlayer,"icoop/Slime3_Walk_Full");
+            firePlayerPet= new Pet(area, Orientation.DOWN, coordsRed, firePlayer,"icoop/Slime3_Walk_Full");
 
             DiscreteCoordinates coordsBlue = area.getBluePlayerSpawnPosition();
             waterPlayer = new ICoopPlayer(area, Orientation.DOWN, coordsBlue, ElementalEntity.Element.EAU, "icoop/player2", KeyBindings.BLUE_PLAYER_KEY_BINDINGS);
@@ -179,9 +179,11 @@ public class ICoop extends AreaGame implements DialogHandler {
     private void switchArea(Door door) {
         if (door.getArrivalCoordinates() != null) {
             firePlayer.leaveArea(); waterPlayer.leaveArea();
+            getCurrentArea().unregisterActor(firePlayerPet);
             ICoopArea currentArea = (ICoopArea) setCurrentArea(door.getDestination(), false);
             firePlayer.enterArea(currentArea, (door.getArrivalCoordinates().getFirst()));
             waterPlayer.enterArea(currentArea, (door.getArrivalCoordinates().get(1)));
+            firePlayerPet.enterArea(currentArea, (door.getArrivalCoordinates().getFirst()));
             firePlayer.nullifyIsLeavingAreaDoor(); waterPlayer.nullifyIsLeavingAreaDoor();
 
             for (int i = 0; i < areas.length; ++i) {
