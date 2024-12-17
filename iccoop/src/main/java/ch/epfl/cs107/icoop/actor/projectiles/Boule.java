@@ -97,6 +97,10 @@ public class Boule extends Projectile implements ElementalEntity {
         animation.draw(canvas);
     }
 
+    public String getAnimationString() {
+        return attackType.getAnimationString();
+    }
+
     /**
      * Explains all the interaction between the projectile and different elements of the game
      * Damages a foe

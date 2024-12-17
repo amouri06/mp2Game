@@ -165,18 +165,10 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                     }
                 }
                 case FireStaff -> {
-                    resetItemAnimationTimer();
-                    Boule boule = new Boule(getOwnerArea(), getOrientation(), getFieldOfViewCells().getFirst(), PROJECTILE_MAX_DISTANCE, Boule.AttackType.FEU);
-                    getOwnerArea().registerActor(boule);
-                    final Vector anchor = new Vector ( -.5f , -.20f);
-                    useItemAnimation =  new OrientedAnimation ( "icoop/player.staff_fire" , STAFF_ANIMATION_DURATION , this ,  anchor , orders , 4, 2, 2, 32 , 32);
+                    staffAttack(Boule.AttackType.FEU);
                 }
                 case WaterStaff -> {
-                    resetItemAnimationTimer();
-                    Boule boule = new Boule(getOwnerArea(), getOrientation(), getFieldOfViewCells().getFirst(), PROJECTILE_MAX_DISTANCE, Boule.AttackType.EAU);
-                    getOwnerArea().registerActor(boule);
-                    final Vector anchor = new Vector(-.5f, -.20f);
-                    useItemAnimation = new OrientedAnimation("icoop/player2.staff_water", STAFF_ANIMATION_DURATION, this, anchor, orders, 4, 2, 2, 32, 32);
+                    staffAttack(Boule.AttackType.EAU);
                 }
                 case Sword -> {
                     resetItemAnimationTimer();
@@ -203,6 +195,14 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
             useItemAnimation.update(deltaTime);
         }
         super.update(deltaTime);
+    }
+
+    private void staffAttack(Boule.AttackType type) {
+        resetItemAnimationTimer();
+        Boule boule = new Boule(getOwnerArea(), getOrientation(), getFieldOfViewCells().getFirst(), PROJECTILE_MAX_DISTANCE, type);
+        getOwnerArea().registerActor(boule);
+        final Vector anchor = new Vector ( -.5f , -.20f);
+        useItemAnimation =  new OrientedAnimation (boule.getAnimationString() , STAFF_ANIMATION_DURATION , this, anchor , orders , 4, 2, 2, 32 , 32);
     }
 
     public void resetItemAnimationTimer(){
