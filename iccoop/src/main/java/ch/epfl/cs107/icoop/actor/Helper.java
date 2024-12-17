@@ -55,7 +55,7 @@ public class Helper extends AreaEntity implements Interactable{
 
     @Override
     public boolean isViewInteractable() {
-        return false;
+        return true;
     }
 
     @Override

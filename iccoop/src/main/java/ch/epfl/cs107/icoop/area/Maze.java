@@ -28,7 +28,6 @@ public final class Maze extends ICoopArea {
         return new DiscreteCoordinates(2,39);
     }
 
-
     /**
      *
      * @return blue player's spawn coordinates in this area

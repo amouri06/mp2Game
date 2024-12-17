@@ -17,7 +17,7 @@ import static ch.epfl.cs107.play.math.Orientation.*;
 import static ch.epfl.cs107.play.math.Orientation.LEFT;
 
 public class Pet extends MovableAreaEntity {
-    private final static int ANIMATION_DURATION = 6;
+    private final static int ANIMATION_DURATION = 24;
     private final ICoopPlayer player;
     private OrientedAnimation sprite;
 
@@ -26,7 +26,7 @@ public class Pet extends MovableAreaEntity {
         this.player = player;
         Vector anchor = new Vector(0, 0);
         Orientation[] orders = {DOWN, UP, LEFT, RIGHT};
-        sprite = new OrientedAnimation(prefix, ANIMATION_DURATION, this, anchor, orders, 4, 2, 2, 64, 64, true);
+        sprite = new OrientedAnimation(prefix, ANIMATION_DURATION, this, anchor, orders, 4, 2, 2, 64, 64, false);
     }
 
     public void update(float deltaTime){
