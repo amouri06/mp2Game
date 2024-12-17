@@ -12,12 +12,25 @@ import ch.epfl.cs107.play.signal.logic.Logic;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class OrbWay extends ICoopArea {
+public final class OrbWay extends ICoopArea implements Logic{
+    private AreaComplete areaComplete;
+
+
 
     public OrbWay(DialogHandler dialogHandler) {
         super(dialogHandler);
     }
 
+
+    @Override
+    public boolean isOn() {
+        return areaComplete.isOn();
+    }
+
+    @Override
+    public boolean isOff() {
+        return areaComplete.isOff();
+    }
 
     /**
      *
@@ -75,8 +88,11 @@ public final class OrbWay extends ICoopArea {
         registerActor(new Heart(this, Orientation.DOWN, new DiscreteCoordinates(5,13)));
         registerActor(new Heart(this, Orientation.DOWN, new DiscreteCoordinates(10,11)));
 
-        registerActor(new Orb(this, new DiscreteCoordinates(17,12), ElementalEntity.Element.FEU));
-        registerActor(new Orb(this, new DiscreteCoordinates(17,6), ElementalEntity.Element.EAU));
+        Orb fireOrb = new Orb(this, new DiscreteCoordinates(17,12), ElementalEntity.Element.FEU);
+        registerActor(fireOrb);
+        Orb waterOrb = new Orb(this, new DiscreteCoordinates(17,6), ElementalEntity.Element.EAU);
+        registerActor(waterOrb);
+        areaComplete = new AreaComplete(fireOrb, waterOrb);
 
         PressurePlate firstPressurePlate = new PressurePlate(this, new DiscreteCoordinates(5, 7));
         registerActor(firstPressurePlate);
@@ -96,5 +112,4 @@ public final class OrbWay extends ICoopArea {
 
 
     }
-
 }

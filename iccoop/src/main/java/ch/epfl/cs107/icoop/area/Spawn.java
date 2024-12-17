@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public final class Spawn extends ICoopArea {
+public final class Spawn extends ICoopArea{
 
 
     private boolean firstCall = true;
@@ -30,6 +30,7 @@ public final class Spawn extends ICoopArea {
         }
         super.update(deltaTime);
     }
+
 
     /**
      *
@@ -94,10 +95,5 @@ public final class Spawn extends ICoopArea {
 
         registerActor(new Door("Spawn", Logic.TRUE, null, this, new DiscreteCoordinates( 6,11), Collections.singletonList(new DiscreteCoordinates(6, 11)), "victory", "key_required"));
 
-        registerActor(new Helper(this, Orientation.DOWN, new DiscreteCoordinates(9,10)));
-
-
-
     }
-
 }

@@ -7,6 +7,7 @@ import ch.epfl.cs107.icoop.handler.DialogHandler;
 import ch.epfl.cs107.icoop.handler.ICoopItem;
 import ch.epfl.cs107.icoop.handler.ICoopPlayerStatusGUI;
 import ch.epfl.cs107.play.areagame.AreaGame;
+import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.engine.actor.Dialog;
 import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.io.FileSystem;
@@ -25,7 +26,7 @@ import static java.lang.Math.max;
 
 
 public class ICoop extends AreaGame implements DialogHandler {
-
+    private Helper helper;
     private final String[] areas = {"Spawn", "OrbWay", "Maze", "Arena"};
     private int areaIndex;
     private static ICoopPlayer firePlayer;
@@ -43,10 +44,18 @@ public class ICoop extends AreaGame implements DialogHandler {
      * Add all the Tuto2 areas
      */
     private void createAreas() {
-        addArea(new Spawn(this));
-        addArea(new OrbWay(this));
+        Spawn spawn =  new Spawn(this);
+        addArea(spawn);
+
+        OrbWay orbWay= new OrbWay(this);
+        addArea(orbWay);
+
         addArea(new Maze(this));
-        addArea(new Arena(this));
+
+        Arena arena = new Arena(this);
+        addArea(arena);
+
+        helper = new Helper(spawn, Orientation.DOWN, new DiscreteCoordinates(9,10));
     }
 
     @Override
@@ -83,6 +92,8 @@ public class ICoop extends AreaGame implements DialogHandler {
             initArea(areas[areaIndex]);
 
             cameraCenter = new CenterOfMass(firePlayer, waterPlayer);
+
+            getCurrentArea().registerActor(helper);
 
             return true;
         }

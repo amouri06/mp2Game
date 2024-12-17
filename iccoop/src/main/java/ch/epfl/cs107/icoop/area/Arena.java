@@ -5,12 +5,23 @@ import ch.epfl.cs107.icoop.handler.DialogHandler;
 import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.signal.logic.Logic;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class Arena extends ICoopArea {
+public final class Arena extends ICoopArea implements Logic {
+    private AreaComplete areaComplete;
 
+    @Override
+    public boolean isOn() {
+        return areaComplete.isOn();
+    }
+
+    @Override
+    public boolean isOff() {
+        return areaComplete.isOff();
+    }
 
     public Arena(DialogHandler dialogHandler) {
         super(dialogHandler);
@@ -36,8 +47,7 @@ public final class Arena extends ICoopArea {
         ElementalKey waterKey = new ElementalKey(this, new DiscreteCoordinates(9,4), ElementalEntity.Element.EAU);
         registerActor(fireKey);
         registerActor(waterKey);
-
-        AreaComplete areaComplete = new AreaComplete(fireKey, waterKey);
+        areaComplete= new AreaComplete(fireKey, waterKey);
 
         List<DiscreteCoordinates> arrivalCoordinates = new ArrayList<DiscreteCoordinates>();
         arrivalCoordinates.add(new DiscreteCoordinates(13,6)); arrivalCoordinates.add(new DiscreteCoordinates(14,6));
@@ -48,4 +58,5 @@ public final class Arena extends ICoopArea {
     public String getTitle() {
         return "Arena";
     }
+
 }

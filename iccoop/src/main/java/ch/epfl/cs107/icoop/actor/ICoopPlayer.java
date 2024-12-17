@@ -399,7 +399,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
         @Override
         public void interactWith(Helper helper, boolean isCellInteraction){
-            System.out.println("H");
+
             ((ICoopArea)getOwnerArea()).publish("welcome");
         }
     }

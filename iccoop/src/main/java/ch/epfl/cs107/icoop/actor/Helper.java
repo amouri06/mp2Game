@@ -20,6 +20,7 @@ public class Helper extends AreaEntity implements Interactable{
     private final Sprite rpgSprite;
     private String dialog;
 
+
     /**
      * Default AreaEntity constructor
      *
