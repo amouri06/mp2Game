@@ -9,10 +9,10 @@ public class Sound {
     Clip clip;
     URL soundURL[] = new URL[30];
     public Sound(){
-        soundURL[0] = getClass().getResource("sounds/blocked.wav");
-        soundURL[1] = getClass().getResource("sounds/BlueBoyAdventure.wav");
-        soundURL[2] = getClass().getResource("sounds/burning");
-        soundURL[3] = getClass().getResource("sounds/chipwall");
+        soundURL[0] = getClass().getResource("/resources/sound/blocked.wav");
+        soundURL[1] = getClass().getResource("/sound/BlueBoyAdventure.wav");
+        soundURL[2] = getClass().getResource("/sounds/burning");
+        soundURL[3] = getClass().getResource("/sounds/chipwall");
 
 
     }
@@ -31,7 +31,6 @@ public class Sound {
 
     public void loop(){
         clip.loop(Clip.LOOP_CONTINUOUSLY);
-
     }
     public void stop(){
         clip.stop();

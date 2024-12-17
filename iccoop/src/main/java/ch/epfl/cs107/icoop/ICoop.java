@@ -79,7 +79,6 @@ public class ICoop extends AreaGame implements DialogHandler {
         if (super.begin(window, fileSystem)) {
             createAreas();
             areaIndex = 0;
-            playMusic(1);
             ICoopArea area = (ICoopArea) setCurrentArea(areas[areaIndex], true);
 
             DiscreteCoordinates coordsRed = area.getRedPlayerSpawnPosition();
@@ -183,7 +182,7 @@ public class ICoop extends AreaGame implements DialogHandler {
         DiscreteCoordinates coordsBlue = area.getBluePlayerSpawnPosition();
         waterPlayer.enterArea(area, coordsBlue);
         waterPlayer.restoreHealth();
-
+        playMusic(1);
     }
 
     /**
