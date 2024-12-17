@@ -28,6 +28,7 @@ import static ch.epfl.cs107.play.math.Orientation.*;
  * A ICoopPlayer is a player for the ICoop game.
  */
 public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, Interactor, Interactable {
+    Sound sound = new Sound();
 
     private final static int MOVE_DURATION = 8;
     private final static int ANIMATION_DURATION = 4;
@@ -312,6 +313,18 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         }
         return null;
     }
+    public void playMusic(int i){
+        sound.setFile(i);
+        sound.play();
+        sound.loop();
+    }
+    public void stopMusic(){
+        sound.stop();
+    }
+    public void playSoundEffect(int i){
+        sound.setFile(i);
+        sound.play();
+    }
 
     public void nullifyIsLeavingAreaDoor() {
         isLeavingAreaDoor = null;
@@ -394,6 +407,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
         @Override
         public void interactWith(Coin coin, boolean isCellInteraction) {
+            playSoundEffect(4);
             coin.collect();
         }
 
@@ -413,6 +427,5 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                 ((ICoopArea)getOwnerArea()).publish("safeOpened"); ///ADD STRING
             }
         }
-
     }
 }
