@@ -72,6 +72,10 @@ public abstract class Foe extends MovableAreaEntity implements Interactor, Inter
 
     protected int getImmuneTimer() { return immuneTimer; }
 
+    /**
+     * Draws the death animation of the foe if he is dead (his hp <= 0)
+     * @param canvas target, not null
+     */
     @Override
     public void draw(Canvas canvas) {
         if (hp <= 0) {
@@ -79,10 +83,18 @@ public abstract class Foe extends MovableAreaEntity implements Interactor, Inter
         }
     }
 
+    /**
+     * Returns the vulnerabity list of the Foe by creating a clone
+     * @return
+     */
     public Vulnerability[] getVulnerabilityList() {
         return vulnerabilityList.clone();
     }
 
+    /**
+     * Returns true if the foe is immune, false if he is not.
+     * @return
+     */
     public boolean isImmune(){
         return immuneTimer > 0;
     }

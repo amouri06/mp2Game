@@ -18,12 +18,21 @@ public class PressurePlate extends AreaEntity implements Interactable, Logic {
     private RPGSprite rpgSprite;
     private int timer;
 
+    /**
+     *
+     * @param owner (Owner)
+     * @param mainCellPosition (DiscreteCoordinates)
+     */
     public PressurePlate(Area owner, DiscreteCoordinates mainCellPosition){
         super(owner, Orientation.DOWN, mainCellPosition);
         rpgSprite = new RPGSprite("GroundPlateOff", 1.f, 1.f, this);
         timer = 0;
     }
 
+    /**
+     * Draws the PressurePlate in the game
+     * @param canvas target, not null
+     */
     @Override
     public void draw(Canvas canvas) {
         rpgSprite.draw(canvas);
@@ -31,13 +40,21 @@ public class PressurePlate extends AreaEntity implements Interactable, Logic {
 
     @Override
     public void update(float deltaTime) {
+        //At each update, reduces the timer by one until it gets to 0.
         timer = Math.max(0, timer - 1);
     }
 
+    /**
+     * Adds one to the timer
+     */
     public void playerIsOn() {
         timer += 1;
     }
 
+    /**
+     * Returns true if the timer is equal to 0
+     * @return
+     */
     public boolean timerIsZero() {
         return timer == 0;
     }
@@ -69,11 +86,19 @@ public class PressurePlate extends AreaEntity implements Interactable, Logic {
     }
 
     ///Implements Logic
+    /**
+     * Returns true if the timer is 0
+     * @return
+     */
     @Override
     public boolean isOn() {
         return timerIsZero();
     }
 
+    /**
+     * Returns true is the timer is not 0
+     * @return
+     */
     @Override
     public boolean isOff() {
         return !timerIsZero();

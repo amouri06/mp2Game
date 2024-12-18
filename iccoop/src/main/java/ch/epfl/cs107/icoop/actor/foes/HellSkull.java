@@ -52,6 +52,10 @@ public class HellSkull extends Foe {
         super.update(deltaTime);
     }
 
+    /**
+     * Draws the HellSkull in the game. And calls the draw of Foe (DeathAnimation)
+     * @param canvas target, not null
+     */
     @Override
     public void draw(Canvas canvas) {
         if (this.isAlive()) {
@@ -101,7 +105,7 @@ public class HellSkull extends Foe {
 
         @Override
         public void interactWith(ICoopPlayer player, boolean isCellInteraction) {
-
+        //Decreses the player's health if he gets close to the HellSlull
             if (isAlive()) {
                 player.decreaseHealth(1);
             }

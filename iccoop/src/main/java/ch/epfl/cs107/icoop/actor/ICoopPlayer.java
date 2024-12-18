@@ -98,10 +98,17 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         return element;
     }
 
+    /**
+     * Restores the health of the player to the initial health
+     */
     public void restoreHealth() {
         health.increase(MAX_LIFE);
     }
 
+    /**
+     * Decreases the health of the player if he is not immune and reinitialises the immuneTimer to 24.
+     * @param amount (int)
+     */
     public void decreaseHealth(int amount) {
         if (!isImmune()) {
             health.decrease(amount);
@@ -109,16 +116,32 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         }
     }
 
+    /**
+     * Returns true if the player is immune
+     * @return
+     */
     private boolean isImmune() {
         return (immuneTimer > 0);
     }
 
+    /**
+     * Returns true if the player is alive (Checks that by seeing id the health is active (health!=0))
+     * @return
+     */
     public boolean isAlive() {
         return health.isOn();
     }
 
+    /**
+     * Checks if the layer is element immune
+     * @return
+     */
     public boolean isElementImmune() { return isElementImmune; }
 
+    /**
+     * Returns the name of the current item
+     * @return
+     */
     public String getCurrentItemName() {
         if (currentItem == null) {
             return "";
@@ -126,10 +149,16 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         return currentItem.getName();
     }
 
+    /**
+     * Switches the currentItem
+     */
     public void switchItem() {
         boolean switched = false;
         for (int i = 1; i < items.length; ++i) {
+            //Checks if the item was not switched (to not keep searching if the item was switched) and if the players inventory contains the next item in the ICoopItems enum
             if (!switched && inventory.contains(items[(currentItemIndex + i) % items.length])) {
+                //If yes, the index goes + i % items.lenght (To not exceed the number of possible items)
+                //And switches the CurrentItem to the item in the currentItem index, switched become true
                 currentItemIndex = (currentItemIndex + i) % items.length;
                 currentItem = items[currentItemIndex];
                 switched = true;
@@ -142,18 +171,23 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
      */
     @Override
     public void update(float deltaTime) {
+        //Player movements:
         Keyboard keyboard = getOwnerArea().getKeyboard();
         moveIfPressed(LEFT, keyboard.get(keys.left()));
         moveIfPressed(UP, keyboard.get(keys.up()));
         moveIfPressed(RIGHT, keyboard.get(keys.right()));
         moveIfPressed(DOWN, keyboard.get(keys.down()));
 
+        //Swtiches the item if the switchItem key is pressed
         if (keyboard.get(keys.switchItem()).isPressed()) {
             switchItem();
         }
 
+        //Checks if the useItem key is pressed
         if (keyboard.get(keys.useItem()).isPressed()) {
+            //Gives differents cases depending on what the type of item is
             switch (currentItem) {
+                //Individual methods will be explained below in their respective locations
                 case Explosive -> {
                     explosiveUse();
                 }
@@ -168,18 +202,21 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                 }
             }
         }
+        //updates the player sprite if displacement occurs
         if (isDisplacementOccurs()) {
             sprite.update(deltaTime);
         } else {
             sprite.reset();
         }
-
+        //Reduces the immunity Timer if it is greater than 0
         if (immuneTimer > 0) {
             immuneTimer--;
         }
+        //Reduces the displacement timer is if it greater than 0
         if (displacementTimer > 0) {
             displacementTimer--;
         }
+        //Reduces the itemAnimationTimer if it is greater than 0, and updates the item's respective animations
         if (itemAnimationTimer > 0) {
             itemAnimationTimer--;
             useItemAnimation.update(deltaTime);
@@ -189,39 +226,51 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
     private void staffAttack(String useAnimationString, Boule.AttackType type) {
         resetItemAnimationTimer();
+        //Creates a new Boule at on the first cell in the player's field of view
         Boule boule = new Boule(getOwnerArea(), getOrientation(), getFieldOfViewCells().getFirst(), PROJECTILE_MAX_DISTANCE, type);
+        //Registers it
         getOwnerArea().registerActor(boule);
         final Vector anchor = new Vector ( -.5f , -.20f);
+        //Sets the useItemAnimation to the staff's attack animation
         useItemAnimation =  new OrientedAnimation (useAnimationString, STAFF_ANIMATION_DURATION , this, anchor , orders , 4, 2, 2, 32 , 32);
     }
 
     private void swordUse() {
         resetItemAnimationTimer();
         final Vector anchor = new Vector(-.5f, 0);
+        //Sets the useItemAnimation to the sword's attack animation
         useItemAnimation = new OrientedAnimation(prefix + ".sword", SWORD_ANIMATION_DURATION, this, anchor, orders, 4, 2, 2, 32, 32);
     }
 
     private void explosiveUse() {
+        //Creates a new explosive
         Explosive explosive = new Explosive(getOwnerArea(), DOWN, getFieldOfViewCells().getFirst());
+        //Checks if an explosive can be placed
         if (getOwnerArea().canEnterAreaCells(explosive, getFieldOfViewCells())) {
+            //Places the explosive
             getOwnerArea().registerActor(explosive);
+            //Removes one explosive from the player's inventory
             inventory.removePocketItem(ICoopItem.Explosive, 1);
+            //Checks if the player still has any more explosives, if not, switches the item
             if (!inventory.contains(ICoopItem.Explosive)) {
                 switchItem();
             }
         }
     }
 
+    //Resets the item animation timer
     public void resetItemAnimationTimer(){
         itemAnimationTimer=8;
     }
 
+    //Checks if a player's inventory has a certain item
     public boolean inventoryContains(ICoopItem iCoopItem) {
         return inventory.contains(iCoopItem);
     }
 
 
     /**
+     *
      * @param canvas target, not null
      */
     @Override
@@ -331,6 +380,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         }
         return null;
     }
+
     public void playMusic(int i){
         sound.setFile(i);
         sound.play();

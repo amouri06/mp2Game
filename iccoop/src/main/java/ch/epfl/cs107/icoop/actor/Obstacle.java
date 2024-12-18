@@ -30,6 +30,10 @@ public class Obstacle extends AreaEntity implements Interactable {
         sprite = new Sprite("rock.2", 1.f, 1.f, this);
     }
 
+    /**
+     * Returns
+     * @param canvas target, not null
+     */
     public void draw(Canvas canvas) {
         sprite.draw(canvas);
     }
