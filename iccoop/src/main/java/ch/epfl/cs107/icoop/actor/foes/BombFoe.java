@@ -77,48 +77,64 @@ public class BombFoe extends Foe {
             state = State.IDLE;
             inactionTime = 0;
         }
-        else if (state == State.IDLE) {
-            double randDouble = RandomGenerator.getInstance().nextDouble();
-            if (inactionTime <= 0) {
-                if (randDouble <= 0.4) {
-                    orientate(orders[RandomGenerator.getInstance().nextInt(4)]);
+        else {
+            switch (state) {
+                case IDLE -> {
+                    idleUpdate(deltaTime);
                 }
-                move(ANIMATION_DURATION / state.getSpeedFactor());
-                inactionTime = RandomGenerator.getInstance().nextInt(MAX_INACTION_TIME);
-            }
-            else {
-                --inactionTime;
-            }
-        }
-        else if (state == State.ATTACKING) {
-            if (DiscreteCoordinates.distanceBetween(getCurrentMainCellCoordinates(), ((AreaEntity) target).getCurrentMainCellCoordinates()) > MIN_ATTACKING_DISTANCE) {
-                targetedMove();
-            }
-            else {
-                Explosive explosive = new Explosive(getOwnerArea(), DOWN, super.getFieldOfViewCells().getFirst());
-                if (getOwnerArea().canEnterAreaCells(explosive, super.getFieldOfViewCells())) {
-                    getOwnerArea().registerActor(explosive);
-                    explosive.activate();
+                case ATTACKING -> {
+                    attackingUpdate(deltaTime);
                 }
-                state = State.PROTECTING;
+                case PROTECTING -> {
+                    protectingupdate(deltaTime);
+                }
             }
-        } else if (state == State.PROTECTING) {
-            if (target != null) {
-                target = null;
-                protectingTime = MIN_PROTECTING_TIME + RandomGenerator.getInstance().nextInt(MAX_PROTECTING_TIME - MIN_PROTECTING_TIME);
-            } else if (protectingTime > 0) {
-                protectingTime--;
-                protectingAnimation.update(deltaTime);
-            }
-            else {
-                state = State.IDLE;
-            }
-            protectingAnimation.update(deltaTime);
         }
         if (isDisplacementOccurs()) {
             normalAnimation.update(deltaTime);
         }
         super.update(deltaTime);
+    }
+
+    private void attackingUpdate(float deltaTime) {
+        if (DiscreteCoordinates.distanceBetween(getCurrentMainCellCoordinates(), ((AreaEntity) target).getCurrentMainCellCoordinates()) > MIN_ATTACKING_DISTANCE) {
+            targetedMove();
+        }
+        else {
+            Explosive explosive = new Explosive(getOwnerArea(), DOWN, super.getFieldOfViewCells().getFirst());
+            if (getOwnerArea().canEnterAreaCells(explosive, super.getFieldOfViewCells())) {
+                getOwnerArea().registerActor(explosive);
+                explosive.activate();
+            }
+            state = State.PROTECTING;
+        }
+    }
+
+    private void idleUpdate(float deltaTime) {
+        double randDouble = RandomGenerator.getInstance().nextDouble();
+        if (inactionTime <= 0) {
+            if (randDouble <= 0.4) {
+                orientate(orders[RandomGenerator.getInstance().nextInt(4)]);
+            }
+            move(ANIMATION_DURATION / state.getSpeedFactor());
+            inactionTime = RandomGenerator.getInstance().nextInt(MAX_INACTION_TIME);
+        } else {
+            --inactionTime;
+        }
+    }
+
+    private void protectingupdate(float deltaTime) {
+        if (target != null) {
+            target = null;
+            protectingTime = MIN_PROTECTING_TIME + RandomGenerator.getInstance().nextInt(MAX_PROTECTING_TIME - MIN_PROTECTING_TIME);
+        } else if (protectingTime > 0) {
+            protectingTime--;
+            protectingAnimation.update(deltaTime);
+        }
+        else {
+            state = State.IDLE;
+        }
+        protectingAnimation.update(deltaTime);
     }
 
     private void targetedMove() {
