@@ -1,8 +1,6 @@
 package ch.epfl.cs107.icoop.handler;
 
-import ch.epfl.cs107.icoop.actor.ICoopCellCollectable;
 import ch.epfl.cs107.play.areagame.handler.InventoryItem;
-import ch.epfl.cs107.play.engine.actor.Sprite;
 
 public enum ICoopItem implements InventoryItem {
     Sword("icoop/sword.icon"),

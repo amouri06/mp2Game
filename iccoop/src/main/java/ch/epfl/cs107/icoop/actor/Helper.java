@@ -18,9 +18,8 @@ import java.util.List;
 public class Helper extends AreaEntity implements Interactable{
 
     private final Sprite rpgSprite;
-    private String dialog;
-    private Logic orbWay;
-    public Logic arena;
+    private Logic[] dialogOrder;
+    private String[] dialogs;
 
 
     /**
@@ -33,20 +32,16 @@ public class Helper extends AreaEntity implements Interactable{
     public Helper(Area area, Orientation orientation, DiscreteCoordinates position, Logic orbWay, Logic arena) {
         super(area, orientation, position);
         rpgSprite = new Sprite("icoop/logMonster", 1f, 1f, this);
-        this.orbWay= orbWay;
-        this.arena=arena;
+        dialogOrder = new Logic[] {orbWay, arena};
+        dialogs = new String[] {"gotoOrbway", "goToArena", "goToEnd"};
     }
     public String getDialog(){
-        if (orbWay.isOff() && arena.isOff()){
-            return "goToOrbway";
+        for (int i = 0; i < dialogOrder.length; ++i) {
+            if (dialogOrder[i].isOff()) {
+                return dialogs[i];
+            }
         }
-        else if(orbWay.isOn() && arena.isOff()){
-            return "goToArena";
-        }
-        else if (orbWay.isOn() && arena.isOn()){
-            return "goToEnd";
-        }
-        else return "";
+        return dialogs[dialogOrder.length];
     }
 
     @Override

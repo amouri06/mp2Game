@@ -1,5 +1,8 @@
-package ch.epfl.cs107.icoop.actor;
+package ch.epfl.cs107.icoop.actor.projectiles;
 
+import ch.epfl.cs107.icoop.actor.*;
+import ch.epfl.cs107.icoop.actor.collectables.Explosive;
+import ch.epfl.cs107.icoop.actor.foes.Foe;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.area.Area;
@@ -13,12 +16,10 @@ public class Boule extends Projectile implements ElementalEntity {
     private AttackType attackType;
     private final static int ANIMATION_DURATION = 12;
     private Animation animation;
-    private Element element;
-    private Vulnerability vulnerability;
 
     @Override
     public Element element() {
-        return null;
+        return attackType.getElement();
     }
 
     /**
@@ -62,10 +63,9 @@ public class Boule extends Projectile implements ElementalEntity {
      */
     public Boule(Area area, Orientation orientation, DiscreteCoordinates position, int maxDistance, AttackType attackType) {
         super(area, orientation, position, ANIMATION_DURATION, 2, maxDistance);
-        this.element = attackType.getElement();
+        this.attackType = attackType;
         this.animation = new Animation((attackType.getAnimationString()), 4, 1, 1, this, 32, 32,
                 ANIMATION_DURATION / 4, true);
-        this.vulnerability= attackType.getVulnerability();
     }
 
     ///Implements Interactor through extending Projectile
@@ -94,13 +94,17 @@ public class Boule extends Projectile implements ElementalEntity {
         animation.draw(canvas);
     }
 
+    public String getAnimationString() {
+        return attackType.getAnimationString();
+    }
+
     /**
      * Sets all the interaction between the projectile and different elements of the game
      */
     private class BouleInteractionHandler implements ICoopInteractionVisitor {
         @Override
         public void interactWith(Foe foe, boolean isCellInteraction) {
-            foe.decreaseHealth(1, vulnerability);
+            foe.decreaseHealth(1, attackType.getVulnerability());
             stop();
         }
 

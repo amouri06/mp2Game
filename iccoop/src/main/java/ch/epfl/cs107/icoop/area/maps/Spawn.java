@@ -1,9 +1,12 @@
-package ch.epfl.cs107.icoop.area;
+package ch.epfl.cs107.icoop.area.maps;
 
 import ch.epfl.cs107.icoop.actor.*;
+import ch.epfl.cs107.icoop.actor.collectables.Coin;
+import ch.epfl.cs107.icoop.actor.collectables.Explosive;
+import ch.epfl.cs107.icoop.actor.doors.Door;
+import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.icoop.handler.DialogHandler;
 import ch.epfl.cs107.play.engine.actor.Background;
-import ch.epfl.cs107.play.engine.actor.Dialog;
 import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
@@ -11,15 +14,16 @@ import ch.epfl.cs107.play.signal.logic.Logic;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
-public final class Spawn extends ICoopArea{
+public final class Spawn extends ICoopArea {
 
+    private Logic gameComplete;
 
     private boolean firstCall = true;
 
-    public Spawn(DialogHandler dialogHandler) {
+    public Spawn(DialogHandler dialogHandler, Logic gameComplete) {
         super(dialogHandler);
+        this.gameComplete = gameComplete;
     }
 
     @Override
@@ -90,10 +94,13 @@ public final class Spawn extends ICoopArea{
         registerActor(new Coin(this, Orientation.DOWN, new DiscreteCoordinates(14, 14)));
 
         registerActor(new Rock(this, Orientation.DOWN, new DiscreteCoordinates(10, 10)));
+        registerActor(new Rock(this, Orientation.DOWN, new DiscreteCoordinates(4, 9)));
+        registerActor(new Rock(this, Orientation.DOWN, new DiscreteCoordinates(3, 10)));
+        registerActor(new Rock(this, Orientation.DOWN, new DiscreteCoordinates(5, 10)));
 
         registerActor(new Coin(this, Orientation.DOWN, new DiscreteCoordinates(15, 13)));
 
-        registerActor(new Door("Spawn", Logic.TRUE, null, this, new DiscreteCoordinates( 6,11), Collections.singletonList(new DiscreteCoordinates(6, 11)), "victory", "key_required"));
+        registerActor(new Door("Spawn", gameComplete, null, this, new DiscreteCoordinates( 6,11), Collections.singletonList(new DiscreteCoordinates(6, 11)), "victory", "key_required"));
 
     }
 }

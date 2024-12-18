@@ -1,6 +1,10 @@
-package ch.epfl.cs107.icoop.area;
+package ch.epfl.cs107.icoop.area.maps;
 
 import ch.epfl.cs107.icoop.actor.*;
+import ch.epfl.cs107.icoop.actor.collectables.ElementalKey;
+import ch.epfl.cs107.icoop.actor.doors.Teleporter;
+import ch.epfl.cs107.icoop.actor.miscellaneous.AreaComplete;
+import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.icoop.handler.DialogHandler;
 import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;
@@ -23,10 +27,7 @@ public final class Arena extends ICoopArea implements Logic {
 
     @Override
     public boolean isOff() {
-        if (areaComplete==null){
-            return true;
-        }
-        return areaComplete.isOff();
+        return !isOn();
     }
 
     public Arena(DialogHandler dialogHandler) {

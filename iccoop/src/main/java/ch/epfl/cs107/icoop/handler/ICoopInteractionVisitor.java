@@ -2,7 +2,13 @@ package ch.epfl.cs107.icoop.handler;
 
 import ch.epfl.cs107.icoop.ICoopBehavior;
 import ch.epfl.cs107.icoop.actor.*;
-import ch.epfl.cs107.play.areagame.actor.Interactable;
+import ch.epfl.cs107.icoop.actor.collectables.*;
+import ch.epfl.cs107.icoop.actor.doors.Door;
+import ch.epfl.cs107.icoop.actor.miscellaneous.PressurePlate;
+import ch.epfl.cs107.icoop.actor.projectiles.Fire;
+import ch.epfl.cs107.icoop.actor.foes.Foe;
+import ch.epfl.cs107.icoop.actor.foes.HellSkull;
+import ch.epfl.cs107.icoop.actor.projectiles.Projectile;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
 
 /**

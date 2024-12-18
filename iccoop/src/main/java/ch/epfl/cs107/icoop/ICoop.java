@@ -2,24 +2,25 @@ package ch.epfl.cs107.icoop;
 
 
 import ch.epfl.cs107.icoop.actor.*;
+import ch.epfl.cs107.icoop.actor.doors.Door;
+import ch.epfl.cs107.icoop.actor.miscellaneous.CenterOfMass;
 import ch.epfl.cs107.icoop.area.*;
+import ch.epfl.cs107.icoop.area.maps.Arena;
+import ch.epfl.cs107.icoop.area.maps.Maze;
+import ch.epfl.cs107.icoop.area.maps.OrbWay;
+import ch.epfl.cs107.icoop.area.maps.Spawn;
+import ch.epfl.cs107.icoop.audio.Sound;
 import ch.epfl.cs107.icoop.handler.DialogHandler;
-import ch.epfl.cs107.icoop.handler.ICoopItem;
 import ch.epfl.cs107.icoop.handler.ICoopPlayerStatusGUI;
 import ch.epfl.cs107.play.areagame.AreaGame;
-import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.engine.actor.Dialog;
 import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.io.FileSystem;
-import ch.epfl.cs107.play.io.ResourcePath;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.math.Vector;
-import ch.epfl.cs107.play.signal.logic.Logic;
 import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
-
-import java.util.List;
 
 import static ch.epfl.cs107.icoop.area.ICoopArea.DEFAULT_SCALE_FACTOR;
 import static java.lang.Math.max;
@@ -27,7 +28,7 @@ import static java.lang.Math.max;
 
 public class ICoop extends AreaGame implements DialogHandler {
     private Helper helper;
-    private final String[] areas = {"Spawn", "OrbWay", "Maze", "Arena"};
+    private final String[] areas = {"Arena", "Spawn", "OrbWay", "Maze"};
     private int areaIndex;
     private static ICoopPlayer firePlayer;
     private Sound sound = new Sound();
@@ -45,7 +46,11 @@ public class ICoop extends AreaGame implements DialogHandler {
      * Add all the Tuto2 areas
      */
     private void createAreas() {
-        Spawn spawn =  new Spawn(this);
+
+        Arena arena = new Arena(this);
+        addArea(arena);
+
+        Spawn spawn =  new Spawn(this, arena);
         addArea(spawn);
 
         OrbWay orbWay= new OrbWay(this);
@@ -53,11 +58,9 @@ public class ICoop extends AreaGame implements DialogHandler {
 
         addArea(new Maze(this));
 
-        Arena arena = new Arena(this);
-        addArea(arena);
-
 
         helper = new Helper(spawn, Orientation.DOWN, new DiscreteCoordinates(4,10), orbWay, arena);
+
     }
 
     @Override
@@ -78,7 +81,7 @@ public class ICoop extends AreaGame implements DialogHandler {
     public boolean begin(Window window, FileSystem fileSystem) {
         if (super.begin(window, fileSystem)) {
             createAreas();
-            areaIndex = 0;
+            areaIndex = 1;
             ICoopArea area = (ICoopArea) setCurrentArea(areas[areaIndex], true);
 
             DiscreteCoordinates coordsRed = area.getRedPlayerSpawnPosition();
@@ -94,7 +97,9 @@ public class ICoop extends AreaGame implements DialogHandler {
 
             cameraCenter = new CenterOfMass(firePlayer, waterPlayer);
 
-            getCurrentArea().registerActor(helper);
+            stopMusic();
+            playMusic(1);
+
 
             return true;
         }
@@ -182,7 +187,12 @@ public class ICoop extends AreaGame implements DialogHandler {
         DiscreteCoordinates coordsBlue = area.getBluePlayerSpawnPosition();
         waterPlayer.enterArea(area, coordsBlue);
         waterPlayer.restoreHealth();
-        playMusic(1);
+
+        if (areas[areaIndex].equals("Spawn")) {
+            getCurrentArea().registerActor(helper);
+        }
+
+
     }
 
     /**
@@ -209,14 +219,17 @@ public class ICoop extends AreaGame implements DialogHandler {
             ((ICoopArea) getCurrentArea()).publish(door.getDialog());
         }
     }
+
     public void playMusic(int i){
         sound.setFile(i);
         sound.play();
         sound.loop();
     }
+
     public void stopMusic(){
         sound.stop();
     }
+
     public void playSoundEffect(int i){
         sound.setFile(i);
         sound.play();

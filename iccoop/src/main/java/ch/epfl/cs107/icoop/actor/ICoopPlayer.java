@@ -1,7 +1,14 @@
 package ch.epfl.cs107.icoop.actor;
 
 import ch.epfl.cs107.icoop.KeyBindings;
+import ch.epfl.cs107.icoop.actor.collectables.*;
+import ch.epfl.cs107.icoop.actor.doors.Door;
+import ch.epfl.cs107.icoop.actor.foes.Foe;
+import ch.epfl.cs107.icoop.actor.miscellaneous.Health;
+import ch.epfl.cs107.icoop.actor.miscellaneous.PressurePlate;
+import ch.epfl.cs107.icoop.actor.projectiles.Boule;
 import ch.epfl.cs107.icoop.area.ICoopArea;
+import ch.epfl.cs107.icoop.audio.Sound;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
 import ch.epfl.cs107.icoop.handler.ICoopInventory;
 import ch.epfl.cs107.icoop.handler.ICoopItem;
@@ -53,6 +60,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private int currentItemIndex;
     private int itemAnimationTimer;
     private OrientedAnimation useItemAnimation;
+    private int displacementTimer;
 
     /**
      * Default ICoopPlayer constructor
@@ -139,7 +147,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         moveIfPressed(UP, keyboard.get(keys.up()));
         moveIfPressed(RIGHT, keyboard.get(keys.right()));
         moveIfPressed(DOWN, keyboard.get(keys.down()));
-        System.out.println(getCurrentMainCellCoordinates());
+
         if (keyboard.get(keys.switchItem()).isPressed()) {
             switchItem();
         }
@@ -147,37 +155,19 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         if (keyboard.get(keys.useItem()).isPressed()) {
             switch (currentItem) {
                 case Explosive -> {
-                    Explosive explosive = new Explosive(getOwnerArea(), DOWN, getFieldOfViewCells().getFirst());
-                    if (getOwnerArea().canEnterAreaCells(explosive, getFieldOfViewCells())) {
-                        getOwnerArea().registerActor(explosive);
-                        inventory.removePocketItem(ICoopItem.Explosive, 1);
-                        if (!inventory.contains(ICoopItem.Explosive)) {
-                            switchItem();
-                        }
-                    }
+                    explosiveUse();
                 }
                 case FireStaff -> {
-                    resetItemAnimationTimer();
-                    Boule boule = new Boule(getOwnerArea(), getOrientation(), getFieldOfViewCells().getFirst(), PROJECTILE_MAX_DISTANCE, Boule.AttackType.FEU);
-                    getOwnerArea().registerActor(boule);
-                    final Vector anchor = new Vector ( -.5f , -.20f);
-                    useItemAnimation =  new OrientedAnimation ( "icoop/player.staff_fire" , STAFF_ANIMATION_DURATION , this ,  anchor , orders , 4, 2, 2, 32 , 32);
+                    staffAttack("icoop/player.staff_fire", Boule.AttackType.FEU);
                 }
                 case WaterStaff -> {
-                    resetItemAnimationTimer();
-                    Boule boule = new Boule(getOwnerArea(), getOrientation(), getFieldOfViewCells().getFirst(), PROJECTILE_MAX_DISTANCE, Boule.AttackType.EAU);
-                    getOwnerArea().registerActor(boule);
-                    final Vector anchor = new Vector(-.5f, -.20f);
-                    useItemAnimation = new OrientedAnimation("icoop/player2.staff_water", STAFF_ANIMATION_DURATION, this, anchor, orders, 4, 2, 2, 32, 32);
+                    staffAttack("icoop/player2.staff_water", Boule.AttackType.FEU);
                 }
                 case Sword -> {
-                    resetItemAnimationTimer();
-                    final Vector anchor = new Vector ( -.5f , 0) ;
-                    useItemAnimation =  new OrientedAnimation ( prefix + ".sword",  SWORD_ANIMATION_DURATION , this ,  anchor , orders , 4, 2, 2, 32 , 32);
-                    }
+                    swordUse();
                 }
             }
-
+        }
         if (isDisplacementOccurs()) {
             sprite.update(deltaTime);
         } else {
@@ -187,11 +177,39 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         if (immuneTimer > 0) {
             immuneTimer--;
         }
+        if (displacementTimer > 0) {
+            displacementTimer--;
+        }
         if (itemAnimationTimer > 0) {
             itemAnimationTimer--;
             useItemAnimation.update(deltaTime);
         }
         super.update(deltaTime);
+    }
+
+    private void staffAttack(String useAnimationString, Boule.AttackType type) {
+        resetItemAnimationTimer();
+        Boule boule = new Boule(getOwnerArea(), getOrientation(), getFieldOfViewCells().getFirst(), PROJECTILE_MAX_DISTANCE, type);
+        getOwnerArea().registerActor(boule);
+        final Vector anchor = new Vector ( -.5f , -.20f);
+        useItemAnimation =  new OrientedAnimation (useAnimationString, STAFF_ANIMATION_DURATION , this, anchor , orders , 4, 2, 2, 32 , 32);
+    }
+
+    private void swordUse() {
+        resetItemAnimationTimer();
+        final Vector anchor = new Vector(-.5f, 0);
+        useItemAnimation = new OrientedAnimation(prefix + ".sword", SWORD_ANIMATION_DURATION, this, anchor, orders, 4, 2, 2, 32, 32);
+    }
+
+    private void explosiveUse() {
+        Explosive explosive = new Explosive(getOwnerArea(), DOWN, getFieldOfViewCells().getFirst());
+        if (getOwnerArea().canEnterAreaCells(explosive, getFieldOfViewCells())) {
+            getOwnerArea().registerActor(explosive);
+            inventory.removePocketItem(ICoopItem.Explosive, 1);
+            if (!inventory.contains(ICoopItem.Explosive)) {
+                switchItem();
+            }
+        }
     }
 
     public void resetItemAnimationTimer(){
@@ -334,8 +352,12 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
         @Override
         public void interactWith(Door door, boolean isCellInteraction) {
-            if (door.getSignal().isOn()) {
+            if (door.getSignal().isOn() && door.getArrivalCoordinates() != null) {
                 isLeavingAreaDoor = door;
+            }
+            if (door.getDialog() != null && isDisplacementOccurs() && displacementTimer == 0) {
+                ((ICoopArea) getOwnerArea()).publish(door.getDialog());
+                displacementTimer = MOVE_DURATION * 4;
             }
         }
 
@@ -414,6 +436,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
         @Override
         public void interactWith(Helper helper, boolean isCellInteraction){
+            System.out.println(helper.getDialog());
             ((ICoopArea)getOwnerArea()).publish(helper.getDialog());
         }
 
