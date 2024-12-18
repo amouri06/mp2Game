@@ -10,6 +10,10 @@ public class AreaComplete implements Logic {
         this.items = items.clone();
     }
 
+    /**
+     * Returns true when all items in the constructor of AreaComplete have been picked up
+     * @return
+     */
     @Override
     public boolean isOn() {
         for (ElementalItem item: items) {

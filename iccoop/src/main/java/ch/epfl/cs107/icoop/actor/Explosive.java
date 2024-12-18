@@ -38,6 +38,10 @@ public class Explosive extends ICoopCellCollectable implements Interactor, Inter
         animation = new Animation ("icoop/explosive", 2, 1, 1, this , 16 , 16 , ANIMATION_DURATION /2 , true );
     }
 
+    /**
+     * Updates method for the Explosive, changes the animation when the Explosive actually explodes and unregisters the explosive from the area
+     * @param deltaTime (float) elapsed time since last update, in seconds, non-negative
+     */
     @Override
     public void update(float deltaTime) {
         if (activated && timer != 0) {
@@ -55,11 +59,18 @@ public class Explosive extends ICoopCellCollectable implements Interactor, Inter
         }
     }
 
+    /**
+     * Draws the explosive in the game
+     * @param canvas target, not null
+     */
     @Override
     public void draw(Canvas canvas) {
         animation.draw(canvas);
     }
 
+    /**
+     * Activates the bomb's timer
+     */
     public void activate() {
         activated = true;
     }
@@ -110,7 +121,9 @@ public class Explosive extends ICoopCellCollectable implements Interactor, Inter
     public void interactWith(Interactable other, boolean isCellInteraction) {
         other.acceptInteraction(new ExplosiveInteractionHandler(), isCellInteraction);
     }
-
+    /**
+     * Sets all the interaction between the projectile and different elements of the game
+     */
     private class ExplosiveInteractionHandler implements ICoopInteractionVisitor {
         @Override
         public void interactWith(Rock rock, boolean isCellInteraction) {

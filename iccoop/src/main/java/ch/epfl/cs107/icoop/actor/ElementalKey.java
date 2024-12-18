@@ -16,6 +16,11 @@ public class ElementalKey extends ElementalItem implements Interactable {
 
     private Sprite sprite;
 
+    /**
+     * @param area (Area)
+     * @param position (Position)
+     * @param element (Element)
+     */
     public ElementalKey(Area area, DiscreteCoordinates position, Element element) {
         super(area, Orientation.DOWN, position, element);
         switch (element) {
@@ -24,11 +29,16 @@ public class ElementalKey extends ElementalItem implements Interactable {
         }
     }
 
+    /**
+     * Draws the key in the game
+     * @param canvas target, not null
+     */
     @Override
     public void draw(Canvas canvas) {
         sprite.draw(canvas);
     }
 
+    ///Implements Interactable
     @Override
     public List<DiscreteCoordinates> getCurrentCells() {
         return Collections.singletonList(getCurrentMainCellCoordinates());

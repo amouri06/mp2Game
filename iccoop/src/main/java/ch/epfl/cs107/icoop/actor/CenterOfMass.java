@@ -9,6 +9,11 @@ public class CenterOfMass implements Actor {
 
     private final Actor[] actors;
 
+    /**
+     *
+     * @param actor (A
+     * @param restOfActors
+     */
     public CenterOfMass(Actor actor, Actor... restOfActors) {
         this.actors = new Actor[restOfActors.length + 1];
         actors[0] = actor;

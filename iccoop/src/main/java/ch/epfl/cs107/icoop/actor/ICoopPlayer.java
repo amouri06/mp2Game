@@ -363,6 +363,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                 interactWith((ElementalItem) orb, true);
                 isElementImmune = true;
                 ((ICoopArea) getOwnerArea()).publish(orb.getMessage());
+                playSoundEffect(13);
             }
         }
 

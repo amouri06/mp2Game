@@ -50,6 +50,12 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
     private final Logic logic;
     private final Sprite[] wallSprites;
 
+    /**
+     * @param owner (Owner)
+     * @param orientation (Orientation)
+     * @param mainCellPosition (DiscreteCoordinates)
+     * @param wallType (WallType)
+     */
     public ElementalWall(Area owner, Orientation orientation, DiscreteCoordinates mainCellPosition, WallType wallType) {
         super(owner, orientation, mainCellPosition);
         this.element = wallType.getElement();
@@ -57,6 +63,14 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
         wallSprites = RPGSprite.extractSprites(wallType.getSpriteName(), 4, 1, 1, this, Vector.ZERO, 256, 256);
     }
 
+    /**
+     *
+     * @param owner (Owner)
+     * @param orientation (Orientation)
+     * @param mainCellPosition (DiscreteCoordinates)
+     * @param logic (Logic)
+     * @param wallType (WallType)
+     */
     public ElementalWall(Area owner, Orientation orientation, DiscreteCoordinates mainCellPosition, Logic logic, WallType wallType) {
         super(owner, orientation, mainCellPosition);
         this.element = wallType.getElement();
@@ -64,6 +78,10 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
         this.logic = logic;
     }
 
+    /**
+     * Draws the wall in the game, only if it's on
+     * @param canvas target, not null
+     */
     public void draw(Canvas canvas) {
         if (logic.isOn()) {
             wallSprites[getOrientation().ordinal()].draw(canvas);

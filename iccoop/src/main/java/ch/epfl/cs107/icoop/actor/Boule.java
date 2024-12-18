@@ -54,11 +54,11 @@ public class Boule extends Projectile implements ElementalEntity {
 
     /**
      * Constructor for Boule
-     * @param area
-     * @param orientation
-     * @param position
-     * @param maxDistance
-     * @param attackType
+     * @param area (Area)
+     * @param orientation (Orientation)
+     * @param position (DiscreteCoordinates)
+     * @param maxDistance (int)
+     * @param attackType (AttackType)
      */
     public Boule(Area area, Orientation orientation, DiscreteCoordinates position, int maxDistance, AttackType attackType) {
         super(area, orientation, position, ANIMATION_DURATION, 2, maxDistance);
@@ -68,7 +68,7 @@ public class Boule extends Projectile implements ElementalEntity {
         this.vulnerability= attackType.getVulnerability();
     }
 
-
+    ///Implements Interactor through extending Projectile
     @Override
     public void interactWith(Interactable other, boolean isCellInteraction) {
         other.acceptInteraction(new Boule.BouleInteractionHandler(), isCellInteraction);
@@ -95,10 +95,7 @@ public class Boule extends Projectile implements ElementalEntity {
     }
 
     /**
-     * Explains all the interaction between the projectile and different elements of the game
-     * Damages a foe
-     *Destroys a rock
-     * Sets off an explosive
+     * Sets all the interaction between the projectile and different elements of the game
      */
     private class BouleInteractionHandler implements ICoopInteractionVisitor {
         @Override

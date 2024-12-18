@@ -19,9 +19,9 @@ public class Coin extends ICoopCellCollectable implements Interactable {
 
     /**
      * Constructor for the coin
-     * @param area
-     * @param orientation
-     * @param position
+     * @param area (Area)
+     * @param orientation (Orientation)
+     * @param position (DiscreteCoordinates)
      */
     public Coin(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
@@ -51,14 +51,14 @@ public class Coin extends ICoopCellCollectable implements Interactable {
 
     /**
      * Draws the animation in the game
-     * @param canvas target, not null
+     * @param canvas (Canvas) target, not null
      */
     @Override
     public void draw(Canvas canvas) { animation.draw(canvas); }
 
     /**
      * Updates the animation because it is not static
-     * @param deltaTime elapsed time since last update, in seconds, non-negative
+     * @param deltaTime (Float) elapsed time since last update, in seconds, non-negative
      */
     @Override
     public void update(float deltaTime) { animation.update(deltaTime); }
