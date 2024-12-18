@@ -12,11 +12,15 @@ import java.util.List;
 
 public abstract class ICoopCellCollectable extends CollectableAreaEntity {
 
-
+    /**
+     * @param area (Area)
+     * @param orientation (Orientation)
+     * @param position (DiscreteCoordinates)
+     */
     public ICoopCellCollectable(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
     }
-
+    ///Implements Interactable
     @Override
     public List<DiscreteCoordinates> getCurrentCells() {
         return Collections.singletonList(getCurrentMainCellCoordinates());

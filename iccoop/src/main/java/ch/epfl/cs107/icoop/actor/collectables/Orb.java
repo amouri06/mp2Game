@@ -38,11 +38,20 @@ public class Orb extends ElementalItem implements Interactable {
         }
     }
 
+    /**
+     * Returns the dialog associated with the different element of the orb
+     * @return
+     */
     public String getMessage() {
         return orbType.dialog;
     }
 
-
+    /**
+     *
+     * @param area (Orientation)
+     * @param position (DiscreteCoordinates)
+     * @param element (Element)
+     */
     public Orb(Area area, DiscreteCoordinates position, Element element) {
         super(area, Orientation.UP, position, element);
         for (OrbType orbType : OrbType.values()) {
@@ -58,7 +67,7 @@ public class Orb extends ElementalItem implements Interactable {
         System.out.println(sprites.length);
         drawnSprite = 0;
     }
-
+    ///Implements Interactable
     @Override
     public void draw(Canvas canvas) {
         sprites[drawnSprite].draw(canvas);

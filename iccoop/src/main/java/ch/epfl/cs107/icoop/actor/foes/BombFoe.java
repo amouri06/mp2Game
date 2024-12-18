@@ -53,7 +53,6 @@ public class BombFoe extends Foe {
     }
     /**
      * Default BombFoe constructor
-     *
      * @param area              (Area): Owner area. Not null
      * @param position          (Coordinate): Initial position of the entity. Not null
      */
@@ -68,15 +67,16 @@ public class BombFoe extends Foe {
     }
 
     /**
-     * Repeatedly calls this method, chances the course of action of the BombFoe depending on his current state (States given in the enum)
-     * @param deltaTime elapsed time since last update, in seconds, non-negative
+     * @param deltaTime (float) elapsed time since last update, in seconds, non-negative
      */
     @Override
     public void update(float deltaTime) {
+        //Checks if the BombFoe is immune, if he is, his state becomes Idle and his inaction time goes to 0.
         if (isImmune()) {
             state = State.IDLE;
             inactionTime = 0;
         }
+        //Otherwise, creates a swich that explains what the BombFoe does in each State
         else {
             switch (state) {
                 case IDLE -> {

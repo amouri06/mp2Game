@@ -61,6 +61,10 @@ public class Door extends AreaEntity implements Interactable {
         this(destination, signal, arrivalCoordinates, owner, mainCellPosition, occupiedCells, null, null);
     }
 
+    /**
+     * Returns an array of the arrivalCoordinates of the door
+     * @return
+     */
     public List<DiscreteCoordinates> getArrivalCoordinates() {
         if (arrivalCoordinates == null) {
             return null;

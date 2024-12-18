@@ -17,17 +17,31 @@ public class Heart extends ICoopCellCollectable implements Interactable {
     private Animation animation;
     private final static int ANIMATION_DURATION = 24;
 
+    /**
+     *
+     * @param area (Area)
+     * @param orientation (Orientation)
+     * @param position (DiscreteCoordinates)
+     */
     public Heart(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
         animation = new Animation("icoop/heart", 4, 1, 1, this, 16, 16, ANIMATION_DURATION/4, true);
     }
 
+    /**
+     * Draws the heart in game
+     * @param canvas (Canvas) target, not null
+     */
     @Override
     public void draw(Canvas canvas) { animation.draw(canvas); }
 
+    /**
+     * Updates the animation
+     * @param deltaTime (float) elapsed time since last update, in seconds, non-negative
+     */
     @Override
     public void update(float deltaTime) { animation.update(deltaTime); }
-
+    ///Implements Interactable
     @Override
     public List<DiscreteCoordinates> getCurrentCells() {
         return Collections.singletonList(getCurrentMainCellCoordinates());

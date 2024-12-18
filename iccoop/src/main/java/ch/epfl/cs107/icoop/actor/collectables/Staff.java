@@ -46,7 +46,13 @@ public class Staff  extends ElementalItem implements Interactable {
 
     }
 
-
+    /**
+     *
+     * @param area (Area)
+     * @param orientation (Orientation)
+     * @param position (DiscreteCoordinates)
+     * @param staffType (StaffType)
+     */
     public Staff(Area area, Orientation orientation, DiscreteCoordinates position,  StaffType staffType) {
         super(area, orientation, position, staffType.getElement());
         rpgSprite = new RPGSprite[8];
@@ -58,7 +64,7 @@ public class Staff  extends ElementalItem implements Interactable {
         this.staffType = staffType;
 
     }
-
+    ///Implements Interactable
     @Override
     public List<DiscreteCoordinates> getCurrentCells() {
         return Collections.singletonList(getCurrentMainCellCoordinates());
@@ -86,13 +92,21 @@ public class Staff  extends ElementalItem implements Interactable {
         ((ICoopInteractionVisitor)v).interactWith(this, isCellInteraction );
     }
 
-    @Override
-    public void draw(Canvas canvas) {
-        rpgSprite[currentSpriteIndex].draw(canvas);
-    }
-
+    /**
+     * Changes the sprite index at each update mod 8 as to not exceed the Sprite array's size
+     * @param deltaTime elapsed time since last update, in seconds, non-negative
+     */
     @Override
     public void update(float deltaTime){
         currentSpriteIndex = (currentSpriteIndex + 1) % 8;
+    }
+
+    /**
+     * Draws the Staff in the game
+     * @param canvas target, not null
+     */
+    @Override
+    public void draw(Canvas canvas) {
+        rpgSprite[currentSpriteIndex].draw(canvas);
     }
 }
