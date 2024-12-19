@@ -39,12 +39,18 @@ public class HellSkull extends Foe {
         orientedAnimation = new OrientedAnimation("icoop/flameskull", ANIMATION_DURATION/3, this, new Vector(-0.5f, -0.5f), orders, 3, 2, 2, 32, 32, true);
     }
 
+    /**
+     *
+     * @param deltaTime elapsed time since last update, in seconds, non-negative
+     */
     @Override
     public void update(float deltaTime) {
+        //If the timer is below zero create a new Fire projectile
         if (tempsLanceFlamme <= 0) {
             tempsLanceFlamme = RandomGenerator.getInstance().nextFloat(.5f, 2.f);
             getOwnerArea().registerActor(new Fire(getOwnerArea(), getOrientation(), getCurrentMainCellCoordinates().jump(getOrientation().toVector()), projectileMaxDistance));
         }
+        // decrease the timer
         tempsLanceFlamme -= .05f;
         if (isAlive()) {
             orientedAnimation.update(deltaTime);

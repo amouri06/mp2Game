@@ -23,11 +23,16 @@ public class Rock extends Obstacle implements Interactable {
         sprite = new Sprite("rock.1", 1.f, 1.f, this);
     }
 
+    /**
+     * Returns
+     * @param canvas target, not null
+     */
     @Override
     public void draw(Canvas canvas) {
         sprite.draw(canvas);
     }
 
+    ///Implements Interactable
     @Override
     public boolean takeCellSpace() {
         return true;

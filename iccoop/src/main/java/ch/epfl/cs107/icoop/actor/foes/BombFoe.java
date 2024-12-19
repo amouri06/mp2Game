@@ -36,6 +36,7 @@ public class BombFoe extends Foe {
     private int protectingTime;
     private Interactable target;
 
+    //Enum tracking different states of BombFoe
     private enum State {
         IDLE(2),
         ATTACKING(6),
@@ -45,6 +46,10 @@ public class BombFoe extends Foe {
             speedFactor = speed;
         }
 
+        /**
+         *
+         * @return speed associated to state
+         */
         public int getSpeedFactor() {
             return speedFactor;
         }
@@ -100,9 +105,10 @@ public class BombFoe extends Foe {
      * @param deltaTime (float) elapsed time since last update, in seconds, non-negative
      */
     private void attackingUpdate(float deltaTime) {
+        // if the player is not close to the BombFoe get closer
         if (DiscreteCoordinates.distanceBetween(getCurrentMainCellCoordinates(), ((AreaEntity) target).getCurrentMainCellCoordinates()) > MIN_ATTACKING_DISTANCE) {
             targetedMove();
-        }
+        } // place a bomb if the player is close enough
         else {
             Explosive explosive = new Explosive(getOwnerArea(), DOWN, super.getFieldOfViewCells().getFirst());
             if (getOwnerArea().canEnterAreaCells(explosive, super.getFieldOfViewCells())) {
@@ -118,10 +124,13 @@ public class BombFoe extends Foe {
      */
     private void idleUpdate(float deltaTime) {
         double randDouble = RandomGenerator.getInstance().nextDouble();
+        //Checks if the inaction time is below 0, indicating the BombFoe can move
         if (inactionTime <= 0) {
+            //Randommly orientates the BombFoe if randDouble is below 0.4
             if (randDouble <= 0.4) {
                 orientate(orders[RandomGenerator.getInstance().nextInt(4)]);
             }
+            //Move according to the state's speed
             move(ANIMATION_DURATION / state.getSpeedFactor());
             inactionTime = RandomGenerator.getInstance().nextInt(MAX_INACTION_TIME);
         } else {
@@ -129,7 +138,11 @@ public class BombFoe extends Foe {
         }
     }
 
+    /**
+     * @param deltaTime (float) elapsed time since last update, in seconds, non-negative
+     */
     private void protectingupdate(float deltaTime) {
+        //Nulifies the target and sets a protectingTime
         if (target != null) {
             target = null;
             protectingTime = MIN_PROTECTING_TIME + RandomGenerator.getInstance().nextInt(MAX_PROTECTING_TIME - MIN_PROTECTING_TIME);
@@ -137,22 +150,30 @@ public class BombFoe extends Foe {
             protectingTime--;
             protectingAnimation.update(deltaTime);
         }
+        //If the protecting time is below zero change the state to Idle
         else {
             state = State.IDLE;
         }
         protectingAnimation.update(deltaTime);
     }
 
+    /**
+     * moves according to the target
+     */
     private void targetedMove() {
+        //Calculates the x, y cooridnates to get to player's position
         Vector v = getPosition().sub(((Entity) target).getPosition());
         float deltaX = v.getX(); float deltaY = v.getY();
         boolean orientationOccured;
         if (deltaX != 0 || deltaY != 0) {
+            //Orientates if the deltaX is greater than deltaY
             if (Math.abs(deltaX) > Math.abs(deltaY)) {
                 orientationOccured = !orientate(Orientation.fromVector(new Vector(-deltaX, 0)));
             } else {
+                //Orientates if the deltaY is greater than deltaX
                 orientationOccured = !orientate(Orientation.fromVector(new Vector(0, -deltaY)));
             }
+            //If no oreintation occured move
             if (!orientationOccured) {
                 move(ANIMATION_DURATION / state.getSpeedFactor());
             }
@@ -188,8 +209,6 @@ public class BombFoe extends Foe {
         }
     }
 
-
-
     ///Implements Interactor
     @Override
     public boolean wantsViewInteraction() {
@@ -206,6 +225,7 @@ public class BombFoe extends Foe {
 
     @Override
     public List<DiscreteCoordinates> getFieldOfViewCells() {
+        //returns the 8 cells in front of him
         List<DiscreteCoordinates> fieldOfView = new ArrayList<DiscreteCoordinates>();
         fieldOfView.add(super.getFieldOfViewCells().getFirst());
         for (int i = 0; i < 7; ++i) {

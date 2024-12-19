@@ -42,8 +42,14 @@ public abstract class Foe extends MovableAreaEntity implements Interactor, Inter
         deathAnimation = new Animation("icoop/vanish", 7, 2, 2, this, 32, 32, new Vector(-0.5f, 0f), ANIMATION_DURATION/7, false);
     }
 
+
+    /**
+     *
+     * @param deltaTime elapsed time since last update, in seconds, non-negative
+     */
     @Override
     public void update(float deltaTime) {
+        //Death simulation
         if (hp <= 0) {
             deathTimer--;
             deathAnimation.update(deltaTime);
@@ -51,16 +57,26 @@ public abstract class Foe extends MovableAreaEntity implements Interactor, Inter
         if (deathTimer == 0) {
             getOwnerArea().unregisterActor(this);
         }
+        //Immunity simulation
         if (immuneTimer > 0) {
             immuneTimer--;
         }
         super.update(deltaTime);
     }
 
+    /**
+     *
+     * @return true if BombFoe is still alive
+     */
     public boolean isAlive() {
         return hp > 0;
     }
 
+    /**
+     *
+     * @param amount (int) : amount of health going ot be decreased
+     * @param attackType (Vulnerabilty) : type of attack
+     */
     public void decreaseHealth(int amount, Vulnerability attackType) {
         for (Vulnerability vulnerability : vulnerabilityList) {
             if (attackType == vulnerability && immuneTimer == 0) {
@@ -69,8 +85,6 @@ public abstract class Foe extends MovableAreaEntity implements Interactor, Inter
             }
         }
     }
-
-    protected int getImmuneTimer() { return immuneTimer; }
 
     /**
      * Draws the death animation of the foe if he is dead (his hp <= 0)

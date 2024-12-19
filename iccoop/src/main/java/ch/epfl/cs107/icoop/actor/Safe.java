@@ -18,11 +18,22 @@ public class Safe extends AreaEntity implements Interactable {
     private Sprite sprite;
     private Logic orbWay;
 
+    /**
+     *
+     * @param area (Area) : owner area
+     * @param orientation (Orientation)
+     * @param position (DiscreteCoordinates)
+     * @param orbWay (Logic) : logic indicating that an area has been completed
+     */
     public Safe(Area area, Orientation orientation, DiscreteCoordinates position, Logic orbWay) {
         super(area, orientation, position);
         this.orbWay=orbWay;
     }
 
+    /**
+     *
+     * @return true if the area has been completed
+     */
     public boolean isOrbWayComplete(){
         if (orbWay.isOn()){
             return true;
@@ -30,11 +41,15 @@ public class Safe extends AreaEntity implements Interactable {
         else return false;
     }
 
+    /**
+     * Returns
+     * @param canvas target, not null
+     */
     public void draw(Canvas canvas){
         sprite.draw(canvas);
     }
 
-
+    ///Implements Interactable
     @Override
     public List<DiscreteCoordinates> getCurrentCells() {
         return List.of(getCurrentMainCellCoordinates());
