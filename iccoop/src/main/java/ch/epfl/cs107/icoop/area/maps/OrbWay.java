@@ -19,7 +19,10 @@ import java.util.ArrayList;
 public final class OrbWay extends ICoopArea implements Logic{
     private AreaComplete areaComplete;
 
-
+    /**
+     * OrbWay constructor
+     * @param dialogHandler (DialogHandler): in order to publish dialog
+     */
     public OrbWay(DialogHandler dialogHandler) {
         super(dialogHandler);
     }
@@ -76,47 +79,57 @@ public final class OrbWay extends ICoopArea implements Logic{
      */
     @Override
     protected void createArea() {
+        //Registers backgrounds and foregrounds of area
         registerActor(new Background(this));
         registerActor(new Foreground(this));
 
-        ArrayList<DiscreteCoordinates> door1ArrivalCoords = new ArrayList<DiscreteCoordinates>();
-        door1ArrivalCoords.add(new DiscreteCoordinates(18,15));
-        door1ArrivalCoords.add(new DiscreteCoordinates(18,16));
+        //Registers doors
+        ArrayList<DiscreteCoordinates> doorArrivalCoords = new ArrayList<DiscreteCoordinates>();
+        doorArrivalCoords.add(new DiscreteCoordinates(18,15));
+        doorArrivalCoords.add(new DiscreteCoordinates(18,16));
 
-        ArrayList<DiscreteCoordinates> door1OtherCoords = new ArrayList<DiscreteCoordinates>();
-        door1OtherCoords.add(new DiscreteCoordinates(0,13)); door1OtherCoords.add(new DiscreteCoordinates(0,12)); door1OtherCoords.add(new DiscreteCoordinates(0,11)); door1OtherCoords.add(new DiscreteCoordinates(0,10));
+        ArrayList<DiscreteCoordinates> firstDoorArrivalCoords = new ArrayList<DiscreteCoordinates>();
+        firstDoorArrivalCoords.add(new DiscreteCoordinates(0,13)); firstDoorArrivalCoords.add(new DiscreteCoordinates(0,12)); firstDoorArrivalCoords.add(new DiscreteCoordinates(0,11)); firstDoorArrivalCoords.add(new DiscreteCoordinates(0,10));
 
-        registerActor(new Door("Spawn", Logic.TRUE, door1ArrivalCoords, this, new DiscreteCoordinates( 0,14), door1OtherCoords));
+        registerActor(new Door("Spawn", Logic.TRUE, doorArrivalCoords, this, new DiscreteCoordinates( 0,14), firstDoorArrivalCoords));
 
-        ArrayList<DiscreteCoordinates> door2OtherCoords = new ArrayList<DiscreteCoordinates>();
-        door1OtherCoords.add(new DiscreteCoordinates(0,7)); door1OtherCoords.add(new DiscreteCoordinates(0,6)); door1OtherCoords.add(new DiscreteCoordinates(0,5)); door1OtherCoords.add(new DiscreteCoordinates(0,4));
+        ArrayList<DiscreteCoordinates> secondDoorArrivalCoords = new ArrayList<DiscreteCoordinates>();
+        secondDoorArrivalCoords.add(new DiscreteCoordinates(0,7)); firstDoorArrivalCoords.add(new DiscreteCoordinates(0,6)); firstDoorArrivalCoords.add(new DiscreteCoordinates(0,5)); firstDoorArrivalCoords.add(new DiscreteCoordinates(0,4));
 
-        registerActor(new Door("Spawn", Logic.TRUE, door1ArrivalCoords, this, new DiscreteCoordinates( 0,8), door2OtherCoords));
+        registerActor(new Door("Spawn", Logic.TRUE, doorArrivalCoords, this, new DiscreteCoordinates( 0,8), secondDoorArrivalCoords));
 
+        //Registers 4 hearts to the area
         registerActor(new Heart(this, Orientation.DOWN, new DiscreteCoordinates(8,4)));
         registerActor(new Heart(this, Orientation.DOWN, new DiscreteCoordinates(10,6)));
         registerActor(new Heart(this, Orientation.DOWN, new DiscreteCoordinates(5,13)));
         registerActor(new Heart(this, Orientation.DOWN, new DiscreteCoordinates(10,11)));
 
+        //Registers orbs to area
         Orb fireOrb = new Orb(this, new DiscreteCoordinates(17,12), ElementalEntity.Element.FEU);
         registerActor(fireOrb);
         Orb waterOrb = new Orb(this, new DiscreteCoordinates(17,6), ElementalEntity.Element.EAU);
         registerActor(waterOrb);
+
+        //instance areaComplete associated with the collection of both orbs
         areaComplete = new AreaComplete(fireOrb, waterOrb);
 
+        //Registers a pressure plate
         PressurePlate firstPressurePlate = new PressurePlate(this, new DiscreteCoordinates(5, 7));
         registerActor(firstPressurePlate);
+        //Registers walls assocaied with the previous pressure plate
         for (int i = 0; i < 5; ++i) {
             registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(12, 10 + i), firstPressurePlate, ElementalWall.WallType.FEU ));
         }
 
+        //Registers a pressure plate
         PressurePlate secondPressurePlate = new PressurePlate(this, new DiscreteCoordinates(5, 10));
         registerActor(secondPressurePlate);
+        //Registers walls assocaied with the previous pressure plate
         for (int i = 0; i < 5; ++i) {
             registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(12, 4 + i), secondPressurePlate, ElementalWall.WallType.EAU));
         }
 
-
+        //registers elemental walls
         registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(7, 6), ElementalWall.WallType.FEU ));
         registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(7, 12), ElementalWall.WallType.EAU));
 

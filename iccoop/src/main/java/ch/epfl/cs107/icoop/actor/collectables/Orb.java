@@ -22,6 +22,7 @@ public class Orb extends ElementalItem implements Interactable {
     private final static int ANIMATION_DURATION = 24;
     private int drawnSprite;
 
+    //enum tracking values associated to ceratin orbs
     private enum OrbType {
 
         FEU("orb_fire_msg", 64, Element.FEU),
@@ -82,6 +83,8 @@ public class Orb extends ElementalItem implements Interactable {
     public List<DiscreteCoordinates> getCurrentCells() {
         return Collections.singletonList(getCurrentMainCellCoordinates());
     }
+
+    ///Implements Interactor
 
     @Override
     public boolean takeCellSpace() {
