@@ -61,6 +61,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private int itemAnimationTimer;
     private OrientedAnimation useItemAnimation;
     private int displacementTimer;
+    private int coinCounter;
 
     /**
      * Default ICoopPlayer constructor
@@ -181,6 +182,10 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         //Swtiches the item if the switchItem key is pressed
         if (keyboard.get(keys.switchItem()).isPressed()) {
             switchItem();
+        }
+        if (coinCounter >= 3) {
+            coinCounter -= 3;
+            inventory.addPocketItem(ICoopItem.Explosive, 1);
         }
 
         //Checks if the useItem key is pressed
@@ -516,6 +521,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
             playSoundEffect(4);
             //Collects the coin
             coin.collect();
+            coinCounter++;
         }
         @Override
         public void interactWith(Helper helper, boolean isCellInteraction){
