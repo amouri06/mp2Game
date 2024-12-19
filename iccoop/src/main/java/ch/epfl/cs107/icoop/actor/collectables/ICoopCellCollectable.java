@@ -46,6 +46,9 @@ public abstract class ICoopCellCollectable extends CollectableAreaEntity {
         ((ICoopInteractionVisitor)v).interactWith(this, isCellInteraction);
     }
 
+    /**
+     * Collects the item and unregisters it from the area
+     */
     @Override
     public void collect() {
         super.collect();

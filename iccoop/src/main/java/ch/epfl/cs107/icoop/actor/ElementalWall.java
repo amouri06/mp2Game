@@ -147,7 +147,7 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
     }
 
     private class ElementalWallInteractionHandler implements ICoopInteractionVisitor {
-
+        //Interacts with a player by decreasing his health if, the player is not immune and the wall is activated
         @Override
         public void interactWith(ICoopPlayer player, boolean isCellInteraction) {
             if (!player.isElementImmune() && logic.isOn()) {

@@ -127,20 +127,20 @@ public class Explosive extends ICoopCellCollectable implements Interactor, Inter
      * Sets all the interaction between the projectile and different elements of the game
      */
     private class ExplosiveInteractionHandler implements ICoopInteractionVisitor {
-        //
+        //Unregisters the rock from the area
         @Override
         public void interactWith(Rock rock, boolean isCellInteraction) {
             getOwnerArea().unregisterActor(rock);
         }
-
+        //Decreases the players health
         @Override
         public void interactWith(ICoopPlayer player, boolean isCellInteraction) {
             player.decreaseHealth(2);
         }
-
+        //Unregisters the wall from the area
         @Override
         public void interactWith(ElementalWall elementalWall, boolean isCellInteraction) { getOwnerArea().unregisterActor(elementalWall); }
-
+        //Activates the other explosives
         @Override
         public void interactWith(Explosive explosive, boolean isCellInteraction) { explosive.activate(); }
 

@@ -105,7 +105,7 @@ public class HellSkull extends Foe {
 
         @Override
         public void interactWith(ICoopPlayer player, boolean isCellInteraction) {
-        //Decreses the player's health if he gets close to the HellSlull
+        //Decreases the player's health if he gets close to the HellSlull
             if (isAlive()) {
                 player.decreaseHealth(1);
             }

@@ -381,14 +381,10 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         return null;
     }
 
-    public void playMusic(int i){
-        sound.setFile(i);
-        sound.play();
-        sound.loop();
-    }
-    public void stopMusic(){
-        sound.stop();
-    }
+    /**
+     * Plays one of the imported sound effects by setting the correct file and playing it once
+     * @param i (int)
+     */
     public void playSoundEffect(int i){
         sound.setFile(i);
         sound.play();
