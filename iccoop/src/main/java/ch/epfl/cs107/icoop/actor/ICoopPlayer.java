@@ -35,7 +35,7 @@ import static ch.epfl.cs107.play.math.Orientation.*;
  * A ICoopPlayer is a player for the ICoop game.
  */
 public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, Interactor, Interactable {
-    private final Sound sound = new Sound();
+    private Sound sound = new Sound();
 
     private final static int MOVE_DURATION = 8;
     private final static int ANIMATION_DURATION = 4;
@@ -482,13 +482,12 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
         @Override
         public void interactWith(Staff staff, boolean isCellInteraction) {
-            //Swith depending on the type of the staff
             switch(staff.getStaffType()) {
                 //Adds a staff in the inventory depending on the type of the staff
                 case FEU -> inventory.addPocketItem(ICoopItem.FireStaff, 1);
                 case EAU -> inventory.addPocketItem(ICoopItem.WaterStaff, 1);
             }
-            //calls the interactWith l438 since the staff is an elementalItem
+            //Calls the interactWith l438 since the staff is an elementalItem
             interactWith((ElementalItem) staff, isCellInteraction);
         }
 
@@ -503,32 +502,41 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         @Override
         public void interactWith(ElementalKey elementalKey, boolean isCellInteraction) {
             switch(elementalKey.element()) {
+                //Adds a key in the inventory depending on the type of the key
                 case FEU -> inventory.addPocketItem(ICoopItem.FireKey, 1);
                 case EAU -> inventory.addPocketItem(ICoopItem.WaterKey, 1);
             }
+            //Calls the interactWith l438 since the key is an elementalItem
             interactWith((ElementalItem) elementalKey, isCellInteraction);
         }
 
         @Override
         public void interactWith(Coin coin, boolean isCellInteraction) {
+            //Plays a key sound effect
             playSoundEffect(4);
+            //Collects the coin
             coin.collect();
         }
-
         @Override
         public void interactWith(Helper helper, boolean isCellInteraction){
-            System.out.println(helper.getDialog());
+            //Publishes the correct Dialog
             ((ICoopArea)getOwnerArea()).publish(helper.getDialog());
         }
 
         public void interactWith(Safe safe, boolean isCellInteraction){
+            //Safe can only be opened once
             boolean safeOpened = false;
             if (safe.isOrbWayComplete() && !safeOpened){
+                ((ICoopArea)getOwnerArea()).publish("chestOpened");
+                //If orbway is complete and the safe was never opened, adds 3 explosives to the inventory
                 inventory.addPocketItem(ICoopItem.Explosive, 3);
+                //Safe can only be opened once
                 safeOpened=true;
             }else if (!safe.isOrbWayComplete() && !safeOpened){
+                //If Orbway is not complete and the safe is not opened, publishes a dialog that says to go to orbway
                 ((ICoopArea)getOwnerArea()).publish("goToOrbway2"); ///ADD STRING
             }else if (safe.isOrbWayComplete() && safeOpened){
+                //if Orbway is complete and the safe was opened, says that the safe was already opened
                 ((ICoopArea)getOwnerArea()).publish("safeOpened"); ///ADD STRING
             }
         }
