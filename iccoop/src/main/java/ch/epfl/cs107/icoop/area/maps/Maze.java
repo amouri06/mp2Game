@@ -50,7 +50,7 @@ public final class Maze extends ICoopArea {
 
     /**
      *
-     * @return area's name
+     * @return (String) area's name
      */
     @Override
     public String getTitle() {

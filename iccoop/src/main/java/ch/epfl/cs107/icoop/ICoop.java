@@ -43,7 +43,7 @@ public class ICoop extends AreaGame implements DialogHandler {
 
 
     /**
-     * Add all the Tuto2 areas
+     * Add all the ICoop areas
      */
     private void createAreas() {
 
@@ -58,16 +58,24 @@ public class ICoop extends AreaGame implements DialogHandler {
 
         addArea(new Maze(this));
 
-
+        //Instance of helper given the logics associated
         helper = new Helper(spawn, Orientation.DOWN, new DiscreteCoordinates(4,10), orbWay, arena);
 
     }
 
+    /**
+     * Publishes dialog
+     * @param dialog (dialog)
+     */
     @Override
     public void publish(Dialog dialog) {
         this.dialog = dialog;
     }
 
+    /**
+     * changes the active dialog
+     * @param path (String) : path to dialog
+     */
     public void setActiveDialog(String path) {
         this.dialog = new Dialog(path);
     }
@@ -84,11 +92,13 @@ public class ICoop extends AreaGame implements DialogHandler {
             areaIndex = 1;
             ICoopArea area = (ICoopArea) setCurrentArea(areas[areaIndex], true);
 
+            //registers the fire player as well as his pet
             DiscreteCoordinates coordsRed = area.getRedPlayerSpawnPosition();
             firePlayer = new ICoopPlayer(area, Orientation.DOWN, coordsRed, ElementalEntity.Element.FEU, "icoop/player", KeyBindings.RED_PLAYER_KEY_BINDINGS);
             firePlayerStatusGUI = new ICoopPlayerStatusGUI(firePlayer, true);
             firePlayerPet= new Pet(area, Orientation.DOWN, coordsRed, firePlayer,"icoop/Slime3_Walk_Full");
 
+            //registers water player as well as his pet
             DiscreteCoordinates coordsBlue = area.getBluePlayerSpawnPosition();
             waterPlayer = new ICoopPlayer(area, Orientation.DOWN, coordsBlue, ElementalEntity.Element.EAU, "icoop/player2", KeyBindings.BLUE_PLAYER_KEY_BINDINGS);
             waterPlayerStatusGUI = new ICoopPlayerStatusGUI(waterPlayer, false);
@@ -122,7 +132,9 @@ public class ICoop extends AreaGame implements DialogHandler {
         waterPlayerStatusGUI.draw(getWindow());
 
         Keyboard keyboard = getCurrentArea().getKeyboard();
+        //Checks if the dialog is null
         if (dialog != null) {
+            //if the dialog is not competed continue
             if (!dialog.isCompleted()) {
                 dialog.draw(getWindow());
                 getCurrentArea().requestPause();
@@ -130,11 +142,14 @@ public class ICoop extends AreaGame implements DialogHandler {
                     dialog.update(deltaTime);
                 }
             }
+            //else set the dialog to null
             else {
                 getCurrentArea().requestResume();
                 dialog = null;
             }
         }
+
+        //if the current area is not paused
         if (!getCurrentArea().isPaused()) {
             if (keyboard.get(KeyBindings.RESET_GAME).isDown()) {
                 begin(getWindow(), getFileSystem());
@@ -156,6 +171,7 @@ public class ICoop extends AreaGame implements DialogHandler {
             super.update(deltaTime);
             return;
         }
+        //if pause game key is pressed resume the game
         if (keyboard.get(KeyBindings.PAUSE_GAME).isPressed()) {
             getCurrentArea().requestResume();
             getCurrentArea().unregisterActor(pauseAnimation);
@@ -166,6 +182,10 @@ public class ICoop extends AreaGame implements DialogHandler {
     public void end() {
     }
 
+    /**
+     *
+     * @return (String): title of game
+     */
     @Override
     public String getTitle() {
         return "ICoop";
@@ -200,21 +220,26 @@ public class ICoop extends AreaGame implements DialogHandler {
      * the player is healed when moving to a new area
      */
     private void switchArea(Door door) {
+        //checks if door leads somewhere
         if (door.getArrivalCoordinates() != null) {
+            //players leave the current area
             firePlayer.leaveArea(); waterPlayer.leaveArea();
             getCurrentArea().unregisterActor(firePlayerPet);
+            //change the current area to the door's destination
             ICoopArea currentArea = (ICoopArea) setCurrentArea(door.getDestination(), false);
+            //add both players and pet to the new area
             firePlayer.enterArea(currentArea, (door.getArrivalCoordinates().getFirst()));
             waterPlayer.enterArea(currentArea, (door.getArrivalCoordinates().get(1)));
             firePlayerPet.enterArea(currentArea, (door.getArrivalCoordinates().getFirst()));
             firePlayer.nullifyIsLeavingAreaDoor(); waterPlayer.nullifyIsLeavingAreaDoor();
-
+            //updates the area's index
             for (int i = 0; i < areas.length; ++i) {
                 if (areas[i].equals(door.getDestination())) {
                     areaIndex = i;
                 }
             }
         }
+        // if a dialog is assocaited -> publish it
         if (door.getDialog() != null) {
             ((ICoopArea) getCurrentArea()).publish(door.getDialog());
         }

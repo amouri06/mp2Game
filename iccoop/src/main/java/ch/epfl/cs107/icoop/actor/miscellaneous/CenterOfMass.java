@@ -9,9 +9,9 @@ public class CenterOfMass implements Actor {
     private final Actor[] actors;
 
     /**
-     *
-     * @param actor (A
-     * @param restOfActors
+     * CenterOfMass constructor
+     * @param actor (Actor): first actor associated to the center of Masse
+     * @param restOfActors (List<Actor>) : rest of the actors
      */
     public CenterOfMass(Actor actor, Actor... restOfActors) {
         this.actors = new Actor[restOfActors.length + 1];
@@ -19,6 +19,10 @@ public class CenterOfMass implements Actor {
         System.arraycopy(restOfActors, 0, this.actors, 1, restOfActors.length);
     }
 
+    /**
+     *
+     * @return (Position) associated with CenterOfMass
+     */
     @Override
     public Vector getPosition() {
         Vector position = Vector.ZERO;
@@ -28,11 +32,13 @@ public class CenterOfMass implements Actor {
         return position.mul(1f / actors.length);
     }
 
+    /** @return (Transform): affine transform, not null */
     @Override
     public Transform getTransform() {
         return Transform.I.translated(getPosition());
     }
 
+    /** @return (Vector): linear velocity, not null */
     @Override
     public Vector getVelocity() {
         Vector velocity = Vector.ZERO;

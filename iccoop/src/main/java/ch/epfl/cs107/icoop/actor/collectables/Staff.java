@@ -23,7 +23,7 @@ public class Staff  extends ElementalItem implements Interactable {
     private int currentSpriteIndex;
     private StaffType staffType;
 
-
+    //Enum tracking specific values for staff types
     public enum StaffType{
         FEU("icoop/staff_fire", Element.FEU),
         EAU("icoop/staff_water", Element.EAU),;
@@ -70,8 +70,13 @@ public class Staff  extends ElementalItem implements Interactable {
         return Collections.singletonList(getCurrentMainCellCoordinates());
     }
 
+    /**
+     *
+     * @return (staffType) assocated to staff
+     */
     public StaffType getStaffType() { return staffType; }
 
+    ///Implements Interactable
     @Override
     public boolean takeCellSpace() {
         return false;

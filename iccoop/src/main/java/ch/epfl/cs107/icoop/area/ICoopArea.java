@@ -21,14 +21,18 @@ public abstract class ICoopArea extends Area {
     private float cameraScaleFactor = DEFAULT_SCALE_FACTOR;
     protected DialogHandler dialogHandler;
 
+    /**
+     * ICoopArea constructor
+     * @param dialogHandler (DialogHandler): in order to publish dialog
+     */
     protected ICoopArea(DialogHandler dialogHandler) {
         this.dialogHandler = dialogHandler;
     }
 
-    public void dialogCompleted() {
-        dialogHandler.publish(null);
-    }
-
+    /**
+     * publishes the dialog to the dialogHandler
+     * @param path (String) : path of dialog
+     */
     public void publish(String path) {
         dialogHandler.publish(new Dialog(path));
     }
@@ -89,15 +93,23 @@ public abstract class ICoopArea extends Area {
         return false;
     }
 
+    /**
+     *
+     * @param behaviorMap (Image) : association pf behaviorMap to the according map
+     */
     private void mapInitialize(Image behaviorMap) {
         double randDouble = RandomGenerator.getInstance().nextDouble();
         int height = getHeight();
         int width = getWidth();
+        //iterates through the cells of the map
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
+                // gets the color of the cell
                 ICoopBehavior.ICoopCellType color = ICoopBehavior.ICoopCellType.toType(behaviorMap.getRGB(height - 1 - y, x));
                 switch (color) {
+                    //if associated to an obstacle: add an obstacle
                     case OBSTACLE -> registerActor(new Obstacle(this, Orientation.DOWN, new DiscreteCoordinates(x,y)));
+                    //if associated to a rock add a rock (or coin)
                     case ROCK -> {
                         if (randDouble > 0.05) {
                             registerActor(new Rock(this, Orientation.DOWN, new DiscreteCoordinates(x,y)));

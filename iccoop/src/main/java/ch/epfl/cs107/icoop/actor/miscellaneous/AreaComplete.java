@@ -12,8 +12,8 @@ public class AreaComplete implements Logic {
     }
 
     /**
-     * Returns true when all items in the constructor of AreaComplete have been picked up
-     * @return
+     *
+     * @return (boolean) true if all elements have been picked up
      */
     @Override
     public boolean isOn() {
