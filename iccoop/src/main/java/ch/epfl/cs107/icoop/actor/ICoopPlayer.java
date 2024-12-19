@@ -195,7 +195,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                     staffAttack("icoop/player.staff_fire", Boule.AttackType.FEU);
                 }
                 case WaterStaff -> {
-                    staffAttack("icoop/player2.staff_water", Boule.AttackType.FEU);
+                    staffAttack("icoop/player2.staff_water", Boule.AttackType.EAU);
                 }
                 case Sword -> {
                     swordUse();
@@ -224,6 +224,11 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         super.update(deltaTime);
     }
 
+    /**
+     * Simulates the use of a staff
+     * @param useAnimationString (String): animation's string
+     * @param type (Boule.AttackType) : elemental type associated to the staff
+     */
     private void staffAttack(String useAnimationString, Boule.AttackType type) {
         resetItemAnimationTimer();
         //Creates a new Boule at on the first cell in the player's field of view
@@ -235,6 +240,9 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         useItemAnimation =  new OrientedAnimation (useAnimationString, STAFF_ANIMATION_DURATION , this, anchor , orders , 4, 2, 2, 32 , 32);
     }
 
+    /**
+     * simulates use of a sword
+     */
     private void swordUse() {
         resetItemAnimationTimer();
         final Vector anchor = new Vector(-.5f, 0);
@@ -242,6 +250,9 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         useItemAnimation = new OrientedAnimation(prefix + ".sword", SWORD_ANIMATION_DURATION, this, anchor, orders, 4, 2, 2, 32, 32);
     }
 
+    /**
+     * simulates use of an explosive
+     */
     private void explosiveUse() {
         //Creates a new explosive
         Explosive explosive = new Explosive(getOwnerArea(), DOWN, getFieldOfViewCells().getFirst());

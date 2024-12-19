@@ -18,7 +18,7 @@ import java.util.List;
 
 public class ElementalWall extends AreaEntity implements ElementalEntity, Interactable, Interactor {
 
-
+    ///Enum which tracks different wall types
     public enum WallType {
         EAU("water_wall", Element.EAU, Logic.TRUE),
         FEU("fire_wall", Element.FEU, Logic.TRUE);
@@ -33,14 +33,26 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
             this.logic=logic;
         }
 
+        /**
+         *
+         * @return element of the wall
+         */
         public Element getElement() {
             return element;
         }
 
+        /**
+         *
+         * @return the logic of the wall
+         */
         public Logic getLogic() {
             return logic;
         }
 
+        /**
+         *
+         * @return (String) name of sprite associated with elemental wall
+         */
         public String getSpriteName() {
             return spriteName;
         }

@@ -38,6 +38,7 @@ public class Obstacle extends AreaEntity implements Interactable {
         sprite.draw(canvas);
     }
 
+    ///Implements Interactable
     @Override
     public List<DiscreteCoordinates> getCurrentCells() {
         return Collections.singletonList(getCurrentMainCellCoordinates());

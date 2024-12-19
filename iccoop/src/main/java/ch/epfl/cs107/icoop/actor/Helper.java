@@ -35,6 +35,11 @@ public class Helper extends AreaEntity implements Interactable{
         dialogOrder = new Logic[] {orbWay, arena};
         dialogs = new String[] {"gotoOrbway", "goToArena", "goToEnd"};
     }
+
+    /**
+     *
+     * @return the dialog associated with the logics added
+     */
     public String getDialog(){
         for (int i = 0; i < dialogOrder.length; ++i) {
             if (dialogOrder[i].isOff()) {
@@ -44,6 +49,10 @@ public class Helper extends AreaEntity implements Interactable{
         return dialogs[dialogOrder.length];
     }
 
+    /**
+     * Renders itself on specified canvas.
+     * @param canvas target, not null
+     */
     @Override
     public void draw(Canvas canvas) {
         rpgSprite.draw(canvas);

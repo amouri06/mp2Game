@@ -98,8 +98,7 @@ public final class ICoopBehavior extends AreaBehavior {
             this.type = type;
         }
 
-        /// Cell implements interactable
-
+        ///ICoopCell extends Cell
         @Override
         protected boolean canLeave(Interactable entity) {
             return true;
@@ -107,16 +106,16 @@ public final class ICoopBehavior extends AreaBehavior {
 
         @Override
         protected boolean canEnter(Interactable entity) {
-            if (!entity.takeCellSpace()) {
-                return true;
-            }
-            if (entity instanceof Unstoppable) {
+            // if an entity doesn't take a cell space or is unstoppable, it can always enter
+            if (!entity.takeCellSpace() || entity instanceof Unstoppable) {
                 return true;
             }
             for (Interactable cellEntity : entities) {
+                // if the entity takes the cell space and another such entity is already in the cell return false
                 if (cellEntity.takeCellSpace()) {
                     return false;
                 }
+                // if they are elemental entities and of different elements return false
                 if (!(cellEntity instanceof Unstoppable) && cellEntity instanceof ElementalEntity) {
                     if (!(entity instanceof ElementalEntity) || ((((ElementalEntity) entity).element() != ((ElementalEntity) cellEntity).element()) && (((ElementalEntity) cellEntity).element()) != null)) {
                         return false;
@@ -126,6 +125,7 @@ public final class ICoopBehavior extends AreaBehavior {
             return type.canWalk;
         }
 
+        ///Implements Interactable
         @Override
         public boolean isCellInteractable() {
             return true;
@@ -141,6 +141,10 @@ public final class ICoopBehavior extends AreaBehavior {
             ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
         }
 
+        /**
+         *
+         * @return ICoopCellType associated to type
+         */
         public ICoopCellType getType() {
             return type;
         }

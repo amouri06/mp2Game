@@ -96,6 +96,9 @@ public class BombFoe extends Foe {
         super.update(deltaTime);
     }
 
+    /**
+     * @param deltaTime (float) elapsed time since last update, in seconds, non-negative
+     */
     private void attackingUpdate(float deltaTime) {
         if (DiscreteCoordinates.distanceBetween(getCurrentMainCellCoordinates(), ((AreaEntity) target).getCurrentMainCellCoordinates()) > MIN_ATTACKING_DISTANCE) {
             targetedMove();
@@ -110,6 +113,9 @@ public class BombFoe extends Foe {
         }
     }
 
+    /**
+     * @param deltaTime (float) elapsed time since last update, in seconds, non-negative
+     */
     private void idleUpdate(float deltaTime) {
         double randDouble = RandomGenerator.getInstance().nextDouble();
         if (inactionTime <= 0) {

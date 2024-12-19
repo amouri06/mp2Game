@@ -20,12 +20,11 @@ public final class OrbWay extends ICoopArea implements Logic{
     private AreaComplete areaComplete;
 
 
-
     public OrbWay(DialogHandler dialogHandler) {
         super(dialogHandler);
     }
 
-
+    /**@return (boolean): true if the signal is the area is completed*/
     @Override
     public boolean isOn() {
         if (areaComplete==null){
@@ -34,6 +33,7 @@ public final class OrbWay extends ICoopArea implements Logic{
         return areaComplete.isOn();
     }
 
+    /**@return (boolean): true if the signal is the area is not completed*/
     @Override
     public boolean isOff() {
         if (areaComplete==null){
