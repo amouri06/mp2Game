@@ -35,7 +35,7 @@ import static ch.epfl.cs107.play.math.Orientation.*;
  * A ICoopPlayer is a player for the ICoop game.
  */
 public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, Interactor, Interactable {
-    Sound sound = new Sound();
+    private final Sound sound = new Sound();
 
     private final static int MOVE_DURATION = 8;
     private final static int ANIMATION_DURATION = 4;
@@ -468,20 +468,30 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
         @Override
         public void interactWith(PressurePlate pressurePlate, boolean isCellInteraction){
+            //Checks if the pressure plate timer is zero, effectively meaning no one was on it.
             if (pressurePlate.timerIsZero()) {
+                //If yes, adds 1
                 pressurePlate.playerIsOn();
             }
+            //Then keeps adding one while the player is on the pressure plate due to the nature of the interactWith method
             pressurePlate.playerIsOn();
+            //Meaning the timer of the pressure plate goes like this when a player steps on it:
+            //+1 (l472) one time and +1 (l477) every time the interactWith is called, but the update of pressurePlate is also called that does -1
+            //So effectively the timer is kept at one or two because of the +1,+1,-1,+1,-1,+1,-1 and as soon as the player steps off, the timer does -1 (update method) and it's back to zero.
         }
 
         @Override
         public void interactWith(Staff staff, boolean isCellInteraction) {
+            //Swith depending on the type of the staff
             switch(staff.getStaffType()) {
+                //Adds a staff in the inventory depending on the type of the staff
                 case FEU -> inventory.addPocketItem(ICoopItem.FireStaff, 1);
                 case EAU -> inventory.addPocketItem(ICoopItem.WaterStaff, 1);
             }
+            //calls the interactWith l438 since the staff is an elementalItem
             interactWith((ElementalItem) staff, isCellInteraction);
         }
+
         @Override
         public void interactWith(Foe foe, boolean isCellInteraction){
             Keyboard keyboard = getOwnerArea().getKeyboard();
