@@ -499,8 +499,9 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         @Override
         public void interactWith(Foe foe, boolean isCellInteraction){
             Keyboard keyboard = getOwnerArea().getKeyboard();
+            //Checks if the sword is being used
             if (currentItem==ICoopItem.Sword && keyboard.get(keys.useItem()).isPressed()){
-                // diminue le hp des ennemis (dommage de type physique)
+                //Decreases the foe's health
                 foe.decreaseHealth(1, Vulnerability.PHYSIQUE);
             }
         }
