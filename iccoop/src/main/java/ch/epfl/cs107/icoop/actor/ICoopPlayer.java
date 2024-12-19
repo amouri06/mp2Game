@@ -459,7 +459,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                 //Publishes the associated dialog
                 ((ICoopArea) getOwnerArea()).publish(orb.getMessage());
                 //Plays the 13th sound effect
-                playSoundEffect(13);
+                playSoundEffect(2);
             }
         }
 
@@ -518,7 +518,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         @Override
         public void interactWith(Coin coin, boolean isCellInteraction) {
             //Plays a key sound effect
-            playSoundEffect(4);
+            playSoundEffect(1);
             //Collects the coin
             coin.collect();
             coinCounter++;

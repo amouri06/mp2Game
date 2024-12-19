@@ -108,7 +108,7 @@ public class ICoop extends AreaGame implements DialogHandler {
             cameraCenter = new CenterOfMass(firePlayer, waterPlayer);
 
             stopMusic();
-            playMusic(1);
+            playMusic(0);
 
 
             return true;
