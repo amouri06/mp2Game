@@ -406,24 +406,29 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     }
 
     private class ICoopPlayerInteractionHandler implements ICoopInteractionVisitor {
-
         @Override
         public void interactWith(Door door, boolean isCellInteraction) {
+            //Checks if the door is on and the arrival coordinates are not null and sets the isLeavingAreaDoor to the door the player wants to interact with
             if (door.getSignal().isOn() && door.getArrivalCoordinates() != null) {
                 isLeavingAreaDoor = door;
             }
+            //Checks if the player has moved, if the dialog is not null, and the displacement timer is 0
             if (door.getDialog() != null && isDisplacementOccurs() && displacementTimer == 0) {
+                //If yes, it publishes the correct dialog
                 ((ICoopArea) getOwnerArea()).publish(door.getDialog());
+                //And sets the diasplacement timer back to it's value so as to not instantly republish the dialog
                 displacementTimer = MOVE_DURATION * 4;
             }
         }
 
         @Override
         public void interactWith(Explosive explosive, boolean isCellInteraction) {
+            //if the player walks on the explosive (cell interaction), he picks it up
             if (isCellInteraction) {
                 explosive.collect();
                 inventory.addPocketItem(ICoopItem.Explosive, 1);
             }
+            //otherwise the player can activate it with the use key
             else {
                 explosive.activate();
             }
@@ -431,24 +436,33 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
         @Override
         public void interactWith(ElementalItem elementalItem, boolean isCellInteraction) {
+            //Checks if the if the player walks on the item and if the player and the ElementalItem have the same element
             if (isCellInteraction && element == elementalItem.element()) {
+                //If they do, collects the item
                 elementalItem.collect();
             }
         }
 
         @Override
         public void interactWith(Orb orb, boolean isCellInteraction) {
+            //Checks if the player walks on the orb
             if (isCellInteraction) {
+                //Calls the interactWith from l439 since orb is an ElementalItem
                 interactWith((ElementalItem) orb, true);
+                //Sets the player to elementImmune for the rest of the game
                 isElementImmune = true;
+                //Publishes the associated dialog
                 ((ICoopArea) getOwnerArea()).publish(orb.getMessage());
+                //Plays the 13th sound effect
                 playSoundEffect(13);
             }
         }
 
         @Override
         public void interactWith(Heart heart, boolean isCellInteraction) {
+            //Collects the heart
             heart.collect();
+            //Increases the player's health
             health.increase(1);
         }
 
