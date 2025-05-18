@@ -7,9 +7,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="iccoop" />
-        <module name="tutos" />
         <module name="game-engine" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="tutos" target="21" />
+    </bytecodeTargetLevel>
   </component>
 </project>
